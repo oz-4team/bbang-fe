@@ -27,6 +27,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
+        테스트 메세지 입니다.
       </p>
     </>
   )
