@@ -1,27 +1,33 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import "./App.css";
-import EmptyLayout from "./layouts/EmptyLayout";
-import MainLayout from "./layouts/MainLayout";
-import HomePage from "./pages/HomePage";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import useUserStore from "./store/userStore";
 import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
 
 function App() {
-  return (
-    <>
-      <Router>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route index path="/" element={<HomePage />} />
-          </Route>
+  const { user, logout } = useUserStore();
 
-          <Route element={<EmptyLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-          </Route>
-        </Routes>
-      </Router>
-    </>
+  return (
+    <Router>
+      <nav>
+        <Link to="/">홈</Link>
+        {!user ? <Link to="/login">로그인</Link> : <button onClick={logout}>로그아웃</button>}
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<h1>홈 화면</h1>} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+
+      <div>
+      {user ? (
+        <p>
+          🔓 로그인됨: {user.email}{" "}
+          {user.isAdmin ? <span>(관리자)</span> : <span>(일반 사용자)</span>}
+        </p>
+      ) : (
+        <p>🔒 로그아웃 상태</p>
+      )}
+    </div>
+    </Router>
   );
 }
 
