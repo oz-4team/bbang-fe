@@ -71,7 +71,7 @@ function LoginPage() {
 
       <div className="divider">간편 로그인</div>
 
-      {/* ✅ 소셜 로그인 버튼 추가 */}
+      {/* 소셜 로그인 버튼 */}
       <SocialLogin />
     </div>
   );
