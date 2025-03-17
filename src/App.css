@@ -1,7 +1,8 @@
 #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  /* 스타일초기화  */
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
   text-align: center;
 }
 
