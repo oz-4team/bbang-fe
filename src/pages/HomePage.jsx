@@ -28,7 +28,11 @@ const HomePage = () => {
         <SearchBar></SearchBar>
       </div>
       <div>
-        <h1 style={{ textAlign: "left" }}>오늘의 스케줄</h1>
+        <h1
+          style={{ textAlign: "left", marginTop: "1rem", marginBottom: "1rem" }}
+        >
+          오늘의 스케줄
+        </h1>
         <ScheduleCardArea></ScheduleCardArea>
       </div>
     </div>
