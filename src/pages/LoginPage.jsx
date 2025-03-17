@@ -63,7 +63,7 @@ function LoginPage() {
       </form>
       {error && <p className="error-message">{error}</p>}
       <p className="extra-links">
-        <a href="/forgot-password">비밀번호 찾기</a>
+        <Link to="/forgot-password">비밀번호 찾기</Link>
       </p>
       <p className="extra-links">
         아직 계정이 없으신가요? <Link to="/signup">회원가입</Link> {/*  경로 확인 */}
