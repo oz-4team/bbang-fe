@@ -8,22 +8,15 @@ import SignUpPage from "./pages/SignUpPage";
 
 function App() {
 
-  return (
-    <>
+ 
+    return (
       <Router>
         <Routes>
-          <Route element={<MainLayout />}>
-            <Route index path="/" element={<HomePage />} />
-          </Route>
-
-          <Route element={<EmptyLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-          </Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} /> {/* ✅ 회원가입 페이지 라우트 추가 */}
         </Routes>
       </Router>
-    </>
-  );
+    );
 }
 
 export default App;
