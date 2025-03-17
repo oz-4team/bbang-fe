@@ -189,7 +189,7 @@ function SignUpPage() {
 
       <div className="form-group birth-info">
         <select value={gender} onChange={(e) => setGender(e.target.value)} className="birth-select">
-          <option value="">성별 선택</option>
+          <option value="">성별 선택.</option>
           <option value="male">남성</option>
           <option value="female">여성</option>
         </select>
