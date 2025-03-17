@@ -5,18 +5,28 @@ import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // ✅ 추가됨
+import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 
 function App() {
-
- 
-    return (
+  return (
+    <>
       <Router>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} /> {/* ✅ 회원가입 페이지 라우트 추가 */}
+          <Route element={<MainLayout />}>
+            <Route index path="/" element={<HomePage />} />
+          </Route>
+
+          <Route element={<EmptyLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} /> 
+          </Route>
         </Routes>
       </Router>
-    );
+    </>
+  );
 }
 
 export default App;

@@ -25,7 +25,7 @@ function LoginPage() {
       navigate("/");
       
       if (user.isAdmin) {
-        navigate("/admin")
+        navigate("/")
       } else {
         navigate("/")
       }
@@ -38,7 +38,7 @@ function LoginPage() {
     <div className="login-container">
       <h1 className="login-title">로그인</h1>
       <img src={logo} alt="프로젝트 로고" className="profile-icon" />
-      <p className="service-name">서비스명</p>
+      <p className="service-name">IdolSync</p>
 
       <form onSubmit={handleLogin} className="login-form">
         <input
@@ -63,7 +63,7 @@ function LoginPage() {
       </form>
       {error && <p className="error-message">{error}</p>}
       <p className="extra-links">
-        <a href="/forgot-password">비밀번호 찾기</a>
+        <Link to="/forgot-password">비밀번호 찾기</Link>
       </p>
       <p className="extra-links">
         아직 계정이 없으신가요? <Link to="/signup">회원가입</Link> {/*  경로 확인 */}
