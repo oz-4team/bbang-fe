@@ -52,11 +52,11 @@ const Footer = () => {
                 <li style={{ paddingBottom: "1rem" }}>홈</li>
                 <li style={{ paddingBottom: "1rem" }}>아티스트</li>
                 <li style={{ paddingBottom: "1rem" }}>스케줄</li>
-                <li style={{ paddingBottom: "1rem" }}>광고 문의</li>
+                {/* <li style={{ paddingBottom: "1rem" }}>광고 문의</li> */}
                 <li style={{ paddingBottom: "1rem" }}>
                   관리자 권한 신청 페이지로 이동
                 </li>
-              </ul>
+              </ul>  
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div>서비스 이용약관</div>
