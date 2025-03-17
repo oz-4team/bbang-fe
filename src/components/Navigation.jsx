@@ -12,6 +12,10 @@ const NavigationLayout = styled.div`
 `;
 
 const Navigation = () => {
+  const handleLoginClick = () => {
+    window.location.href = "/login";
+  };
+
   return (
     <>
       <NavigationLayout>
@@ -55,8 +59,16 @@ const Navigation = () => {
               paddingLeft: "3rem",
             }}
           >
+            {/* 아바타 이미지랑 종 이모티콘 추후 수정 예정 */}
             <li>
-              <button>
+              <button
+                style={{
+                  borderRadius: "50%",
+                  width: "50px",
+                  height: "50px",
+                  padding: "0",
+                }}
+              >
                 {/* <img
                   src="favicon.png"
                   alt=""
@@ -66,12 +78,23 @@ const Navigation = () => {
               </button>
             </li>
             <li>
-              <button>🔔</button>
+              <button
+                style={{
+                  borderRadius: "50%",
+                  width: "50px",
+                  height: "50px",
+                  padding: "0",
+                }}
+              >
+                🔔
+              </button>
             </li>
           </ul>
         </div>
         <div>
-          <button>login</button>{" "}
+          <button style={{ background: "none" }} onClick={handleLoginClick}>
+            로그인
+          </button>
         </div>
       </NavigationLayout>
     </>
