@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi"; // 백엔드 API 대신 `mock` 데이터 사용 중
 import useUserStore from "../store/userStore";
 import { isValidEmail, isValidPassword } from "../utils/validation";
@@ -66,7 +66,7 @@ function LoginPage() {
         <a href="/forgot-password">비밀번호 찾기</a>
       </p>
       <p className="extra-links">
-        아직 계정이 없으신가요? <a href="/signup">회원가입</a>
+        아직 계정이 없으신가요? <Link to="/signup">회원가입</Link> {/*  경로 확인 */}
       </p>
 
       <div className="divider">간편 로그인</div>
