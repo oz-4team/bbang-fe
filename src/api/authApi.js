@@ -32,7 +32,7 @@ export const loginUser = async (email, password) => {
                         isAdmin: false,
                     },
                 });
-            } else if (email === "admin@naver.com" && password === "admin1234") {
+            } else if (email === "admin@naver.com" && password === storedPassword) {
                 resolve({
                     token: "mock_token_admin",
                     user: {
