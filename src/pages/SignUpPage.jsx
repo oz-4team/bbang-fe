@@ -5,7 +5,7 @@ import naverLogo from '../assets/images/naverLogo.png';
 import kakaoLogo from '../assets/images/kakaoLogo.png';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 설치 필요
 
-function SignupForm() {
+function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -227,4 +227,4 @@ function SignupForm() {
   );
 }
 
-export default SignupForm;
+export default SignUpPage;
