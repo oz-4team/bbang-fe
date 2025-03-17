@@ -1,0 +1,58 @@
+.email-verification-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.email-verification-card {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+    display: block;
+    margin: 0 auto;
+    width: 100px; /* 원하는 너비 */
+    height: 100px; /* 원하는 높이 */
+    border-radius: 50%; /* 원형으로 표시 */
+    object-fit: cover; /* 이미지 비율 유지 */
+    margin-bottom: 20px; /* 이미지와 텍스트 간격 */
+}
+
+.welcome-message {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px; /* 환영 메시지와 이메일 인증 안내 간격 */
+}
+
+.email-info {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 20px; /* 이메일 인증 안내와 로그인 버튼 간격 */
+}
+
+.login-button {
+    margin-top: 0; /* 로그인 버튼의 상단 여백 제거 */
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #357ab8;
+}
+
+.nickname {
+    color: #4a90e2; /* 닉네임 색상 */
+}
+.user-email {
+    color: #4a90e2; /* 이메일 강조 색상 */
+}
