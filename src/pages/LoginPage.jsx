@@ -69,7 +69,7 @@ function LoginPage() {
         아직 계정이 없으신가요? <Link to="/signup">회원가입</Link> {/*  경로 확인 */}
       </p>
 
-      <div className="divider">간편 로그인</div>
+      <div className="divider">간편 로그인.</div>
 
       {/* 소셜 로그인 버튼 */}
       <SocialLogin />
