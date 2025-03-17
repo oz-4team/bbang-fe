@@ -1,10 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import BannerAd from "../components/BannerAd";
+import MyArtistFilter from "../components/MyArtistFilter";
+import ScheduleCardArea from "../components/ScheduleCardArea";
+import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
   return (
-    <div>
-      <div>Homepage</div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "1rem",
+        width: "100vw",
+        // justifyContent: "center",
+      }}
+    >
+      <BannerAd></BannerAd>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          paddingTop: "1rem",
+          paddingBottom: "1rem",
+        }}
+      >
+        <MyArtistFilter></MyArtistFilter>
+        <SearchBar></SearchBar>
+      </div>
+      <div>
+        <h1 style={{ textAlign: "left" }}>오늘의 스케줄</h1>
+        <ScheduleCardArea></ScheduleCardArea>
+      </div>
     </div>
   );
 };
