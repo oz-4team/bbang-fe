@@ -24,6 +24,10 @@ const Navigation = () => {
     logout();
     navigate("/");
   };
+// 새로운 함수: 회원정보 수정 페이지로 이동
+const handleProfileClick = () => {
+  navigate("/ProfilePage"); // 회원정보 수정 페이지의 경로
+};
 
   return (
     <NavigationLayout>
@@ -96,6 +100,7 @@ const Navigation = () => {
                   height: "50px",
                   padding: "0",
                 }}
+                onClick={handleProfileClick} // 클릭 이벤트 핸들러 추가
               >
                 👤
               </button>
