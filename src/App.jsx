@@ -14,6 +14,8 @@ import SignUpPage from "./pages/SignUpPage";
 import SignupCompletePage from "./pages/SignupCompletedPage"; // 추가함
 
 import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
+import ScheduleDetailPage from "./pages/ScheduleDetailPage";
+import SchedulePage from "./pages/SchedulePage";
 
 
 import ProfilePage from "./pages/ProfilePage";
@@ -28,6 +30,8 @@ function App() {
             <Route index path="/" element={<HomePage />} />
             <Route path="/artist" element={<ArtistListPage />} />
             <Route path="/artist/details" element={<ArtistDetailPage />} />
+            <Route path="/schedule" element={<SchedulePage />} />
+            <Route path="/schedule/details" element={<ScheduleDetailPage />} />
           </Route>
 
           <Route element={<EmptyLayout />}>
