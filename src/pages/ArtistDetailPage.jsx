@@ -36,6 +36,14 @@ const ArtistDetailPage = () => {
           <div>b</div> */}
           <MemberCard />
           <MemberCard />
+          <MemberCard />
+          <MemberCard />
+          <MemberCard />
+          <MemberCard />
+          <MemberCard />
+          <MemberCard />
+          <MemberCard />
+          <MemberCard />
         </div>
       </div>
       <ScheduleAreaInArtist />
