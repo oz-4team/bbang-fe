@@ -1,7 +1,9 @@
 import { default as React, useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 const ArtistCard = () => {
+  const navigate = useNavigate();
   const [favoriteArtist, setFavoriteArtist] = useState(false);
 
   const toggleStar = () => {
@@ -9,6 +11,10 @@ const ArtistCard = () => {
   };
   return (
     <div
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate("/artist/details");
+      }}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -21,7 +27,7 @@ const ArtistCard = () => {
         style={{
           minHeight: "150px",
           width: "100%",
-          border: "1px solid black",
+          border: "1px solid #AFB1B6",
           borderRadius: "15px",
         }}
       >
@@ -36,7 +42,10 @@ const ArtistCard = () => {
       >
         <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>아티스트명</div>
         <div
-          onClick={toggleStar}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleStar();
+          }}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
           {favoriteArtist ? <GoHeartFill color="#fe0000" /> : <GoHeart />}

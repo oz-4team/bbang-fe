@@ -1,4 +1,5 @@
 import React from "react";
+import InstagramLogo from "/src/assets/images/instagram-logo.svg";
 
 const MemberCard = () => {
   return (
@@ -6,9 +7,9 @@ const MemberCard = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        // maxWidth: "200px",
-        // border: "1px solid black",
-        padding: "1rem",
+        // padding: "1rem",
+        paddingTop: "1rem",
+        paddingBottom: "1rem",
       }}
     >
       <div
@@ -16,7 +17,7 @@ const MemberCard = () => {
           minHeight: "150px",
           minWidth: "150px",
           width: "100%",
-          border: "1px solid black",
+          border: "1px solid #AFB1B6",
           borderRadius: "15px",
         }}
       >
@@ -27,19 +28,27 @@ const MemberCard = () => {
           display: "flex",
           justifyContent: "space-between",
           paddingTop: "0.5rem",
+          alignContent: "center",
+          alignItems: "center",
         }}
       >
         <div
           style={{
             fontSize: "1.5rem",
-            fontWeight: "bold",
+            fontWeight: "normal",
             flexGrow: "1",
             textAlign: "left",
           }}
         >
           멤버명
         </div>
-        <div style={{ cursor: "pointer", fontSize: "2rem" }}>인</div>
+        <div style={{ cursor: "pointer", fontSize: "2rem" }}>
+          <img
+            src={InstagramLogo}
+            alt="Instagram"
+            style={{ width: "24px", height: "24px" }}
+          />
+        </div>
       </div>
     </div>
   );

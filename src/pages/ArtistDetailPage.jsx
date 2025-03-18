@@ -9,44 +9,31 @@ const ArtistDetailPage = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        // maxWidth: "800px",
-        justifyContent: "center",
         alignItems: "center",
-        margin: "0 auto",
         width: "100vw",
-        // backgroundColor: "#f0f0f0",
+        padding: "2rem 1rem",
       }}
     >
-      <ArtistInfo />
-      <div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gap: "16px",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "0 auto",
-            // width: "100vw",
-            maxWidth: "800px",
-            padding: "1rem",
-          }}
-        >
-          {/* <div>a</div>
-          <div>b</div> */}
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
+      <div style={{ width: "100%", maxWidth: "800px" }}>
+        <ArtistInfo style={{ marginBottom: "2rem" }} />
+        <div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+              gap: "16px",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "2rem auto",
+            }}
+          >
+            <MemberCard />
+            <MemberCard />
+            <MemberCard />
+          </div>
         </div>
+        <ScheduleAreaInArtist />
       </div>
-      <ScheduleAreaInArtist />
     </div>
   );
 };
