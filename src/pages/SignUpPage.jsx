@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 추가함
 import "../styles/SignupForm.css";
 import googleLogo from '../assets/images/googleLogo.png';
 import naverLogo from '../assets/images/naverLogo.png';
@@ -6,6 +7,7 @@ import kakaoLogo from '../assets/images/kakaoLogo.png';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 설치 필요
 
 function SignUpPage() {
+  const navigate = useNavigate(); // 추가함
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -43,13 +45,17 @@ function SignUpPage() {
       newErrors.nickname = "닉네임을 입력해주세요.";
     }
     setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // 폼이 유효한지 확인
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    validateForm();
+    if (validateForm()) {
+      // 회원가입 성공 후 회원가입 완료 페이지로 이동하며 닉네임, 이메일, 프로필 이미지 전달
+      navigate("/signup-complete", { state: { nickname, email, profileImage } });
+    }
   };
-
+  
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -88,10 +94,6 @@ function SignUpPage() {
   const handleKakaoLogin = () => {
     console.log('카카오 로그인 클릭');
     // 실제 카카오 로그인 기능 구현 필요
-  };
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
   };
 
   return (
@@ -208,7 +210,6 @@ function SignUpPage() {
           <input type="checkbox" required /> 이용약관, 개인정보처리방침에 동의
         </label>
       </div>
-
       <button type="submit" className="submit-button">회원가입</button>
 
       {/* 간편 회원가입 */}
