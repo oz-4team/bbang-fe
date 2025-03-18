@@ -10,6 +10,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // ✅ 추가됨
 import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import AdminRequestPage from "./pages/AdminRequestPage";
 import AdminRequestCompletedPage from "./pages/AdminRequestCompletedPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/signup-complete" element={<SignupCompletePage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
             <Route path="/admin-request-completed" element={<AdminRequestCompletedPage />} />
+            <Route path="/ProfilePage" element={<ProfilePage />} />
           </Route>
         </Routes>
       </Router>
