@@ -3,7 +3,7 @@ import React from "react";
 const ArtistDetailPage = () => {
   return (
     <div>
-      <div></div>
+      <div>details</div>
     </div>
   );
 };
