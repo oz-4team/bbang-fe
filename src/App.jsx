@@ -2,12 +2,12 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayout from "./layouts/MainLayout";
+import ArtistDetailPage from "./pages/ArtistDetailPage";
 import ArtistListPage from "./pages/ArtistListPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // ✅ 추가됨
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
-import SchedulePage from "./pages/SchedulePage";
 import SignUpPage from "./pages/SignUpPage";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
           <Route element={<MainLayout />}>
             <Route index path="/" element={<HomePage />} />
             <Route path="/artist" element={<ArtistListPage />} />
-            <Route path="/schedule" element={<SchedulePage />} />
+            <Route path="/artist/details" element={<ArtistDetailPage />} />
           </Route>
 
           <Route element={<EmptyLayout />}>
