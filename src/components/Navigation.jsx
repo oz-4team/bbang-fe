@@ -1,7 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useUserStore from "../store/userStore";
-import { useNavigate } from "react-router-dom";
 
 const NavigationLayout = styled.div`
   width: 100vw;
@@ -48,20 +48,32 @@ const Navigation = () => {
             alignItems: "center",
           }}
         >
-          <li style={{ paddingRight: "1rem", fontWeight: "bold" }}>홈</li>
+          <li
+            style={{ paddingRight: "1rem", fontWeight: "bold" }}
+            onClick={() => navigate("/")}
+          >
+            홈
+          </li>
 
           {/* ✅ 일반 유저 메뉴 */}
           {!user?.isAdmin && (
             <>
-              <li style={{ paddingRight: "1rem" }}>아티스트</li>
-              <li>스케줄</li>
+              <li
+                style={{ paddingRight: "1rem" }}
+                onClick={() => navigate("/artist")}
+              >
+                아티스트
+              </li>
+              <li onClick={() => navigate("/schedule")}>스케줄</li>
             </>
           )}
 
           {/* ✅ 관리자(admin) 메뉴 */}
           {user?.isAdmin && (
             <>
-              <li style={{ paddingRight: "1rem", fontWeight: "bold" }}>아티스트 등록</li>
+              <li style={{ paddingRight: "1rem", fontWeight: "bold" }}>
+                아티스트 등록
+              </li>
               <li>스케줄 등록</li>
             </>
           )}

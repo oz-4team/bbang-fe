@@ -22,7 +22,7 @@ const ScheduleCard = () => {
         style={{
           minHeight: "150px",
           width: "100%",
-          border: "1px solid black",
+          border: "1px solid #AFB1B6",
           borderRadius: "15px",
         }}
       >
@@ -40,7 +40,7 @@ const ScheduleCard = () => {
           onClick={toggleStar}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
-          {starred ? <FaStar color="#FEE500" /> : <FaRegStar />}
+          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
         </div>
       </div>
       <div style={{ textAlign: "left" }}>아티스트명</div>
