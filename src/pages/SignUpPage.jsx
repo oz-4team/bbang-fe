@@ -5,6 +5,7 @@ import googleLogo from '../assets/images/googleLogo.png';
 import naverLogo from '../assets/images/naverLogo.png';
 import kakaoLogo from '../assets/images/kakaoLogo.png';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 설치 필요
+import SocialLogin from "../components/SocialLogin";
 
 function SignUpPage() {
   const navigate = useNavigate(); // 추가함
@@ -213,17 +214,7 @@ function SignUpPage() {
       <button type="submit" className="submit-button">회원가입</button>
 
       {/* 간편 회원가입 */}
-      <div className="social-login">
-        <button onClick={handleNaverLogin} className="social-button">
-          <img src={naverLogo} alt="Naver Logo" className="social-icon" />
-        </button>
-        <button onClick={handleKakaoLogin} className="social-button">
-          <img src={kakaoLogo} alt="Kakao Logo" className="social-icon" />
-        </button>
-        <button onClick={handleGoogleLogin} className="social-button">
-          <img src={googleLogo} alt="Google Logo" className="social-icon" />
-        </button>
-      </div>
+      <SocialLogin/>
     </form>
   );
 }

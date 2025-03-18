@@ -35,9 +35,9 @@ function ForgotPasswordPage () {
                    onChange={(e) => setEmail(e.target.value)}
                    required
                 />
-                <button type="submit">인증 링크 보내기</button> {/* 🔧 (수정됨) 오타 수정 */}
+                <button type="submit">인증 링크 보내기</button> 
             </form>
-            {message && <p className="success-message">{message}</p>} {/* 🔧 (수정됨) 오타 수정 */}
+            {message && <p className="success-message">{message}</p>} 
             {error && <p className="error-message">{error}</p>}
         </div>
     )

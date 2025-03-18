@@ -1,16 +1,18 @@
+import axios from "axios";
 
-
-// 토큰 저장 (localStorage 사용)
+// ✅ [1] 토큰 저장
 export const saveToken = (token) => {
     localStorage.setItem("authToken", token);
-  };
-  
-  // 저장된 토큰 가져오기
-  export const getToken = () => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`; // ✅ 자동 헤더 설정
+};
+
+// ✅ [2] 저장된 토큰 가져오기
+export const getToken = () => {
     return localStorage.getItem("authToken");
-  };
-  
-  // 토큰 삭제 (로그아웃 시 사용)
-  export const removeToken = () => {
+};
+
+// ✅ [3] 토큰 삭제 (로그아웃 시 사용)
+export const removeToken = () => {
     localStorage.removeItem("authToken");
-  };
+    delete axios.defaults.headers.common["Authorization"];
+};
