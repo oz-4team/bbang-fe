@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import useUserStore from "../store/userStore";
 
@@ -15,6 +15,7 @@ const NavigationLayout = styled.div`
 const Navigation = () => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLoginClick = () => {
     navigate("/login");
@@ -24,10 +25,10 @@ const Navigation = () => {
     logout();
     navigate("/");
   };
-// 새로운 함수: 회원정보 수정 페이지로 이동
-const handleProfileClick = () => {
-  navigate("/ProfilePage"); // 회원정보 수정 페이지의 경로
-};
+
+  const handleProfileClick = () => {
+    navigate("/ProfilePage");
+  };
 
   return (
     <NavigationLayout>
@@ -39,9 +40,20 @@ const handleProfileClick = () => {
             width: "40px",
             height: "40px",
             marginRight: "1rem",
+            cursor: "pointer", // 클릭 가능하도록 설정
           }}
+          onClick={() => navigate("/")} // 클릭 시 홈으로 이동
         />
-        <div style={{ fontSize: "26px", fontWeight: "bold" }}>IdolSync</div>
+        <div
+          style={{
+            fontSize: "26px",
+            fontWeight: "bold",
+            cursor: "pointer", // 클릭 가능하도록 설정
+          }}
+          onClick={() => navigate("/")} // 클릭 시 홈으로 이동
+        >
+          IdolSync
+        </div>
       </div>
 
       <div style={{ fontSize: "20px", display: "flex" }}>
@@ -53,7 +65,11 @@ const handleProfileClick = () => {
           }}
         >
           <li
-            style={{ paddingRight: "1rem", fontWeight: "bold" }}
+            style={{
+              paddingRight: "1rem",
+              fontWeight: location.pathname === "/" ? "bold" : "normal",
+              cursor: "pointer",
+            }}
             onClick={() => navigate("/")}
           >
             홈
@@ -63,12 +79,24 @@ const handleProfileClick = () => {
           {!user?.isAdmin && (
             <>
               <li
-                style={{ paddingRight: "1rem" }}
+                style={{
+                  paddingRight: "1rem",
+                  fontWeight: location.pathname === "/artist" ? "bold" : "normal",
+                  cursor: "pointer",
+                }}
                 onClick={() => navigate("/artist")}
               >
                 아티스트
               </li>
-              <li onClick={() => navigate("/schedule")}>스케줄</li>
+              <li
+                style={{
+                  fontWeight: location.pathname === "/schedule" ? "bold" : "normal",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/schedule")}
+              >
+                스케줄
+              </li>
             </>
           )}
 
@@ -100,7 +128,7 @@ const handleProfileClick = () => {
                   height: "50px",
                   padding: "0",
                 }}
-                onClick={handleProfileClick} // 클릭 이벤트 핸들러 추가
+                onClick={handleProfileClick}
               >
                 👤
               </button>
