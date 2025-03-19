@@ -3,7 +3,7 @@ import { saveToken, removeToken } from "../utils/authUtils";
 import useUserStore from "../store/userStore";
 
 // 환경 변수에서 백엔드 API URL 가져오기
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://your-backend.com/api"; 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000"; 
 const USE_BACKEND = false; // 백엔드 활성화 여부 (false면 목업 데이터 사용)
 
 // [1] 로그인 (백엔드 API or 목업 데이터)
