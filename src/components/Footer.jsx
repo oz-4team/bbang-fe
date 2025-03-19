@@ -1,8 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/userStore";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { user } = useUserStore();
+
   const handleAdminRequestClick = () => {
     window.location.href = "/adminrequest";
   }
@@ -13,10 +16,10 @@ const Footer = () => {
     navigate("/privacy");
   };
   const handleArtistClick = () => {
-    navigate("/artist");
+    navigate(user?.isAdmin ? "/artist-management" : "/artist");
   };
   const handleScheduleClick = () => {
-    navigate("/schedule");
+    navigate(user?.isAdmin ? "/schedule-management" : "/schedule");
   };
 
   return (
@@ -77,21 +80,22 @@ const Footer = () => {
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleArtistClick}
                 >
-                  아티스트
+                  {user?.isAdmin ? "아티스트 관리" : "아티스트"}
                 </li>
                 <li 
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleScheduleClick}
                 >
-                  스케줄
+                  {user?.isAdmin ? "스케줄 관리" : "스케줄"}
                 </li>
-                {/* <li style={{ paddingBottom: "1rem" }}>광고 문의</li> */}
-                <li
-                  style={{ paddingBottom: "1rem", cursor: "pointer" }}
-                  onClick={handleAdminRequestClick}
-                >
-                  관리자 권한 신청 페이지로 이동
-                </li>
+                {!user?.isAdmin && (
+                  <li
+                    style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                    onClick={handleAdminRequestClick}
+                  >
+                    관리자 권한 신청 페이지로 이동
+                  </li>
+                )}
               </ul>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
