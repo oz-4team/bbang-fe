@@ -5,6 +5,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 �
 import SocialLogin from "../components/SocialLogin";
 import { signupUser } from "../api/authApi";
 import useUserStore from "../store/userStore";
+import { Link } from "react-router-dom";
 
 function SignUpPage() {
   const navigate = useNavigate(); // 추가함
@@ -215,12 +216,12 @@ function SignUpPage() {
 
       <div className="form-group birth-info">
         <select value={gender} onChange={(e) => setGender(e.target.value)} className="birth-select">
-          <option value="">성별 선택.</option>
+          <option value="">성별 (선택)</option>
           <option value="male">남성</option>
           <option value="female">여성</option>
         </select>
         <select value={birthYear} onChange={(e) => setBirthYear(e.target.value)} className="birth-select">
-          <option value="">출생년도 선택</option>
+          <option value="">출생년도 (선택)</option>
           {[...Array(100)].map((_, i) => (
             <option key={i} value={1925 + i}>
               {1925 + i}
@@ -229,11 +230,13 @@ function SignUpPage() {
         </select>
       </div>
 
-      <div className="form-group">
-        <label>
-          <input type="checkbox" required /> 이용약관, 개인정보처리방침에 동의
-        </label>
-      </div>
+      <div>
+  <label>
+    <input type="checkbox" required />{" "}
+    <Link to="/privacy" className="terms-link">이용약관, 개인정보처리방침</Link>에 동의
+  </label>
+</div>
+
       <button type="submit" className="submit-button">회원가입</button>
 
       {/* 간편 회원가입 */}
