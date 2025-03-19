@@ -20,6 +20,7 @@ import Privacy from "./components/Privacy";
 
 import { useEffect } from "react"; //로그인 확인용
 import ArtistManagementPage from "./pages/ArtistManagementPage";
+import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
 
@@ -48,8 +49,12 @@ function App() {
               element={<ArtistManagementPage />}
             />
             <Route
-              path="/shedule-management"
+              path="/schedule-management"
               element={<ScheduleManagementPage />}
+            />
+            <Route
+              path="/schedule-management/add"
+              element={<ScheduleAddPage />}
             />
           </Route>
 

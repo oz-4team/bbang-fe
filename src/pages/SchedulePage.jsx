@@ -48,7 +48,6 @@ const SchedulePage = () => {
           style={{
             display: "-webkit-inline-box",
             gap: "1rem",
-            // overflowX: "scroll",
             overflow: "scroll",
             width: "100%",
           }}
