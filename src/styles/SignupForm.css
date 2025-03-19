@@ -20,13 +20,6 @@
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-}
-
 /* 프로필 업로드 */
 .profile-upload {
     width: 100px;
@@ -172,4 +165,8 @@ select:focus {
 .birth-select {
     width: calc(50% - 10px); /* 두 개의 셀렉트 박스를 같은 너비로 설정 */
     margin: 5px;
+}
+
+.terms-link {
+  text-decoration: underline;
 }
