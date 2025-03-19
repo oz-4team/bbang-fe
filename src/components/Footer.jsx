@@ -6,8 +6,17 @@ const Footer = () => {
   const handleAdminRequestClick = () => {
     window.location.href = "/adminrequest";
   }
+  const handleHomeClick = () => {
+    navigate("/");
+  };
   const handlePrivacyClick = () => {
     navigate("/privacy");
+  };
+  const handleArtistClick = () => {
+    navigate("/artist");
+  };
+  const handleScheduleClick = () => {
+    navigate("/schedule");
   };
 
   return (
@@ -58,9 +67,24 @@ const Footer = () => {
                   paddingBottom: "2rem",
                 }}
               >
-                <li style={{ paddingBottom: "1rem" }}>홈</li>
-                <li style={{ paddingBottom: "1rem" }}>아티스트</li>
-                <li style={{ paddingBottom: "1rem" }}>스케줄</li>
+                <li 
+                  style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                  onClick={handleHomeClick}
+                >
+                  홈
+                </li>
+                <li 
+                  style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                  onClick={handleArtistClick}
+                >
+                  아티스트
+                </li>
+                <li 
+                  style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                  onClick={handleScheduleClick}
+                >
+                  스케줄
+                </li>
                 {/* <li style={{ paddingBottom: "1rem" }}>광고 문의</li> */}
                 <li
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
