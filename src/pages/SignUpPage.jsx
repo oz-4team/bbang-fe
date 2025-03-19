@@ -1,11 +1,8 @@
 import React, { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi"; // 아이콘 라이브러리 설치 필요
 import { useNavigate } from "react-router-dom"; // 추가함
-import "../styles/SignupForm.css";
-import googleLogo from '../assets/images/googleLogo.png';
-import naverLogo from '../assets/images/naverLogo.png';
-import kakaoLogo from '../assets/images/kakaoLogo.png';
-import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 설치 필요
 import SocialLogin from "../components/SocialLogin";
+import "../styles/SignupForm.css";
 
 function SignUpPage() {
   const navigate = useNavigate(); // 추가함
@@ -23,7 +20,6 @@ function SignUpPage() {
   // 독립적인 비밀번호 및 비밀번호 재확인 미리보기 상태
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
 
   const handleNicknameChange = (e) => {
     setNickname(e.target.value);
@@ -53,10 +49,12 @@ function SignUpPage() {
     e.preventDefault();
     if (validateForm()) {
       // 회원가입 성공 후 회원가입 완료 페이지로 이동하며 닉네임, 이메일, 프로필 이미지 전달
-      navigate("/signup-complete", { state: { nickname, email, profileImage } });
+      navigate("/signup-complete", {
+        state: { nickname, email, profileImage },
+      });
     }
   };
-  
+
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -83,17 +81,17 @@ function SignUpPage() {
   };
 
   const handleGoogleLogin = () => {
-    console.log('구글 로그인 클릭');
+    console.log("구글 로그인 클릭");
     // 실제 구글 로그인 기능 구현 필요
   };
 
   const handleNaverLogin = () => {
-    console.log('네이버 로그인 클릭');
+    console.log("네이버 로그인 클릭");
     // 실제 네이버 로그인 기능 구현 필요
   };
 
   const handleKakaoLogin = () => {
-    console.log('카카오 로그인 클릭');
+    console.log("카카오 로그인 클릭");
     // 실제 카카오 로그인 기능 구현 필요
   };
 
@@ -134,13 +132,16 @@ function SignUpPage() {
       {/* 비밀번호 입력 */}
       <div className="form-group password-group">
         <input
-          type={passwordVisible ? 'text' : 'password'}
+          type={passwordVisible ? "text" : "password"}
           placeholder="비밀번호를 입력해주세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         {errors.password && <p className="error">{errors.password}</p>}
-        <span className="password-toggle" onClick={() => setPasswordVisible(!passwordVisible)}>
+        <span
+          className="password-toggle"
+          onClick={() => setPasswordVisible(!passwordVisible)}
+        >
           {passwordVisible ? <FiEyeOff /> : <FiEye />}
         </span>
       </div>
@@ -148,7 +149,7 @@ function SignUpPage() {
       {/* 비밀번호 재확인 입력 */}
       <div className="form-group password-group">
         <input
-          type={confirmPasswordVisible ? 'text' : 'password'}
+          type={confirmPasswordVisible ? "text" : "password"}
           placeholder="비밀번호를 재입력해주세요"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -156,13 +157,15 @@ function SignUpPage() {
         {errors.confirmPassword && (
           <p className="error">{errors.confirmPassword}</p>
         )}
-        <span className="password-toggle" onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
+        <span
+          className="password-toggle"
+          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+        >
           {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
         </span>
       </div>
 
       <div className="form-group nickname-group">
-
         <div className="nickname-input-container">
           <input
             type="text"
@@ -171,7 +174,7 @@ function SignUpPage() {
             onChange={handleNicknameChange}
             className="nickname-input"
           />
-          
+
           <button
             type="button"
             className="nickname-check"
@@ -191,12 +194,20 @@ function SignUpPage() {
       </div>
 
       <div className="form-group birth-info">
-        <select value={gender} onChange={(e) => setGender(e.target.value)} className="birth-select">
+        <select
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          className="birth-select"
+        >
           <option value="">성별 선택.</option>
           <option value="male">남성</option>
           <option value="female">여성</option>
         </select>
-        <select value={birthYear} onChange={(e) => setBirthYear(e.target.value)} className="birth-select">
+        <select
+          value={birthYear}
+          onChange={(e) => setBirthYear(e.target.value)}
+          className="birth-select"
+        >
           <option value="">출생년도 선택</option>
           {[...Array(100)].map((_, i) => (
             <option key={i} value={1925 + i}>
@@ -211,10 +222,12 @@ function SignUpPage() {
           <input type="checkbox" required /> 이용약관, 개인정보처리방침에 동의
         </label>
       </div>
-      <button type="submit" className="submit-button">회원가입</button>
+      <button type="submit" className="submit-button">
+        회원가입
+      </button>
 
       {/* 간편 회원가입 */}
-      <SocialLogin/>
+      <SocialLogin />
     </form>
   );
 }

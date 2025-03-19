@@ -17,9 +17,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import ScheduleDetailPage from "./pages/ScheduleDetailPage";
 import SchedulePage from "./pages/SchedulePage";
 
-
 import ProfilePage from "./pages/ProfilePage";
-
 
 function App() {
   return (
@@ -42,9 +40,11 @@ function App() {
             <Route path="/signup-complete" element={<SignupCompletePage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
 
-            <Route path="/admin-request-completed" element={<AdminRequestCompletedPage />} />
+            <Route
+              path="/admin-request-completed"
+              element={<AdminRequestCompletedPage />}
+            />
             <Route path="/ProfilePage" element={<ProfilePage />} />
-
           </Route>
         </Routes>
       </Router>
