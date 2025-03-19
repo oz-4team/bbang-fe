@@ -53,8 +53,12 @@ function App() {
             <Route path="/signup-completed" element={<SignupCompletedPage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
 
-            <Route path="/admin-request-completed" element={<AdminRequestCompletedPage />} />
+            <Route
+              path="/admin-request-completed"
+              element={<AdminRequestCompletedPage />}
+            />
             <Route path="/ProfilePage" element={<ProfilePage />} />
+
 
             <Route path="/privacy" element={<Privacy />} />
 
