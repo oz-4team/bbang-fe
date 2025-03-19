@@ -1,9 +1,10 @@
 import React from "react";
 import Calendar from "react-calendar";
-import MyArtistFilterCard from "../components/MyArtistFilterCard";
+import { useNavigate } from "react-router-dom";
 import ScheduleList from "../components/ScheduleList";
 
-const SchedulePage = () => {
+const ScheduleManagementPage = () => {
+  const navigate = useNavigate();
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
   };
@@ -13,7 +14,6 @@ const SchedulePage = () => {
   const handleViewChange = (event) => {
     setView(event.target.value);
   };
-
   return (
     <div
       style={{
@@ -34,29 +34,25 @@ const SchedulePage = () => {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
+
             gap: "2rem",
-            alignItems: "flex-start",
+            alignItems: "center",
             paddingBottom: "2rem",
           }}
         >
+          <img
+            src="src/assets/images/kakaologo.png"
+            alt=""
+            style={{
+              width: "4rem",
+              height: "4rem",
+            }}
+          />
           <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-            마이아티스트
+            에스파 스케줄
           </div>
         </div>
-        <div
-          style={{
-            display: "-webkit-inline-box",
-            gap: "1rem",
-            overflow: "scroll",
-            width: "100%",
-          }}
-        >
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-        </div>
+
         <div
           style={{
             display: "flex",
@@ -66,12 +62,22 @@ const SchedulePage = () => {
             marginTop: "2rem",
           }}
         >
-          <div style={{ flexGrow: "1" }}>
+          <div style={{ flexGrow: "1", marginTop: "2rem" }}>
             <Calendar />
           </div>
           <div style={{ minWidth: "300px" }}>
             <div>
-              {/* <label htmlFor="view-select">보기 모드: </label> */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  padding: "1rem",
+                }}
+              >
+                <button onClick={() => navigate("/schedule-management/add")}>
+                  일정등록
+                </button>
+              </div>
               <select id="view-select" value={view} onChange={handleViewChange}>
                 <option value="주간">주간</option>
                 <option value="일간">일간</option>
@@ -88,4 +94,4 @@ const SchedulePage = () => {
   );
 };
 
-export default SchedulePage;
+export default ScheduleManagementPage;

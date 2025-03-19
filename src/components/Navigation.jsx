@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useUserStore from "../store/userStore";
 
@@ -80,7 +80,8 @@ const Navigation = () => {
               <li
                 style={{
                   paddingRight: "1rem",
-                  fontWeight: location.pathname === "/artist" ? "bold" : "normal",
+                  fontWeight:
+                    location.pathname === "/artist" ? "bold" : "normal",
                   cursor: "pointer",
                 }}
                 onClick={() => navigate("/artist")}
@@ -89,7 +90,8 @@ const Navigation = () => {
               </li>
               <li
                 style={{
-                  fontWeight: location.pathname === "/schedule" ? "bold" : "normal",
+                  fontWeight:
+                    location.pathname === "/schedule" ? "bold" : "normal",
                   cursor: "pointer",
                 }}
                 onClick={() => navigate("/schedule")}
@@ -104,7 +106,10 @@ const Navigation = () => {
               <li
                 style={{
                   paddingRight: "1rem",
-                  fontWeight: location.pathname === "/artist-management" ? "bold" : "normal",
+                  fontWeight:
+                    location.pathname === "/artist-management"
+                      ? "bold"
+                      : "normal",
                   cursor: "pointer",
                 }}
                 onClick={() => navigate("/artist-management")}
@@ -113,7 +118,10 @@ const Navigation = () => {
               </li>
               <li
                 style={{
-                  fontWeight: location.pathname === "/schedule-management" ? "bold" : "normal",
+                  fontWeight:
+                    location.pathname === "/schedule-management"
+                      ? "bold"
+                      : "normal",
                   cursor: "pointer",
                 }}
                 onClick={() => navigate("/schedule-management")}
