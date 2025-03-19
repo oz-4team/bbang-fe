@@ -1,13 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/userStore";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { user } = useUserStore();
+
   const handleAdminRequestClick = () => {
     window.location.href = "/adminrequest";
   }
+  const handleHomeClick = () => {
+    navigate("/");
+  };
   const handlePrivacyClick = () => {
     navigate("/privacy");
+  };
+  const handleArtistClick = () => {
+    navigate(user?.isAdmin ? "/artist-management" : "/artist");
+  };
+  const handleScheduleClick = () => {
+    navigate(user?.isAdmin ? "/schedule-management" : "/schedule");
   };
 
   return (
@@ -58,16 +70,32 @@ const Footer = () => {
                   paddingBottom: "2rem",
                 }}
               >
-                <li style={{ paddingBottom: "1rem" }}>홈</li>
-                <li style={{ paddingBottom: "1rem" }}>아티스트</li>
-                <li style={{ paddingBottom: "1rem" }}>스케줄</li>
-                {/* <li style={{ paddingBottom: "1rem" }}>광고 문의</li> */}
-                <li
+                <li 
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
-                  onClick={handleAdminRequestClick}
+                  onClick={handleHomeClick}
                 >
-                  관리자 권한 신청 페이지로 이동
+                  홈
                 </li>
+                <li 
+                  style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                  onClick={handleArtistClick}
+                >
+                  {user?.isAdmin ? "아티스트 관리" : "아티스트"}
+                </li>
+                <li 
+                  style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                  onClick={handleScheduleClick}
+                >
+                  {user?.isAdmin ? "스케줄 관리" : "스케줄"}
+                </li>
+                {!user?.isAdmin && (
+                  <li
+                    style={{ paddingBottom: "1rem", cursor: "pointer" }}
+                    onClick={handleAdminRequestClick}
+                  >
+                    관리자 권한 신청 페이지로 이동
+                  </li>
+                )}
               </ul>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
