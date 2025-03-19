@@ -1,7 +1,9 @@
 import { default as React, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ScheduleListItem = () => {
+  const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
 
   const toggleStar = () => {
@@ -9,6 +11,10 @@ const ScheduleListItem = () => {
   };
   return (
     <div
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate("/schedule/details");
+      }}
       style={{
         display: "flex",
         alignItems: "top",
@@ -16,6 +22,7 @@ const ScheduleListItem = () => {
         gap: "1rem",
         border: "1px solid #AFB1B6",
         borderRadius: "15px",
+        cursor: "pointer",
       }}
     >
       <div
@@ -31,7 +38,13 @@ const ScheduleListItem = () => {
         <div style={{ textAlign: "left" }}>스케줄명</div>
       </div>
 
-      <div onClick={toggleStar} style={{ cursor: "pointer", fontSize: "2rem" }}>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleStar();
+        }}
+        style={{ cursor: "pointer", fontSize: "2rem" }}
+      >
         {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
       </div>
     </div>

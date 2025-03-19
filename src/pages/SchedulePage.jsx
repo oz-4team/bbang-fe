@@ -1,4 +1,5 @@
 import React from "react";
+import Calendar from "react-calendar";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
 
@@ -49,20 +50,9 @@ const SchedulePage = () => {
             gap: "1rem",
             // overflowX: "scroll",
             overflow: "scroll",
+            width: "100%",
           }}
         >
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
           <MyArtistFilterCard />
           <MyArtistFilterCard />
           <MyArtistFilterCard />
@@ -77,8 +67,8 @@ const SchedulePage = () => {
             marginTop: "2rem",
           }}
         >
-          <div style={{ backgroundColor: "#eee", flexGrow: "1" }}>
-            calendar area
+          <div style={{ flexGrow: "1" }}>
+            <Calendar />
           </div>
           <div style={{ minWidth: "300px" }}>
             <div>
@@ -94,8 +84,6 @@ const SchedulePage = () => {
             </div>
           </div>
         </div>
-
-        <button onClick={navigateToDetails}>디테일페이지로 이동</button>
       </div>
     </div>
   );
