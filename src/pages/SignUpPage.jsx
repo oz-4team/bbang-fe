@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 추가함
+import { useNavigate } from "react-router-dom";
 import "../styles/SignupForm.css";
-import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 설치 필요
+import { FiEye, FiEyeOff } from 'react-icons/fi'; 
 import SocialLogin from "../components/SocialLogin";
 import { signupUser } from "../api/authApi";
 import useUserStore from "../store/userStore";
 import { Link } from "react-router-dom";
 
 function SignUpPage() {
-  const navigate = useNavigate(); // 추가함
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,19 +17,10 @@ function SignUpPage() {
   const [birthYear, setBirthYear] = useState("");
   const [errors, setErrors] = useState({});
   const [profileImage, setProfileImage] = useState(null);
-  const [isNicknameButtonEnabled, setIsNicknameButtonEnabled] = useState(false);
-  const [nicknameAvailability, setNicknameAvailability] = useState(null);
 
   // 독립적인 비밀번호 및 비밀번호 재확인 미리보기 상태
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
-
-  const handleNicknameChange = (e) => {
-    setNickname(e.target.value);
-    setIsNicknameButtonEnabled(!!e.target.value); // 닉네임이 입력되면 버튼 활성화
-    setNicknameAvailability(null); // 닉네임 변경 시 중복 여부 초기화
-  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -68,9 +59,9 @@ function SignUpPage() {
             console.log("회원가입 응답 데이터:", response);
 
             navigate("/signup-completed", { state: { nickname, email, profileImage } });
-    } catch (error) {
-      console.error("회원가입 실패:", error.message);
-    }
+        } catch (error) {
+          console.error("회원가입 실패:", error.message);
+        }
     }
 };
   
@@ -83,35 +74,6 @@ function SignUpPage() {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleNicknameCheck = () => {
-    // 실제로는 서버에 요청을 보내서 닉네임의 중복 여부를 확인해야 합니다.
-    // 여기서는 예시로 사용할 수 있는 닉네임 목록을 가정합니다.
-    const existingNicknames = ["test1", "test2"]; // 예시로 사용할 수 없는 닉네임 목록
-
-    if (existingNicknames.includes(nickname)) {
-      setNicknameAvailability(false); // 중복된 닉네임
-      alert("중복된 닉네임입니다.");
-    } else {
-      setNicknameAvailability(true); // 사용 가능한 닉네임
-      alert("사용 가능한 닉네임입니다.");
-    }
-  };
-
-  const handleGoogleLogin = () => {
-    console.log('구글 로그인 클릭');
-    // 실제 구글 로그인 기능 구현 필요
-  };
-
-  const handleNaverLogin = () => {
-    console.log('네이버 로그인 클릭');
-    // 실제 네이버 로그인 기능 구현 필요
-  };
-
-  const handleKakaoLogin = () => {
-    console.log('카카오 로그인 클릭');
-    // 실제 카카오 로그인 기능 구현 필요
   };
 
   return (
@@ -178,35 +140,19 @@ function SignUpPage() {
         </span>
       </div>
 
+      {/* 닉네임 입력 */}
       <div className="form-group nickname-group">
-
-        <div className="nickname-input-container">
-          <input
-            type="text"
-            placeholder="닉네임을 입력해주세요"
-            value={nickname}
-            onChange={handleNicknameChange}
-            className="nickname-input"
-          />
-          
-          <button
-            type="button"
-            className="nickname-check"
-            disabled={!isNicknameButtonEnabled}
-            onClick={handleNicknameCheck}
-          >
-            중복확인
-          </button>
-        </div>
+        <input
+          type="text"
+          placeholder="닉네임을 입력해주세요"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          className="nickname-input"
+        />
         {errors.nickname && <p className="error">{errors.nickname}</p>}
-        {nicknameAvailability === true && (
-          <p className="available">사용 가능한 닉네임입니다.</p>
-        )}
-        {nicknameAvailability === false && (
-          <p className="unavailable">중복된 닉네임입니다.</p>
-        )}
       </div>
 
+      {/* 성별 및 출생년도 */}
       <div className="form-group birth-info">
         <select value={gender} onChange={(e) => setGender(e.target.value)} className="birth-select">
           <option value="">성별 (선택)</option>
@@ -223,13 +169,15 @@ function SignUpPage() {
         </select>
       </div>
 
+      {/* 약관 동의 */}
       <div>
-  <label>
-    <input type="checkbox" required />{" "}
-    <Link to="/privacy" className="terms-link">이용약관, 개인정보처리방침</Link>에 동의
-  </label>
-</div>
+        <label>
+          <input type="checkbox" required />{" "}
+          <Link to="/privacy" className="terms-link">이용약관, 개인정보처리방침</Link>에 동의
+        </label>
+      </div>
 
+      {/* 회원가입 버튼 */}
       <button type="submit" className="submit-button">회원가입</button>
 
       {/* 간편 회원가입 */}
