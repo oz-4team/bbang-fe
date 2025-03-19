@@ -105,20 +105,6 @@ function SignUpPage() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log('구글 로그인 클릭');
-    // 실제 구글 로그인 기능 구현 필요
-  };
-
-  const handleNaverLogin = () => {
-    console.log('네이버 로그인 클릭');
-    // 실제 네이버 로그인 기능 구현 필요
-  };
-
-  const handleKakaoLogin = () => {
-    console.log('카카오 로그인 클릭');
-    // 실제 카카오 로그인 기능 구현 필요
-  };
 
   return (
     <form className="signup-form" onSubmit={handleSubmit}>
