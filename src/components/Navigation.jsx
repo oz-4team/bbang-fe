@@ -40,17 +40,17 @@ const Navigation = () => {
             width: "40px",
             height: "40px",
             marginRight: "1rem",
-            cursor: "pointer", // 클릭 가능하도록 설정
+            cursor: "pointer",
           }}
-          onClick={() => navigate("/")} // 클릭 시 홈으로 이동
+          onClick={() => navigate("/")}
         />
         <div
           style={{
             fontSize: "26px",
             fontWeight: "bold",
-            cursor: "pointer", // 클릭 가능하도록 설정
+            cursor: "pointer",
           }}
-          onClick={() => navigate("/")} // 클릭 시 홈으로 이동
+          onClick={() => navigate("/")}
         >
           IdolSync
         </div>
@@ -75,7 +75,6 @@ const Navigation = () => {
             홈
           </li>
 
-          {/* ✅ 일반 유저 메뉴 */}
           {!user?.isAdmin && (
             <>
               <li
@@ -100,13 +99,27 @@ const Navigation = () => {
             </>
           )}
 
-          {/* ✅ 관리자(admin) 메뉴 */}
           {user?.isAdmin && (
             <>
-              <li style={{ paddingRight: "1rem", fontWeight: "bold" }}>
-                아티스트 등록
+              <li
+                style={{
+                  paddingRight: "1rem",
+                  fontWeight: location.pathname === "/artist-management" ? "bold" : "normal",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/artist-management")}
+              >
+                아티스트 관리
               </li>
-              <li>스케줄 등록</li>
+              <li
+                style={{
+                  fontWeight: location.pathname === "/schedule-management" ? "bold" : "normal",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/schedule-management")}
+              >
+                스케줄 관리
+              </li>
             </>
           )}
         </ul>
@@ -120,31 +133,39 @@ const Navigation = () => {
               paddingLeft: "3rem",
             }}
           >
-            <li>
-              <button
-                style={{
-                  borderRadius: "50%",
-                  width: "50px",
-                  height: "50px",
-                  padding: "0",
-                }}
-                onClick={handleProfileClick}
-              >
-                👤
-              </button>
-            </li>
-            <li>
-              <button
-                style={{
-                  borderRadius: "50%",
-                  width: "50px",
-                  height: "50px",
-                  padding: "0",
-                }}
-              >
-                🔔
-              </button>
-            </li>
+            {user.isAdmin ? (
+              <li style={{ marginRight: "1rem", fontWeight: "bold" }}>
+                {user.nickname} 관리자님
+              </li>
+            ) : (
+              <>
+                <li>
+                  <button
+                    style={{
+                      borderRadius: "50%",
+                      width: "50px",
+                      height: "50px",
+                      padding: "0",
+                    }}
+                    onClick={handleProfileClick}
+                  >
+                    👤
+                  </button>
+                </li>
+                <li>
+                  <button
+                    style={{
+                      borderRadius: "50%",
+                      width: "50px",
+                      height: "50px",
+                      padding: "0",
+                    }}
+                  >
+                    🔔
+                  </button>
+                </li>
+              </>
+            )}
             <li>
               <button
                 style={{
