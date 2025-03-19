@@ -10,7 +10,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // ✅ 추가됨
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import SignupCompletePage from "./pages/SignupCompletedPage"; // 추가함
+import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import ScheduleDetailPage from "./pages/ScheduleDetailPage";
 import SchedulePage from "./pages/SchedulePage";
@@ -50,7 +50,7 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/signup-complete" element={<SignupCompletePage />} />
+            <Route path="/signup-completed" element={<SignupCompletedPage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
 
             <Route path="/admin-request-completed" element={<AdminRequestCompletedPage />} />
