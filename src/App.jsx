@@ -9,28 +9,28 @@ import ArtistListPage from "./pages/ArtistListPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // ✅ 추가됨
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
-import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
+import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import ScheduleDetailPage from "./pages/ScheduleDetailPage";
 import SchedulePage from "./pages/SchedulePage";
-import ProfilePage from "./pages/ProfilePage";
+import SignUpPage from "./pages/SignUpPage";
+import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 
 import Privacy from "./components/Privacy";
 
-import useUserStore from "./store/userStore"; //로그인 확인용
 import { useEffect } from "react"; //로그인 확인용
-
-
+import ArtistManagementPage from "./pages/ArtistManagementPage";
+import ScheduleManagementPage from "./pages/ScheduleManagementPage";
+import useUserStore from "./store/userStore"; //로그인 확인용
 
 function App() {
   //로그인 확인용
   const { user } = useUserStore();
 
   useEffect(() => {
-      if (user) {
-          console.log(`현재 로그인한 닉네임: ${user.nickname}`); //  로그인 상태 유지 중 닉네임 출력
-      }
+    if (user) {
+      console.log(`현재 로그인한 닉네임: ${user.nickname}`); //  로그인 상태 유지 중 닉네임 출력
+    }
   }, [user]);
 
   return (
@@ -43,6 +43,14 @@ function App() {
             <Route path="/artist/details" element={<ArtistDetailPage />} />
             <Route path="/schedule" element={<SchedulePage />} />
             <Route path="/schedule/details" element={<ScheduleDetailPage />} />
+            <Route
+              path="/artist-management"
+              element={<ArtistManagementPage />}
+            />
+            <Route
+              path="/shedule-management"
+              element={<ScheduleManagementPage />}
+            />
           </Route>
 
           <Route element={<EmptyLayout />}>
@@ -59,10 +67,7 @@ function App() {
             />
             <Route path="/ProfilePage" element={<ProfilePage />} />
 
-
             <Route path="/privacy" element={<Privacy />} />
-
-
           </Route>
         </Routes>
       </Router>
