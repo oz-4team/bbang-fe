@@ -9,20 +9,28 @@ import ArtistListPage from "./pages/ArtistListPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // ✅ 추가됨
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-
 import SignUpPage from "./pages/SignUpPage";
 import SignupCompletePage from "./pages/SignupCompletedPage"; // 추가함
-
 import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import ScheduleDetailPage from "./pages/ScheduleDetailPage";
 import SchedulePage from "./pages/SchedulePage";
-
-
 import ProfilePage from "./pages/ProfilePage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import useUserStore from "./store/userStore"; //로그인 확인용
+import { useEffect } from "react"; //로그인 확인용
+
 
 
 function App() {
+  //로그인 확인용
+  const { user } = useUserStore();
+
+  useEffect(() => {
+      if (user) {
+          console.log(`현재 로그인한 닉네임: ${user.nickname}`); //  로그인 상태 유지 중 닉네임 출력
+      }
+  }, [user]);
+
   return (
     <>
       <Router>

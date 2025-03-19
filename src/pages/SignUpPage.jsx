@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/SignupForm.css";
-import googleLogo from '../assets/images/googleLogo.png';
-import naverLogo from '../assets/images/naverLogo.png';
-import kakaoLogo from '../assets/images/kakaoLogo.png';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // 아이콘 라이브러리 설치 필요
 import SocialLogin from "../components/SocialLogin";
+import { signupUser } from "../api/authApi";
+import useUserStore from "../store/userStore";
 
 function SignUpPage() {
   const navigate = useNavigate(); // 추가함
@@ -49,13 +48,37 @@ function SignUpPage() {
     return Object.keys(newErrors).length === 0; // 폼이 유효한지 확인
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (validateForm()) {
-      // 회원가입 성공 후 회원가입 완료 페이지로 이동하며 닉네임, 이메일, 프로필 이미지 전달
-      navigate("/signup-complete", { state: { nickname, email, profileImage } });
+        console.log("회원가입 요청 데이터:", { email, password, nickname, gender, birthYear, profileImage });
+
+        try {
+            const response = await signupUser({
+                email,
+                password,
+                nickname,
+                gender,
+                birthYear,
+                profileImage
+            });
+
+            console.log("회원가입 응답 데이터:", response);
+
+            //  이메일 인증 없이 바로 로그인 (테스트용)
+            if (response.user.is_active) {
+                useUserStore.getState().login(response.user);
+                navigate("/"); //  회원가입 후 홈 화면으로 이동
+            } else {
+                navigate("/signup-complete", { state: { nickname, email, profileImage } });
+            }
+
+        } catch (error) {
+            console.error("회원가입 실패:", error.message);
+        }
     }
-  };
+};
   
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
