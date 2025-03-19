@@ -1,0 +1,66 @@
+.privacy-policy-container {
+    max-width: 800px; /* 최대 너비 */
+    padding: 40px; /* 내부 여백 */
+    background-color: #ffffff; /* 흰색 배경 */
+    border: 1px solid #ddd; /* 얇은 테두리 */
+    border-radius: 8px; /* 둥근 모서리 */
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  }
+  
+  /* 제목 스타일 */
+  .privacy-policy-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center; /* 제목 중앙 정렬 */
+    margin-bottom: 20px;
+  }
+  
+  .privacy-policy-subtitle {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center; /* 부제목 중앙 정렬 */
+    margin-bottom: 30px;
+  }
+  
+  /* 리스트 스타일 */
+  .privacy-policy-list {
+    list-style-type: decimal; /* 숫자형 리스트 */
+    text-align: left;
+  }
+  
+  .privacy-policy-list li {
+    margin-bottom: 15px; /* 항목 간격 */
+  }
+  
+  .privacy-policy-list ul {
+    list-style-type: disc; /* 하위 리스트는 점으로 표시 */
+  }
+  
+  .privacy-policy-list li p,
+  .privacy-policy-list li ul {
+    margin-top: 5px; /* 여백 추가 */
+  }
+  
+  /* 푸터 텍스트 스타일 */
+  .privacy-policy-footer {
+    margin-top: 30px;
+  }
+
+  /* 확인 버튼 스타일 */
+.confirm-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff; /* 파란색 버튼 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .confirm-button:hover {
+    background-color: #0056b3; /* 호버 시 더 어두운 파란색 */
+  }

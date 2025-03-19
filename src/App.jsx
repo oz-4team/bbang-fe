@@ -15,8 +15,12 @@ import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import ScheduleDetailPage from "./pages/ScheduleDetailPage";
 import SchedulePage from "./pages/SchedulePage";
 import ProfilePage from "./pages/ProfilePage";
+
+import Privacy from "./components/Privacy";
+
 import useUserStore from "./store/userStore"; //로그인 확인용
 import { useEffect } from "react"; //로그인 확인용
+
 
 
 function App() {
@@ -51,6 +55,9 @@ function App() {
 
             <Route path="/admin-request-completed" element={<AdminRequestCompletedPage />} />
             <Route path="/ProfilePage" element={<ProfilePage />} />
+
+            <Route path="/privacy" element={<Privacy />} />
+
 
           </Route>
         </Routes>
