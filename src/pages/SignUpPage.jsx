@@ -67,17 +67,10 @@ function SignUpPage() {
 
             console.log("회원가입 응답 데이터:", response);
 
-            //  이메일 인증 없이 바로 로그인 (테스트용)
-            if (response.user.is_active) {
-                useUserStore.getState().login(response.user);
-                navigate("/"); //  회원가입 후 홈 화면으로 이동
-            } else {
-                navigate("/signup-complete", { state: { nickname, email, profileImage } });
-            }
-
-        } catch (error) {
-            console.error("회원가입 실패:", error.message);
-        }
+            navigate("/signup-completed", { state: { nickname, email, profileImage } });
+    } catch (error) {
+      console.error("회원가입 실패:", error.message);
+    }
     }
 };
   
