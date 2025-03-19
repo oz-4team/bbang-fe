@@ -1,8 +1,8 @@
 import React from 'react';
-import '../styles/PrivacyPolicy.css'; // CSS 파일을 import
+import '../styles/Privacy.css'; // CSS 파일을 import
 import { useNavigate } from 'react-router-dom'; // React Router 사용
 
-const PrivacyPolicy = () => {
+const Privacy = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 hook
 
   const handleConfirm = () => {
@@ -55,4 +55,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default Privacy;

@@ -19,7 +19,7 @@ import SchedulePage from "./pages/SchedulePage";
 
 
 import ProfilePage from "./pages/ProfilePage";
-import PrivacyPolicy from "./components/PrivacyPolicy";
+import Privacy from "./components/Privacy";
 
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
 
             <Route path="/admin-request-completed" element={<AdminRequestCompletedPage />} />
             <Route path="/ProfilePage" element={<ProfilePage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/privacy" element={<Privacy />} />
 
           </Route>
         </Routes>
