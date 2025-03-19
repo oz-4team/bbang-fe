@@ -21,6 +21,7 @@ const ArtistCard = () => {
         maxWidth: "200px",
         // border: "1px solid black",
         padding: "1rem",
+        cursor: "pointer",
       }}
     >
       <div

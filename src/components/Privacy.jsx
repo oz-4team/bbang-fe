@@ -1,14 +1,12 @@
 import React from 'react';
-import '../styles/PrivacyPolicy.css'; // CSS 파일을 import
+import '../styles/Privacy.css'; // CSS 파일을 import
 import { useNavigate } from 'react-router-dom'; // React Router 사용
 
-const PrivacyPolicy = () => {
+const Privacy = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 hook
 
-  const handleCheckboxChange = (event) => {
-    if (event.target.checked) {
-      navigate('/signup'); // 회원가입 페이지로 이동
-    }
+  const handleConfirm = () => {
+    navigate(-1); // 이전 페이지로 이동
   };
 
   return (
@@ -47,19 +45,14 @@ const PrivacyPolicy = () => {
         </li>
       </ol>
 
-      {/* 체크박스 추가 */}
+      {/* 확인 버튼 */}
       <div className="privacy-policy-footer">
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            onChange={handleCheckboxChange}
-            className="checkbox-input"
-          />
-          본 동의서의 내용을 충분히 이해하고 동의합니다.
-        </label>
+        <button onClick={handleConfirm} className="confirm-button">
+          확인
+        </button>
       </div>
     </div>
   );
 };
 
-export default PrivacyPolicy;
+export default Privacy;

@@ -1,8 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const handleAdminRequestClick = () => {
     window.location.href = "/adminrequest";
+  }
+  const handlePrivacyClick = () => {
+    navigate("/privacy");
   };
 
   return (
@@ -66,9 +71,19 @@ const Footer = () => {
               </ul>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>서비스 이용약관</div>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => handlePrivacyClick()}
+              >
+                서비스 이용약관
+              </div>
               <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>|</div>
-              <div>개인정보처리방침</div>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => handlePrivacyClick()}
+              >
+                개인정보처리방침
+              </div>
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
