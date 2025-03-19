@@ -6,7 +6,7 @@ const Privacy = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 hook
 
   const handleConfirm = () => {
-    navigate('/signup'); // 회원가입 페이지로 이동
+    navigate(-1); // 이전 페이지로 이동
   };
 
   return (
