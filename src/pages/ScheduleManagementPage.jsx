@@ -1,6 +1,7 @@
 import React from "react";
 import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import ScheduleList from "../components/ScheduleList";
 
 const ScheduleManagementPage = () => {
@@ -8,6 +9,14 @@ const ScheduleManagementPage = () => {
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
   };
+
+  const CalendarContainer = styled.div`
+    flex-grow: 1;
+    margin-top: 2rem;
+    button {
+      background-color: white;
+    }
+  `;
 
   const [view, setView] = React.useState("주간");
 
@@ -62,9 +71,10 @@ const ScheduleManagementPage = () => {
             marginTop: "2rem",
           }}
         >
-          <div style={{ flexGrow: "1", marginTop: "2rem" }}>
+          <CalendarContainer>
             <Calendar />
-          </div>
+          </CalendarContainer>
+
           <div style={{ minWidth: "300px" }}>
             <div>
               <div
@@ -75,7 +85,7 @@ const ScheduleManagementPage = () => {
                 }}
               >
                 <button onClick={() => navigate("/schedule-management/add")}>
-                  일정등록
+                  +일정등록
                 </button>
               </div>
               <select id="view-select" value={view} onChange={handleViewChange}>
