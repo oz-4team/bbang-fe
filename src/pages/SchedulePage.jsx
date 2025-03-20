@@ -1,5 +1,6 @@
 import React from "react";
 import Calendar from "react-calendar";
+import styled from "styled-components";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
 
@@ -9,6 +10,14 @@ const SchedulePage = () => {
   };
 
   const [view, setView] = React.useState("주간");
+
+  const CalendarContainer = styled.div`
+    flex-grow: 1;
+    margin-top: 2rem;
+    button {
+      background-color: white;
+    }
+  `;
 
   const handleViewChange = (event) => {
     setView(event.target.value);
@@ -67,7 +76,9 @@ const SchedulePage = () => {
           }}
         >
           <div style={{ flexGrow: "1" }}>
-            <Calendar />
+            <CalendarContainer>
+              <Calendar />
+            </CalendarContainer>
           </div>
           <div style={{ minWidth: "300px" }}>
             <div>

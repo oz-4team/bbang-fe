@@ -7,9 +7,11 @@ import { IoDocumentTextOutline, IoShareSocialOutline } from "react-icons/io5";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
+  const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
   const { user, logout } = useUserStore();
 
@@ -147,14 +149,20 @@ const ScheduleDetailPage = () => {
             URL 복사하기
           </button>
         </div>
-        <div
-          style={{
-            borderBottom: "1px solid #AFB1B6",
-            marginTop: "2rem",
-            marginBottom: "2rem",
-          }}
-        ></div>
-        <button>수정하기</button>
+        {!user?.isAdmin ? null : (
+          <>
+            <div
+              style={{
+                borderBottom: "1px solid #AFB1B6",
+                marginTop: "2rem",
+                marginBottom: "2rem",
+              }}
+            ></div>
+            <button onClick={() => navigate("/schedule-management/edit")}>
+              수정하기
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
