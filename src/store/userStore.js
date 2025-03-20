@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { getToken, getRefreshToken, saveToken, removeToken, refreshAccessToken } from "../utils/authUtils";
 
-const storedUser = JSON.parse(localStorage.getItem("authUser")) || null;
+const storedUser = localStorage.getItem("authUser") || null;
 const storedAccessToken = getToken();
 const storedRefreshToken = getRefreshToken();
 

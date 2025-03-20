@@ -6,9 +6,9 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8
 const USE_BACKEND = true; // 백엔드 활성화 여부
 
 // ✅ 프론트에서 인가 코드 받도록 변경된 redirect_uri
-export const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/callback?provider=google&response_type=code&scope=email%20profile`;
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/callback?provider=kakao&response_type=code`;
-export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/callback?provider=naver&response_type=code`;
+export const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/google/callback?provider=google&response_type=code&scope=email%20profile`;
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/kakao/callback/&response_type=code`;
+export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/naver/callback/&response_type=code`;
 
 // ✅ 인가 코드 받아서 백엔드로 전송 후 액세스 & 리프레시 토큰 받기
 export const exchangeSocialToken = async (provider, authCode, navigate) => {
@@ -25,7 +25,7 @@ export const exchangeSocialToken = async (provider, authCode, navigate) => {
             console.log("📨 전송 데이터:", { code: authCode });
 
             // 백엔드에 인가 코드 전달 (POST 요청)
-            const response = await axios.post(`${API_BASE_URL}/auth/${provider}/callback/`, {
+            const response = await axios.post(`${API_BASE_URL}/auth/kakao/callback/`, {
                 code: authCode,
             });
 

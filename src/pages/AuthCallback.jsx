@@ -5,7 +5,7 @@ import useUserStore from "../store/userStore";
 
 console.log("🚀 AuthCallback.jsx 실행됨");
 
-const AuthCallback = async() => {
+const AuthCallback = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const { login } = useUserStore();
@@ -23,7 +23,7 @@ const AuthCallback = async() => {
         console.log("🔍 인가 코드 확인:", authCode);
         console.log("🔍 provider 확인:", provider);
 
-        if (!authCode || !provider) {
+        if (!authCode) {
             console.error("🚨 인가 코드 또는 provider 없음!");
             alert("소셜 로그인 인가 코드가 없습니다. 다시 시도해주세요.");
             navigate("/login");
@@ -35,18 +35,19 @@ const AuthCallback = async() => {
 
         const fetchSocialLogin = async() => {
             const data = await exchangeSocialToken(provider, authCode)
+            return data
         } 
         fetchSocialLogin()
-            // .then(response => {
-            //     console.log("🎉 로그인 성공!", response);
-            //     login(response.user, response.access_token, response.refresh_token);
-            //     navigate("/");
-            // })
-            // .catch(error => {
-            //     console.error("🚨 소셜 로그인 실패!", error);
-            //     alert(`🚨 로그인 실패: ${error.response?.data?.detail || "알 수 없는 오류 발생!"}`);
-            //     navigate("/login");
-            // });
+            .then(response => {
+                console.log("🎉 로그인 성공!", response);
+                login(response.email,response.access_token, response.refresh_token);
+                navigate("/");
+            })
+            .catch(error => {
+                console.error("🚨 소셜 로그인 실패!", error);
+                alert(`🚨 로그인 실패: ${error.response?.data?.detail || "알 수 없는 오류 발생!"}`);
+                navigate("/login");
+            });
     }, [searchParams, navigate, login]);
 
     return <p>소셜 로그인 중...</p>;
