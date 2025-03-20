@@ -2,7 +2,7 @@ import { default as React, useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 
-const ArtistCard = () => {
+const ArtistCard = ({ name, image }) => {
   const navigate = useNavigate();
   const [favoriteArtist, setFavoriteArtist] = useState(false);
 
@@ -18,7 +18,7 @@ const ArtistCard = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        maxWidth: "200px",
+        maxWidth: "500px",
         // border: "1px solid black",
         padding: "1rem",
         cursor: "pointer",
@@ -30,9 +30,10 @@ const ArtistCard = () => {
           width: "100%",
           border: "1px solid #AFB1B6",
           borderRadius: "15px",
+          overflow: "hidden",
         }}
       >
-        image
+        <img src={image} alt="" />
       </div>
       <div
         style={{
@@ -41,7 +42,11 @@ const ArtistCard = () => {
           paddingTop: "0.5rem",
         }}
       >
-        <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>아티스트명</div>
+        <div
+          style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
+        >
+          {name}
+        </div>
         <div
           onClick={(e) => {
             e.stopPropagation();

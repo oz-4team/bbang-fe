@@ -27,7 +27,9 @@ const MenuIcon = styled.div`
   }
 `;
 
-const NavMenu = styled.ul`
+const NavMenu = styled.ul.attrs(({ isOpen }) => ({
+  "data-open": isOpen,
+}))`
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -45,7 +47,9 @@ const NavMenu = styled.ul`
   }
 `;
 
-const NavItem = styled.li`
+const NavItem = styled.li.attrs(({ isActive }) => ({
+  "data-active": isActive,
+}))`
   padding-right: 1rem;
   font-weight: ${({ isActive }) => (isActive ? "bold" : "normal")};
   cursor: pointer;
