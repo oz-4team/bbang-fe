@@ -3,8 +3,23 @@ import { BsPerson } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import ScheduleCategoryInput from "../components/ScheduleCategoryInput";
+import ScheduleHashtagInput from "../components/ScheduleHashtagInput";
 
 const ScheduleAddPage = () => {
+  const [preview, setPreview] = React.useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div
       style={{
@@ -36,9 +51,46 @@ const ScheduleAddPage = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              position: "relative",
             }}
           >
-            <input type="file" accept="image/*" />
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+            {preview && (
+              <>
+                <img
+                  src={preview}
+                  alt="Preview"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "5px",
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    setPreview(null);
+                    document.querySelector('input[type="file"]').value = null;
+                  }}
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    padding: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  삭제
+                </button>
+              </>
+            )}
           </div>
           <div
             style={{
@@ -93,20 +145,13 @@ const ScheduleAddPage = () => {
                 type="time"
               />
             </div>
-            <div>category tag area</div>
+            <div>
+              <label>카테고리</label>
+              <ScheduleCategoryInput />
+            </div>
             <div>
               <label>해시태그</label>
-              <input
-                style={{
-                  width: "100%",
-                  padding: "1rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  marginTop: "8px",
-                  display: "block",
-                }}
-                placeholder="해시태그를 입력하세요"
-              />
+              <ScheduleHashtagInput />
             </div>
           </div>
         </div>
@@ -179,18 +224,18 @@ const ScheduleAddPage = () => {
               <FiLink color="#AFB1B6" />
               <div>링크</div>
             </div>
-            <input
-              style={{
-                padding: "1rem",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                marginTop: "8px",
-                width: "100%",
-                display: "block",
-              }}
-              type="text"
-            />
           </div>
+          <input
+            style={{
+              padding: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              marginTop: "8px",
+              width: "100%",
+              display: "block",
+            }}
+            type="text"
+          />
           <div
             style={{
               display: "flex",
@@ -223,9 +268,10 @@ const ScheduleAddPage = () => {
             marginBottom: "2rem",
           }}
         ></div>
-        <button>등록하기</button>
-        <button>삭제하기</button>
       </div>
+
+      <button>등록하기</button>
+      <button>삭제하기</button>
     </div>
   );
 };

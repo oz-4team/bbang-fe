@@ -14,8 +14,14 @@ const SchedulePage = () => {
   const CalendarContainer = styled.div`
     flex-grow: 1;
     margin-top: 2rem;
+    min-width: 300px;
+    max-width: 600px;
     button {
       background-color: white;
+    }
+
+    @media (max-width: 900px) {
+      max-width: 100%;
     }
   `;
 
@@ -36,16 +42,14 @@ const SchedulePage = () => {
       <div
         style={{
           width: "100%",
-          maxWidth: "800px",
-          // backgroundColor: "lightgray",
+          maxWidth: "1200px",
         }}
       >
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             gap: "2rem",
-            alignItems: "flex-start",
+            alignItems: "center",
             paddingBottom: "2rem",
           }}
         >
@@ -66,23 +70,21 @@ const SchedulePage = () => {
           <MyArtistFilterCard />
           <MyArtistFilterCard />
         </div>
+
         <div
           style={{
             display: "flex",
             gap: "1rem",
             justifyContent: "space-between",
-            minHeight: "500px",
-            marginTop: "2rem",
+            flexWrap: "wrap",
           }}
         >
-          <div style={{ flexGrow: "1" }}>
-            <CalendarContainer>
-              <Calendar />
-            </CalendarContainer>
-          </div>
-          <div style={{ minWidth: "300px" }}>
+          <CalendarContainer>
+            <Calendar />
+          </CalendarContainer>
+
+          <div style={{ minWidth: "300px", flexGrow: 1 }}>
             <div>
-              {/* <label htmlFor="view-select">보기 모드: </label> */}
               <select id="view-select" value={view} onChange={handleViewChange}>
                 <option value="주간">주간</option>
                 <option value="일간">일간</option>

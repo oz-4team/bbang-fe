@@ -11,16 +11,22 @@ const ArtistListPage = () => {
         flexDirection: "column",
         padding: "1rem",
         width: "100vw",
-        gap: "1rem",
-        // justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <BannerAd />
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <SearchBar />
-      </div>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1200px",
+        }}
+      >
+        <BannerAd />
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <SearchBar />
+        </div>
 
-      <ArtistCardArea />
+        <ArtistCardArea />
+      </div>
     </div>
   );
 };

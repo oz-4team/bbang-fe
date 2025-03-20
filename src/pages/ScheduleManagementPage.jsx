@@ -13,8 +13,14 @@ const ScheduleManagementPage = () => {
   const CalendarContainer = styled.div`
     flex-grow: 1;
     margin-top: 2rem;
+    min-width: 300px;
+    max-width: 600px;
     button {
       background-color: white;
+    }
+
+    @media (max-width: 900px) {
+      max-width: 100%;
     }
   `;
 
@@ -36,25 +42,24 @@ const ScheduleManagementPage = () => {
       <div
         style={{
           width: "100%",
-          maxWidth: "800px",
-          // backgroundColor: "lightgray",
+          maxWidth: "1200px",
         }}
       >
         <div
           style={{
             display: "flex",
-
             gap: "2rem",
             alignItems: "center",
             paddingBottom: "2rem",
           }}
         >
           <img
-            src="src/assets/images/kakaologo.png"
+            src="src/assets/images/easpa.jpeg"
             alt=""
             style={{
               width: "4rem",
               height: "4rem",
+              borderRadius: "50%",
             }}
           />
           <div style={{ fontSize: "24px", fontWeight: "bold" }}>
@@ -67,15 +72,14 @@ const ScheduleManagementPage = () => {
             display: "flex",
             gap: "1rem",
             justifyContent: "space-between",
-            minHeight: "500px",
-            marginTop: "2rem",
+            flexWrap: "wrap",
           }}
         >
           <CalendarContainer>
             <Calendar />
           </CalendarContainer>
 
-          <div style={{ minWidth: "300px" }}>
+          <div style={{ minWidth: "300px", flexGrow: 1 }}>
             <div>
               <div
                 style={{

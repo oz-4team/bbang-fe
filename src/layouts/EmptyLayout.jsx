@@ -11,6 +11,7 @@ const NavigationLayout = styled.div`
   border-bottom: 1px solid #e9ecef;
   position: fixed;
   background-color: white;
+  z-index: 999;
 `;
 
 const EmptyLayout = () => {
@@ -22,6 +23,7 @@ const EmptyLayout = () => {
           flexDirection: "column",
           gap: "1rem",
           marginBottom: "6rem",
+          backgroundColor: "white",
         }}
       >
         <NavigationLayout>
