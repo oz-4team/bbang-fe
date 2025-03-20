@@ -23,6 +23,7 @@ import ArtistManagementPage from "./pages/ArtistManagementPage";
 import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
+import AuthCallback from "./pages/AuthCallback";
 
 function App() {
   //로그인 확인용
@@ -73,6 +74,10 @@ function App() {
             <Route path="/ProfilePage" element={<ProfilePage />} />
 
             <Route path="/privacy" element={<Privacy />} />
+
+            <Route path="/auth/kakao/callback" element={<AuthCallback />}/>
+            <Route path="/auth/naver/callback" element={<AuthCallback />}/>
+            <Route path="/auth/google/callback" element={<AuthCallback />}/>
           </Route>
         </Routes>
       </Router>
