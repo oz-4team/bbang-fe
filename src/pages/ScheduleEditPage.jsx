@@ -6,7 +6,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import ScheduleCategoryInput from "../components/ScheduleCategoryInput";
 import ScheduleHashtagInput from "../components/ScheduleHashtagInput";
 
-const ScheduleAddPage = () => {
+const ScheduleEditPage = () => {
   const [preview, setPreview] = React.useState(null);
 
   const handleFileChange = (event) => {
@@ -270,10 +270,10 @@ const ScheduleAddPage = () => {
         ></div>
       </div>
 
-      <button>등록하기</button>
+      <button>수정하기</button>
       <button>삭제하기</button>
     </div>
   );
 };
 
-export default ScheduleAddPage;
+export default ScheduleEditPage;

@@ -7,9 +7,13 @@ import { IoDocumentTextOutline, IoShareSocialOutline } from "react-icons/io5";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
+  const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
+  const { user, logout } = useUserStore();
 
   const toggleStar = () => {
     setStarred(!starred);
@@ -64,16 +68,18 @@ const ScheduleDetailPage = () => {
             <div>category tag area</div>
             <div>hashtag area</div>
           </div>
-          <div
-            onClick={toggleStar}
-            style={{ cursor: "pointer", fontSize: "2rem" }}
-          >
-            {starred ? (
-              <FaStar color="#FEE500" />
-            ) : (
-              <FaRegStar color="#AFB1B6" />
-            )}
-          </div>
+          {user?.isAdmin ? null : (
+            <div
+              onClick={toggleStar}
+              style={{ cursor: "pointer", fontSize: "2rem" }}
+            >
+              {starred ? (
+                <FaStar color="#FEE500" />
+              ) : (
+                <FaRegStar color="#AFB1B6" />
+              )}
+            </div>
+          )}
         </div>
         <div
           style={{
@@ -143,6 +149,20 @@ const ScheduleDetailPage = () => {
             URL 복사하기
           </button>
         </div>
+        {!user?.isAdmin ? null : (
+          <>
+            <div
+              style={{
+                borderBottom: "1px solid #AFB1B6",
+                marginTop: "2rem",
+                marginBottom: "2rem",
+              }}
+            ></div>
+            <button onClick={() => navigate("/schedule-management/edit")}>
+              수정하기
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

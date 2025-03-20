@@ -5,16 +5,19 @@ const ScheduleList = () => {
   return (
     <div
       style={{
-        maxWidth: "400px",
         width: "100%",
         padding: "1rem",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-        maxHeight: "500px",
+        maxHeight: "700px",
         overflow: "scroll",
       }}
     >
+      <ScheduleListItem />
+      <ScheduleListItem />
+      <ScheduleListItem />
+      <ScheduleListItem />
       <ScheduleListItem />
       <ScheduleListItem />
       <ScheduleListItem />

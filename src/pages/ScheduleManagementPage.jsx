@@ -1,6 +1,7 @@
 import React from "react";
 import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import ScheduleList from "../components/ScheduleList";
 
 const ScheduleManagementPage = () => {
@@ -8,6 +9,20 @@ const ScheduleManagementPage = () => {
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
   };
+
+  const CalendarContainer = styled.div`
+    flex-grow: 1;
+    margin-top: 2rem;
+    min-width: 300px;
+    max-width: 600px;
+    button {
+      background-color: white;
+    }
+
+    @media (max-width: 900px) {
+      max-width: 100%;
+    }
+  `;
 
   const [view, setView] = React.useState("주간");
 
@@ -27,25 +42,24 @@ const ScheduleManagementPage = () => {
       <div
         style={{
           width: "100%",
-          maxWidth: "800px",
-          // backgroundColor: "lightgray",
+          maxWidth: "1200px",
         }}
       >
         <div
           style={{
             display: "flex",
-
             gap: "2rem",
             alignItems: "center",
             paddingBottom: "2rem",
           }}
         >
           <img
-            src="src/assets/images/kakaologo.png"
+            src="src/assets/images/easpa.jpeg"
             alt=""
             style={{
               width: "4rem",
               height: "4rem",
+              borderRadius: "50%",
             }}
           />
           <div style={{ fontSize: "24px", fontWeight: "bold" }}>
@@ -58,14 +72,14 @@ const ScheduleManagementPage = () => {
             display: "flex",
             gap: "1rem",
             justifyContent: "space-between",
-            minHeight: "500px",
-            marginTop: "2rem",
+            flexWrap: "wrap",
           }}
         >
-          <div style={{ flexGrow: "1", marginTop: "2rem" }}>
+          <CalendarContainer>
             <Calendar />
-          </div>
-          <div style={{ minWidth: "300px" }}>
+          </CalendarContainer>
+
+          <div style={{ minWidth: "300px", flexGrow: 1 }}>
             <div>
               <div
                 style={{
@@ -75,7 +89,7 @@ const ScheduleManagementPage = () => {
                 }}
               >
                 <button onClick={() => navigate("/schedule-management/add")}>
-                  일정등록
+                  +일정등록
                 </button>
               </div>
               <select id="view-select" value={view} onChange={handleViewChange}>
