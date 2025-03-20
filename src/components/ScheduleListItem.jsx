@@ -1,8 +1,10 @@
 import { default as React, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/userStore";
 
 const ScheduleListItem = () => {
+  const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
 
@@ -37,16 +39,17 @@ const ScheduleListItem = () => {
         <div>18:00</div>
         <div style={{ textAlign: "left" }}>스케줄명</div>
       </div>
-
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleStar();
-        }}
-        style={{ cursor: "pointer", fontSize: "2rem" }}
-      >
-        {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
-      </div>
+      {user?.isAdmin ? null : (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleStar();
+          }}
+          style={{ cursor: "pointer", fontSize: "2rem" }}
+        >
+          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
+        </div>
+      )}
     </div>
   );
 };

@@ -7,9 +7,11 @@ import { IoDocumentTextOutline, IoShareSocialOutline } from "react-icons/io5";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
   const [starred, setStarred] = useState(false);
+  const { user, logout } = useUserStore();
 
   const toggleStar = () => {
     setStarred(!starred);
@@ -64,16 +66,18 @@ const ScheduleDetailPage = () => {
             <div>category tag area</div>
             <div>hashtag area</div>
           </div>
-          <div
-            onClick={toggleStar}
-            style={{ cursor: "pointer", fontSize: "2rem" }}
-          >
-            {starred ? (
-              <FaStar color="#FEE500" />
-            ) : (
-              <FaRegStar color="#AFB1B6" />
-            )}
-          </div>
+          {user?.isAdmin ? null : (
+            <div
+              onClick={toggleStar}
+              style={{ cursor: "pointer", fontSize: "2rem" }}
+            >
+              {starred ? (
+                <FaStar color="#FEE500" />
+              ) : (
+                <FaRegStar color="#AFB1B6" />
+              )}
+            </div>
+          )}
         </div>
         <div
           style={{
