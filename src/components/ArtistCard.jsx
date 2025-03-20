@@ -2,7 +2,7 @@ import { default as React, useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 
-const ArtistCard = () => {
+const ArtistCard = ({ name, image }) => {
   const navigate = useNavigate();
   const [favoriteArtist, setFavoriteArtist] = useState(false);
 
@@ -32,7 +32,7 @@ const ArtistCard = () => {
           borderRadius: "15px",
         }}
       >
-        image
+        <img src={image} alt="" />
       </div>
       <div
         style={{
@@ -41,7 +41,11 @@ const ArtistCard = () => {
           paddingTop: "0.5rem",
         }}
       >
-        <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>아티스트명</div>
+        <div
+          style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
+        >
+          {name}
+        </div>
         <div
           onClick={(e) => {
             e.stopPropagation();
