@@ -1,94 +1,84 @@
 import { create } from "zustand";
 import { getToken, getRefreshToken, saveToken, removeToken, refreshAccessToken } from "../utils/authUtils";
 
-//  로컬스토리지에서 사용자 정보 불러오기
 const storedUser = JSON.parse(localStorage.getItem("authUser")) || null;
-const storedAccessToken = getToken(); //  저장된 액세스 토큰 가져오기
-const storedRefreshToken = getRefreshToken(); // 저장된 리프레시 토큰 가져오기
+const storedAccessToken = getToken();
+const storedRefreshToken = getRefreshToken();
 
 const useUserStore = create((set) => ({
-    user: storedUser, // 초기 상태 (유저 정보)
-    accessToken: storedAccessToken, //  액세스 토큰 저장
-    refreshToken: storedRefreshToken, //  리프레시 토큰 저장
-    isAuthenticated: !!storedAccessToken, //  액세스 토큰이 있으면 로그인 유지
+    user: storedUser,
+    accessToken: storedAccessToken,
+    refreshToken: storedRefreshToken,
+    isAuthenticated: !!storedAccessToken,
 
-    //  로그인 함수 (유저 정보 & 토큰 저장)
-    login: (userData, accessToken, refreshToken) => {
+    login: (userData, accessToken = "mock_access_token", refreshToken = "mock_refresh_token") => {
         if (!accessToken || !refreshToken) {
-            console.error("저장할 토큰이 없습니다. 로그인 실패!");
-            return;
+            console.warn("액세스 토큰과 리프레시 토큰이 없습니다. 목업 로그인 진행.");
         }
-
-        console.log("🎉 로그인 성공! 사용자 정보 저장:", userData); // 디버깅 로그
-
-        localStorage.setItem("authUser", JSON.stringify(userData)); // 유저 정보 저장
-        saveToken(accessToken, refreshToken); // 토큰 저장
-
+    
+        console.log("로그인 성공! 사용자 정보 저장:", userData);
+        localStorage.setItem("authUser", JSON.stringify(userData));
+    
+        // 목업 데이터일 경우, 토큰 없이 로그인 유지
+        if (accessToken !== "mock_access_token" && refreshToken !== "mock_refresh_token") {
+            saveToken(accessToken, refreshToken);
+        }
+    
         set({ 
             user: userData, 
-            accessToken: accessToken, 
-            refreshToken: refreshToken, 
+            accessToken, 
+            refreshToken, 
             isAuthenticated: true 
         });
-
-        // 자동 토큰 갱신 시작
-        useUserStore.getState().autoRefreshToken();
+    
+        console.log("로그인 상태 업데이트 후:", useUserStore.getState());
+    
+        // 실제 API 기반 로그인일 때만 자동 토큰 갱신 실행
+        if (accessToken !== "mock_access_token") {
+            useUserStore.getState().autoRefreshToken();
+        }
     },
 
-    // 로그아웃 함수 (토큰 및 로컬스토리지 데이터 삭제)
-    logout: () => {
+    logout: async () => {
         if (!getToken() && !getRefreshToken()) {
             console.warn("로그아웃 요청했지만 저장된 토큰 없음.");
             return;
         }
 
-        console.log("로그아웃 실행됨"); // 디버깅 로그
-        removeToken(); // 토큰 삭제
-        localStorage.removeItem("authUser"); // 유저 정보 삭제
+        console.log("로그아웃 실행됨. 현재 상태:", useUserStore.getState());
+
+        await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout/`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${getToken()}` }
+        }).catch(() => console.warn("백엔드 로그아웃 실패"));
+
+        removeToken();
+        localStorage.removeItem("authUser");
+
+        console.log("토큰 제거 후 상태:", localStorage.getItem("authToken"), localStorage.getItem("refreshToken"));
 
         set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
 
-        // 자동 토큰 갱신 중단
         clearInterval(useUserStore.getState().refreshInterval);
     },
 
-    // 사용자 정보 새로고침 (예: 새로고침 후 상태 복구)
-    refreshUser: () => {
-        const refreshedUser = JSON.parse(localStorage.getItem("authUser")) || null;
-        const refreshedAccessToken = getToken();
-        const refreshedRefreshToken = getRefreshToken();
-
-        set({ 
-            user: refreshedUser, 
-            accessToken: refreshedAccessToken, 
-            refreshToken: refreshedRefreshToken, 
-            isAuthenticated: !!refreshedAccessToken 
-        });
-
-        console.log("사용자 정보 새로고침 완료:", refreshedUser);
-    },
-
-    // 액세스 토큰 자동 갱신 (14분마다 실행)
     autoRefreshToken: () => {
-        console.log("자동 토큰 갱신 시작...");
-        
+        console.log("자동 토큰 갱신 시작됨");
+
         const refreshInterval = setInterval(async () => {
-            console.log("액세스 토큰 갱신 시도...");
+            console.log("액세스 토큰 갱신 시도 중...");
             const newAccessToken = await refreshAccessToken();
 
             if (newAccessToken) {
-                set({
-                    accessToken: newAccessToken,
-                    isAuthenticated: true
-                });
-                console.log("액세스 토큰 갱신 완료!");
+                console.log("새 액세스 토큰:", newAccessToken);
+                set({ accessToken: newAccessToken, isAuthenticated: true });
             } else {
-                console.warn(" 액세스 토큰 갱신 실패! 자동 로그아웃 처리.");
+                console.warn("토큰 갱신 실패, 자동 로그아웃 실행");
                 useUserStore.getState().logout();
             }
-        }, 14 * 60 * 1000); // 14분마다 실행
-
+        }, 14 * 60 * 1000);
         set({ refreshInterval });
+        console.log("갱신 인터벌 설정됨:", refreshInterval);
     },
 }));
 
