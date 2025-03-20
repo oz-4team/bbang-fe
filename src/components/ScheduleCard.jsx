@@ -13,9 +13,9 @@ const ScheduleCard = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        maxWidth: "200px",
+        maxWidth: "300px",
         // border: "1px solid black",
-        padding: "1rem",
+        padding: "1rem 0",
       }}
     >
       <div
