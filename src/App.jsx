@@ -20,11 +20,11 @@ import Privacy from "./components/Privacy";
 
 import { useEffect } from "react"; //로그인 확인용
 import ArtistManagementPage from "./pages/ArtistManagementPage";
+import AuthCallback from "./pages/AuthCallback";
 import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleEditPage from "./pages/ScheduleEditPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
-import AuthCallback from "./pages/AuthCallback";
 
 function App() {
   //로그인 확인용
@@ -54,6 +54,7 @@ function App() {
               path="/schedule-management"
               element={<ScheduleManagementPage />}
             />
+            <Route path="/ProfilePage" element={<ProfilePage />} />
           </Route>
 
           <Route element={<EmptyLayout />}>
@@ -68,7 +69,6 @@ function App() {
               path="/admin-request-completed"
               element={<AdminRequestCompletedPage />}
             />
-            <Route path="/ProfilePage" element={<ProfilePage />} />
 
             <Route path="/privacy" element={<Privacy />} />
 
@@ -81,11 +81,9 @@ function App() {
               element={<ScheduleEditPage />}
             />
 
-
-            <Route path="/auth/kakao/callback" element={<AuthCallback />}/>
-            <Route path="/auth/naver/callback" element={<AuthCallback />}/>
-            <Route path="/auth/google/callback" element={<AuthCallback />}/>
-
+            <Route path="/auth/kakao/callback" element={<AuthCallback />} />
+            <Route path="/auth/naver/callback" element={<AuthCallback />} />
+            <Route path="/auth/google/callback" element={<AuthCallback />} />
           </Route>
         </Routes>
       </Router>
