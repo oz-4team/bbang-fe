@@ -54,7 +54,7 @@ const ScheduleManagementPage = () => {
           }}
         >
           <img
-            src="src/assets/images/easpa.jpeg"
+            src="/easpa.jpeg"
             alt=""
             style={{
               width: "4rem",
