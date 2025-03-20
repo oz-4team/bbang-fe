@@ -13,7 +13,7 @@ const ScheduleCard = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        maxWidth: "300px",
+        maxWidth: "500px",
         // border: "1px solid black",
         padding: "1rem 0",
       }}

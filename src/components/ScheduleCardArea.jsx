@@ -7,7 +7,7 @@ const ScheduleCardArea = () => {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-        gap: "16px",
+        gap: "32px",
       }}
     >
       <ScheduleCard />
