@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/authApi"; // 백엔드 API 대신 `mock` 데이터 사용 중
+import { loginUser } from "../api/authApi"; // 백엔드 API 연결
 import useUserStore from "../store/userStore";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 import SocialLogin from "../components/SocialLogin.jsx";
+import { getToken } from "../utils/authUtils"; // 저장된 토큰 가져오기
 import "../styles/login.css";
-import logo from "../assets/images/logo.png"
+import logo from "../assets/images/logo.png";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -14,23 +15,36 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  // 이미 로그인된 경우 홈으로 이동
+  useEffect(() => {
+    if (getToken()) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  // 로그인 버튼 클릭 시 실행
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // 기존 오류 초기화
+
     if (!isValidEmail(email)) return setError("올바른 이메일을 입력하세요.");
     if (!isValidPassword(password)) return setError("비밀번호는 최소 8자 이상이어야 합니다.");
 
     try {
-      const { token, user } = await loginUser(email, password); // TODO: 백엔드 API 연결 후 수정
-      login(user, token);
-      navigate("/");
-      
+      const { token, user } = await loginUser(email, password); // 백엔드 API 요청
+      login(user, token); // Zustand에 유저 정보 저장
+
+      console.log(" 로그인 성공:", user);
+
+      // 로그인 후 페이지 이동 (관리자 여부 확인)
       if (user.isAdmin) {
-        navigate("/")
+        navigate("/");
       } else {
-        navigate("/")
+        navigate("/");
       }
     } catch (err) {
-      setError(err.message);
+      console.error("로그인 실패:", err.message);
+      setError(err.message || "로그인 중 오류가 발생했습니다.");
     }
   };
 
@@ -61,12 +75,14 @@ function LoginPage() {
           로그인
         </button>
       </form>
+
       {error && <p className="error-message">{error}</p>}
+
       <p className="extra-links">
         <Link to="/forgot-password">비밀번호 찾기</Link>
       </p>
       <p className="extra-links">
-        아직 계정이 없으신가요? <Link to="/signup">회원가입</Link> {/*  경로 확인 */}
+        아직 계정이 없으신가요? <Link to="/signup">회원가입</Link>
       </p>
 
       <div className="divider">간편 로그인</div>
