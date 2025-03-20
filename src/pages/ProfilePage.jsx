@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/Profile.css";
+import React, { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import Navigation from "../components/Navigation";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import useUserStore from "../store/userStore";
+import "../styles/Profile.css";
 
 const PasswordInput = ({ label, id, value, onChange, error }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +29,11 @@ const PasswordInput = ({ label, id, value, onChange, error }) => {
           className="toggle-password-btn"
           onClick={togglePasswordVisibility}
         >
-          {showPassword ? <FiEyeOff className="password-icon" /> : <FiEye className="password-icon" />}
+          {showPassword ? (
+            <FiEyeOff className="password-icon" />
+          ) : (
+            <FiEye className="password-icon" />
+          )}
         </button>
       </div>
       {error && <p className="error-text">{error}</p>}
@@ -38,6 +42,11 @@ const PasswordInput = ({ label, id, value, onChange, error }) => {
 };
 
 const ProfilePage = () => {
+  const { user, logout } = useUserStore();
+
+  if (!user) {
+    return null;
+  }
   const navigate = useNavigate();
 
   const [userEmail, setUserEmail] = useState("user@example.com");
@@ -62,7 +71,7 @@ const ProfilePage = () => {
     setLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       const isDuplicate = Math.random() < 0.5;
 
       if (isDuplicate) {
@@ -124,15 +133,23 @@ const ProfilePage = () => {
     if (!isValid) {
       alert(errorMessage);
     } else {
-      if (window.confirm("프로필이 성공적으로 업데이트되었습니다. 확인 버튼을 누르면 홈페이지로 이동합니다.")) {
+      if (
+        window.confirm(
+          "프로필이 성공적으로 업데이트되었습니다. 확인 버튼을 누르면 홈페이지로 이동합니다."
+        )
+      ) {
         console.log("프로필 업데이트 로직 실행");
-        navigate('/');
+        navigate("/");
       }
     }
   };
 
   const handleDeleteAccount = () => {
-    if (window.confirm("정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다.")) {
+    if (
+      window.confirm(
+        "정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다."
+      )
+    ) {
       // 사용자 정보 초기화
       setUserEmail("");
       setUserNickname("");
@@ -143,21 +160,28 @@ const ProfilePage = () => {
 
       // 회원탈퇴 후 홈페이지로 이동
       alert("회원탈퇴가 완료되었습니다.");
-      navigate('/');
+      navigate("/");
     }
   };
 
   return (
     <div className="page-container">
-      <Navigation isLoggedIn={true} />
+      {/* <Navigation isLoggedIn={true} /> */}
       <div className="profile-page">
         <div className="profile-picture">
-          <label htmlFor="profile-image-upload" className="profile-image-wrapper">
+          <label
+            htmlFor="profile-image-upload"
+            className="profile-image-wrapper"
+          >
             {profileImage ? (
               <img src={profileImage} alt="Profile" className="profile-image" />
             ) : (
               <>
-                <img src="/icons/profile-placeholder.png" alt="" className="placeholder-icon" />
+                <img
+                  src="/icons/profile-placeholder.png"
+                  alt=""
+                  className="placeholder-icon"
+                />
                 <span className="change-image-text">프로필 사진</span>
               </>
             )}
@@ -228,7 +252,11 @@ const ProfilePage = () => {
           </button>
         </form>
 
-        <button type="button" className="delete-account-btn" onClick={handleDeleteAccount}>
+        <button
+          type="button"
+          className="delete-account-btn"
+          onClick={handleDeleteAccount}
+        >
           회원탈퇴
         </button>
       </div>
