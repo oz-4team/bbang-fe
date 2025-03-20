@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FaBars, FaTimes } from "react-icons/fa";
 import useUserStore from "../store/userStore";
 
 const NavigationLayout = styled.div`
@@ -179,10 +180,15 @@ const Navigation = () => {
                         borderRadius: "50%",
                         width: "50px",
                         height: "50px",
-                        padding: "0",
+                        backgroundColor: "white",
+                        padding: "8px",
+                        fontSize: "1.5rem",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
                     >
-                      👤
+                      <IoPersonOutline />
                     </button>
                   </NavItem>
                   <NavItem>
@@ -191,10 +197,27 @@ const Navigation = () => {
                         borderRadius: "50%",
                         width: "50px",
                         height: "50px",
-                        padding: "0",
+                        backgroundColor: "white",
+                        padding: "8px",
+                        fontSize: "1.5rem",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        position: "relative",
                       }}
                     >
-                      🔔
+                      <IoNotificationsOutline />
+                      <span
+                        style={{
+                          backgroundColor: "red",
+                          height: "10px",
+                          width: "10px",
+                          borderRadius: "50%",
+                          position: "absolute",
+                          top: "10px",
+                          right: "5px",
+                        }}
+                      ></span>
                     </button>
                   </NavItem>
                 </>
