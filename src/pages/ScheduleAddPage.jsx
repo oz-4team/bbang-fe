@@ -31,7 +31,8 @@ const ScheduleAddPage = () => {
               maxHeight: "300px",
               minHeight: "200px",
               border: "1px solid #AFB1B6",
-              borderRadius: "15px",
+              borderRadius: "5px",
+              width: "100%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -50,30 +51,62 @@ const ScheduleAddPage = () => {
           >
             <div>
               <label>스케줄명</label>
-              <input type="text" />
+              <input style={{ width: "100%" }} type="text" />
             </div>
             <div>
               <label>스케줄 날짜</label>
-              <input type="date" />
+              <input
+                style={{
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  marginTop: "8px",
+                  width: "100%",
+                  display: "block",
+                }}
+                type="date"
+              />
             </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-                alignItems: "flex-start",
-              }}
-            >
+            <div>
               <label>시작 시간</label>
-              <input type="time" />
-              <label>종료 시간</label>
-              <input type="time" />
+              <input
+                style={{
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  marginTop: "8px",
+                  width: "100%",
+                  display: "block",
+                }}
+                type="time"
+              />
+              <label>종료 시간 (선택)</label>
+              <input
+                style={{
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  marginTop: "8px",
+                  width: "100%",
+                  display: "block",
+                }}
+                type="time"
+              />
             </div>
             <div>category tag area</div>
             <div>
               <label>해시태그</label>
-              <input type="text" />
+              <input
+                style={{
+                  width: "100%",
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  marginTop: "8px",
+                  display: "block",
+                }}
+                placeholder="해시태그를 입력하세요"
+              />
             </div>
           </div>
         </div>
@@ -85,33 +118,102 @@ const ScheduleAddPage = () => {
           }}
         ></div>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "flex-start",
+            }}
+          >
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <BsPerson color="#AFB1B6" />
               <div>출연진</div>
             </div>
-            <input type="text" />
+            <input
+              style={{
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                marginTop: "8px",
+                width: "100%",
+                display: "block",
+              }}
+              type="text"
+            />
           </div>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "flex-start",
+            }}
+          >
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <IoDocumentTextOutline color="#AFB1B6" />
               <div>설명</div>
             </div>
-            <input type="text" />
+            <textarea
+              style={{
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                marginTop: "8px",
+                width: "100%",
+                display: "block",
+              }}
+              name="Text1"
+              rows="5"
+            ></textarea>
           </div>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "flex-start",
+            }}
+          >
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <FiLink color="#AFB1B6" />
               <div>링크</div>
             </div>
-            <input type="text" />
+            <input
+              style={{
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                marginTop: "8px",
+                width: "100%",
+                display: "block",
+              }}
+              type="text"
+            />
           </div>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "flex-start",
+            }}
+          >
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <GrLocation color="#AFB1B6" />
               <div>주소</div>
             </div>
-            <input type="text" />
+            <input
+              style={{
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                marginTop: "8px",
+                width: "100%",
+                display: "block",
+              }}
+              type="text"
+            />
           </div>
         </div>
         <div

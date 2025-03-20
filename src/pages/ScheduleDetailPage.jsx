@@ -147,6 +147,14 @@ const ScheduleDetailPage = () => {
             URL 복사하기
           </button>
         </div>
+        <div
+          style={{
+            borderBottom: "1px solid #AFB1B6",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+          }}
+        ></div>
+        <button>수정하기</button>
       </div>
     </div>
   );
