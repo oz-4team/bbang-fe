@@ -18,7 +18,7 @@ const ArtistCard = ({ name, image }) => {
       style={{
         display: "flex",
         flexDirection: "column",
-        maxWidth: "200px",
+        maxWidth: "500px",
         // border: "1px solid black",
         padding: "1rem",
         cursor: "pointer",
@@ -30,6 +30,7 @@ const ArtistCard = ({ name, image }) => {
           width: "100%",
           border: "1px solid #AFB1B6",
           borderRadius: "15px",
+          overflow: "hidden",
         }}
       >
         <img src={image} alt="" />

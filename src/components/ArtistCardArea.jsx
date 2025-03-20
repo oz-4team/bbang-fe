@@ -20,7 +20,7 @@ const ArtistCardArea = () => {
     >
       {artist.map((a) => (
         <>
-          <ArtistCard name={a.name} image={a.image[3]["#text"]} />
+          <ArtistCard key={a.id} name={a.name} image={a.image[3]["#text"]} />
         </>
       ))}
     </div>
