@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FaBars, FaTimes } from "react-icons/fa";
 import useUserStore from "../store/userStore";
 
 const NavigationLayout = styled.div`
@@ -15,10 +16,49 @@ const NavigationLayout = styled.div`
   z-index: 999;
 `;
 
+const MenuIcon = styled.div`
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const NavMenu = styled.ul`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 0;
+  }
+`;
+
+const NavItem = styled.li`
+  padding-right: 1rem;
+  font-weight: ${({ isActive }) => (isActive ? "bold" : "normal")};
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+  }
+`;
+
 const Navigation = () => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLoginClick = () => {
     navigate("/login");
@@ -31,6 +71,10 @@ const Navigation = () => {
 
   const handleProfileClick = () => {
     navigate("/ProfilePage");
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
@@ -60,98 +104,76 @@ const Navigation = () => {
           </div>
         </div>
 
-        <div style={{ fontSize: "20px", display: "flex" }}>
-          <ul
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
+        <MenuIcon onClick={toggleMenu}>
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </MenuIcon>
+
+        <NavMenu isOpen={menuOpen}>
+          <NavItem
+            isActive={location.pathname === "/"}
+            onClick={() => {
+              navigate("/");
+              setMenuOpen(false);
             }}
           >
-            <li
-              style={{
-                paddingRight: "1rem",
-                fontWeight: location.pathname === "/" ? "bold" : "normal",
-                cursor: "pointer",
-              }}
-              onClick={() => navigate("/")}
-            >
-              홈
-            </li>
+            홈
+          </NavItem>
 
-            {!user?.isAdmin && (
-              <>
-                <li
-                  style={{
-                    paddingRight: "1rem",
-                    fontWeight:
-                      location.pathname === "/artist" ? "bold" : "normal",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate("/artist")}
-                >
-                  아티스트
-                </li>
-                <li
-                  style={{
-                    fontWeight:
-                      location.pathname === "/schedule" ? "bold" : "normal",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate("/schedule")}
-                >
-                  스케줄
-                </li>
-              </>
-            )}
+          {!user?.isAdmin && (
+            <>
+              <NavItem
+                isActive={location.pathname === "/artist"}
+                onClick={() => {
+                  navigate("/artist");
+                  setMenuOpen(false);
+                }}
+              >
+                아티스트
+              </NavItem>
+              <NavItem
+                isActive={location.pathname === "/schedule"}
+                onClick={() => {
+                  navigate("/schedule");
+                  setMenuOpen(false);
+                }}
+              >
+                스케줄
+              </NavItem>
+            </>
+          )}
 
-            {user?.isAdmin && (
-              <>
-                <li
-                  style={{
-                    paddingRight: "1rem",
-                    fontWeight:
-                      location.pathname === "/artist-management"
-                        ? "bold"
-                        : "normal",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate("/artist-management")}
-                >
-                  아티스트 관리
-                </li>
-                <li
-                  style={{
-                    fontWeight:
-                      location.pathname === "/schedule-management"
-                        ? "bold"
-                        : "normal",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate("/schedule-management")}
-                >
-                  스케줄 관리
-                </li>
-              </>
-            )}
-          </ul>
+          {user?.isAdmin && (
+            <>
+              <NavItem
+                isActive={location.pathname === "/artist-management"}
+                onClick={() => {
+                  navigate("/artist-management");
+                  setMenuOpen(false);
+                }}
+              >
+                아티스트 관리
+              </NavItem>
+              <NavItem
+                isActive={location.pathname === "/schedule-management"}
+                onClick={() => {
+                  navigate("/schedule-management");
+                  setMenuOpen(false);
+                }}
+              >
+                스케줄 관리
+              </NavItem>
+            </>
+          )}
 
           {user ? (
-            <ul
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                paddingLeft: "3rem",
-              }}
-            >
+            <>
               {user.isAdmin ? (
-                <li style={{ marginRight: "1rem", fontWeight: "bold" }}>
+                <NavItem style={{ fontWeight: "bold" }}>
                   {user.nickname} 관리자님
-                </li>
+                </NavItem>
               ) : (
                 <>
-                  <li>
+                  <NavItem onClick={handleProfileClick}>
                     <button
                       style={{
                         borderRadius: "50%",
@@ -159,12 +181,11 @@ const Navigation = () => {
                         height: "50px",
                         padding: "0",
                       }}
-                      onClick={handleProfileClick}
                     >
                       👤
                     </button>
-                  </li>
-                  <li>
+                  </NavItem>
+                  <NavItem>
                     <button
                       style={{
                         borderRadius: "50%",
@@ -175,10 +196,10 @@ const Navigation = () => {
                     >
                       🔔
                     </button>
-                  </li>
+                  </NavItem>
                 </>
               )}
-              <li>
+              <NavItem onClick={handleLogoutClick}>
                 <button
                   style={{
                     background: "none",
@@ -187,26 +208,26 @@ const Navigation = () => {
                     fontWeight: "bold",
                     marginLeft: "1rem",
                   }}
-                  onClick={handleLogoutClick}
                 >
                   로그아웃
                 </button>
-              </li>
-            </ul>
+              </NavItem>
+            </>
           ) : (
-            <button
-              style={{
-                background: "none",
-                fontSize: "16px",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-              onClick={handleLoginClick}
-            >
-              로그인
-            </button>
+            <NavItem onClick={handleLoginClick}>
+              <button
+                style={{
+                  background: "none",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                로그인
+              </button>
+            </NavItem>
           )}
-        </div>
+        </NavMenu>
       </NavigationLayout>
       <div style={{ height: "5rem" }} />
     </>
