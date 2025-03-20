@@ -1,69 +1,51 @@
 import axios from "axios";
-import { saveToken } from "../utils/authUtils";
+import { saveToken, getToken } from "../utils/authUtils";
 import useUserStore from "../store/userStore";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
-const USE_BACKEND = true; // 백엔드 활성화 여부
+const USE_BACKEND = false; // 백엔드 활성화 여부
 
 // 소셜 로그인 요청 URL (프론트에서 클릭 시 이동하는 URL)
-export const GOOGLE_AUTH_URL = `${API_BASE_URL}/auth/google/login/`;
-export const KAKAO_AUTH_URL = `${API_BASE_URL}/auth/kakao/login/`;
-export const NAVER_AUTH_URL = `${API_BASE_URL}/auth/naver/login/`;
+export const GOOGLE_AUTH_URL = `${API_BASE_URL}/auth/google/callback/`;
+export const KAKAO_AUTH_URL = `${API_BASE_URL}/auth/kakao/callback/`; // 슬래시 추가
+export const NAVER_AUTH_URL = `${API_BASE_URL}/auth/naver/callback/`;
 
-// [소셜 로그인 후 백엔드에서 토큰 받아오기]
-export const exchangeSocialToken = async (provider, authCode) => {
+// 인가 코드 받아서 백엔드로 전송 후 액세스 & 리프레시 토큰 받기
+export const exchangeSocialToken = async (provider, authCode, navigate) => {
     if (USE_BACKEND) {
         try {
-            console.log(`🔹 ${provider} 로그인 코드 확인:`, authCode); // 디버깅용
+            console.log(`${provider} 로그인 코드 확인:`, authCode);
 
-            //  백엔드의 /auth/{provider}/callback/ 엔드포인트 호출
-            const response = await axios.get(`${API_BASE_URL}/auth/${provider}/callback/`, {
-                params: { code: authCode },
+            // 백엔드에 인가 코드 전달 (POST 요청)
+            const response = await axios.post(`${API_BASE_URL}/auth/${provider}/callback/`, {
+                code: authCode
             });
 
-            console.log(" 백엔드 응답:", response.data); // 디버깅용
+            console.log("백엔드 응답:", response.data);
 
-            if (response.data.token) {
-                saveToken(response.data.token); //  토큰 저장
+            // 백엔드에서 accessToken과 refreshToken을 함께 받음
+            const { access_token: accessToken, refresh_token: refreshToken, user } = response.data;
 
-                //  로그인 상태 업데이트 (스토어에 저장)
-                useUserStore.getState().login({
-                    id: response.data.id,
-                    email: response.data.email,
-                    nickname: response.data.nickname,
-                    profileImage: response.data.image_url, //  프로필 이미지 저장
-                    provider: provider, //  로그인 제공자 정보 저장
-                });
+            if (accessToken && refreshToken) {
+                saveToken(accessToken, refreshToken);
+                useUserStore.getState().login(user, accessToken, refreshToken);
+                console.log("로그인 성공! 사용자 정보 저장됨:", user);
+                console.log("저장된 액세스 토큰:", getToken());
+            }
 
-                console.log("로그인 성공! 사용자 정보 저장됨:", response.data);
+            // 모든 과정이 완료된 후 페이지 이동
+            if (navigate) {
+                navigate("/");
             } else {
-                console.error("로그인 성공했지만 토큰 없음:", response.data);
+                console.warn("navigate 함수가 제공되지 않음. 페이지 이동 실패");
             }
 
             return response.data;
         } catch (error) {
-            console.error("소셜 로그인 실패:", error);
-            throw new Error(error.response?.data?.message || "소셜 로그인 실패");
+            const errorMessage = error.response?.data?.message || "소셜 로그인 중 예상치 못한 오류가 발생했습니다.";
+            console.error("소셜 로그인 실패:", errorMessage);
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
     }
-
-    //  목업 데이터 (테스트용)
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const mockData = {
-                token: `mock_social_token_${provider}`,
-                id: Math.floor(Math.random() * 1000),
-                email: `${provider}@mock.com`,
-                nickname: `${provider} 사용자`,
-                profileImage: "https://example.com/mock-profile.png",
-                provider: provider,
-            };
-
-            saveToken(mockData.token); //  목업 토큰 저장
-            useUserStore.getState().login(mockData); //  로그인 상태 업데이트
-            console.log("🎉 목업 로그인 성공! 사용자 정보 저장됨:", mockData);
-
-            resolve(mockData);
-        }, 1000);
-    });
 };
