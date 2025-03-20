@@ -49,7 +49,7 @@ const NavItem = styled.li`
   padding-right: 1rem;
   font-weight: ${({ isActive }) => (isActive ? "bold" : "normal")};
   cursor: pointer;
-
+  font-size: 1.2rem;
   @media (max-width: 768px) {
     padding: 1rem 0;
   }
@@ -229,7 +229,7 @@ const Navigation = () => {
                     fontSize: "16px",
                     cursor: "pointer",
                     fontWeight: "bold",
-                    marginLeft: "1rem",
+                    // marginLeft: "1rem",
                   }}
                 >
                   로그아웃
