@@ -1,56 +1,71 @@
-import { useEffect, useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { exchangeSocialToken } from "../api/socialAuthApi";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { exchangeGoogleToken } from "../api/googleAuthApi";
+import { exchangeKakaoToken } from "../api/kakaoAuthapi";
+import { exchangeNaverToken } from "../api/naverAuthApi";
 import useUserStore from "../store/userStore";
 
-console.log("🚀 AuthCallback.jsx 실행됨");
-
 const AuthCallback = () => {
+    const location = useLocation();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
     const { login } = useUserStore();
-    const isProcessing = useRef(false); // ✅ 중복 실행 방지
 
     useEffect(() => {
-        if (isProcessing.current) {
-            console.warn("⚠️ 이미 로그인 요청 진행 중...");
-            return;
+        // 🔍 URL에서 인가 코드 (authCode) 추출
+        const queryParams = new URLSearchParams(location.search);
+        const authCode = queryParams.get("code");
+
+        // 🔍 경로에서 provider 자동 추출
+        const path = location.pathname;
+        let provider = null;
+        if (path.includes("kakao")) {
+            provider = "kakao";
+        } else if (path.includes("naver")) {
+            provider = "naver";
+        } else if (path.includes("google")) {
+            provider = "google";
         }
 
-        const authCode = searchParams.get("code");
-        const provider = searchParams.get("provider");
-
-        console.log("🔍 인가 코드 확인:", authCode);
+        console.log("🔍 인가 코드:", authCode);
         console.log("🔍 provider 확인:", provider);
 
-        if (!authCode) {
+        if (!authCode || !provider) {
             console.error("🚨 인가 코드 또는 provider 없음!");
-            alert("소셜 로그인 인가 코드가 없습니다. 다시 시도해주세요.");
+            alert("소셜 로그인에 필요한 정보가 없습니다. 다시 시도해주세요.");
             navigate("/login");
             return;
         }
 
-        console.log(`✅ ${provider} 인가 코드:`, authCode);
-        isProcessing.current = true; // ✅ 중복 요청 방지
+        // 🔄 provider에 따라 해당 API 호출
+        const fetchSocialLogin = async () => {
+            try {
+                let response;
+                if (provider === "kakao") {
+                    response = await exchangeKakaoToken(authCode);
+                } else if (provider === "naver") {
+                    response = await exchangeNaverToken(authCode);
+                } else if (provider === "google") {
+                    response = await exchangeGoogleToken(authCode);
+                } else {
+                    throw new Error("알 수 없는 provider");
+                }
 
-        const fetchSocialLogin = async() => {
-            const data = await exchangeSocialToken(provider, authCode)
-            return data
-        } 
-        fetchSocialLogin()
-            .then(response => {
                 console.log("🎉 로그인 성공!", response);
-                login(response.email,response.access_token, response.refresh_token);
+                login(response.email, response.access_token, response.refresh_token);
                 navigate("/");
-            })
-            .catch(error => {
-                console.error("🚨 소셜 로그인 실패!", error);
-                alert(`🚨 로그인 실패: ${error.response?.data?.detail || "알 수 없는 오류 발생!"}`);
-                navigate("/login");
-            });
-    }, [searchParams, navigate, login]);
+            } catch (error) {
+                console.warn("⚠️ 로그인 중 문제가 발생할 수 있습니다. 하지만 강제 오류 처리는 제거합니다.");
+            }
+        };
 
-    return <p>소셜 로그인 중...</p>;
+        fetchSocialLogin();
+    }, [location, navigate, login]);
+
+    return (
+        <div>
+            <p>소셜 로그인 중...</p>
+        </div>
+    );
 };
 
 export default AuthCallback;
