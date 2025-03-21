@@ -2,7 +2,7 @@ import React from "react";
 
 const MyArtistFilter = () => {
   return (
-    <div style={{ minWidth: "300px" }}>
+    <div style={{ minWidth: "300px", marginLeft: "-10px" }}>
       <select>
         <option value="all">마이 아티스트</option>
         <option value="artist1">Artist 1</option>
