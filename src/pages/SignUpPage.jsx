@@ -4,8 +4,8 @@ import "../styles/SignupForm.css";
 import { FiEye, FiEyeOff } from 'react-icons/fi'; 
 import SocialLogin from "../components/SocialLogin";
 import { signupUser } from "../api/authApi";
-import useUserStore from "../store/userStore";
 import { Link } from "react-router-dom";
+import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존성 유효성 함수 불러오기
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -14,63 +14,65 @@ function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
-  const [birthYear, setBirthYear] = useState("");
+  const [age, setAge] = useState("");
+  const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
-  const [profileImage, setProfileImage] = useState(null);
 
-  // 독립적인 비밀번호 및 비밀번호 재확인 미리보기 상태
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!email.includes("@")) {
+    if (!isValidEmail(email)) {
       newErrors.email = "올바른 이메일 형식인지 확인해주세요.";
     }
-    if (password.length < 10 || password.length > 20) {
-      newErrors.password = "비밀번호는 최소 10자~20자로 입력해주세요.";
+    if (!isValidPassword(password)) {
+      newErrors.password = "비밀번호는 8자이상으로 설정해주세요";
     }
     if (password !== confirmPassword) {
-      newErrors.confirmPassword = "비밀번호를 다시 확인해주세요.";
+      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
     }
     if (!nickname) {
       newErrors.nickname = "닉네임을 입력해주세요.";
     }
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // 폼이 유효한지 확인
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-        console.log("회원가입 요청 데이터:", { email, password, nickname, gender, birthYear, profileImage });
+      const userData = {
+        email,
+        password,
+        nickname,
+        gender,
+        age,   // 수정 
+        image, // 수정 
+      };
 
-        try {
-            const response = await signupUser({
-                email,
-                password,
-                nickname,
-                gender,
-                birthYear,
-                profileImage
-            });
+      console.log("회원가입 요청 데이터:", userData);
 
-            console.log("회원가입 응답 데이터:", response);
+      try {
+        const response = await signupUser(userData);
+        console.log("회원가입 응답 데이터:", response);
 
-            navigate("/signup-completed", { state: { nickname, email, profileImage } });
-        } catch (error) {
-          console.error("회원가입 실패:", error.message);
-        }
+        navigate("/signup-completed", {
+          state: { nickname, email, image },
+        });
+      } catch (error) {
+        console.error("회원가입 실패:", error.message);
+      }
     }
-};
-  
+  };
+
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfileImage(reader.result);
+        setImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -79,15 +81,12 @@ function SignUpPage() {
   return (
     <form className="signup-form" onSubmit={handleSubmit}>
       <h1>회원가입</h1>
+
       <div className="form-group">
         <label>프로필 업로드 (선택)</label>
         <div className="profile-upload">
-          {profileImage ? (
-            <img
-              src={profileImage}
-              alt="프로필 미리보기"
-              className="profile-preview"
-            />
+          {image ? (
+            <img src={image} alt="프로필 미리보기" className="profile-preview" />
           ) : (
             <div className="default-profile-icon">📷</div>
           )}
@@ -110,10 +109,9 @@ function SignUpPage() {
         {errors.email && <p className="error">{errors.email}</p>}
       </div>
 
-      {/* 비밀번호 입력 */}
       <div className="form-group password-group">
         <input
-          type={passwordVisible ? 'text' : 'password'}
+          type={passwordVisible ? "text" : "password"}
           placeholder="비밀번호를 입력해주세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -124,10 +122,9 @@ function SignUpPage() {
         </span>
       </div>
 
-      {/* 비밀번호 재확인 입력 */}
       <div className="form-group password-group">
         <input
-          type={confirmPasswordVisible ? 'text' : 'password'}
+          type={confirmPasswordVisible ? "text" : "password"}
           placeholder="비밀번호를 재입력해주세요"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -140,7 +137,6 @@ function SignUpPage() {
         </span>
       </div>
 
-      {/* 닉네임 입력 */}
       <div className="form-group nickname-group">
         <input
           type="text"
@@ -152,14 +148,13 @@ function SignUpPage() {
         {errors.nickname && <p className="error">{errors.nickname}</p>}
       </div>
 
-      {/* 성별 및 출생년도 */}
       <div className="form-group birth-info">
         <select value={gender} onChange={(e) => setGender(e.target.value)} className="birth-select">
           <option value="">성별 (선택)</option>
           <option value="male">남성</option>
           <option value="female">여성</option>
         </select>
-        <select value={birthYear} onChange={(e) => setBirthYear(e.target.value)} className="birth-select">
+        <select value={age} onChange={(e) => setAge(e.target.value)} className="birth-select">
           <option value="">출생년도 (선택)</option>
           {[...Array(100)].map((_, i) => (
             <option key={i} value={1925 + i}>
@@ -169,7 +164,6 @@ function SignUpPage() {
         </select>
       </div>
 
-      {/* 약관 동의 */}
       <div>
         <label>
           <input type="checkbox" required />{" "}
@@ -177,11 +171,9 @@ function SignUpPage() {
         </label>
       </div>
 
-      {/* 회원가입 버튼 */}
       <button type="submit" className="submit-button">회원가입</button>
 
-      {/* 간편 회원가입 */}
-      <SocialLogin/>
+      <SocialLogin />
     </form>
   );
 }

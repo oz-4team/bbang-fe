@@ -26,22 +26,18 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // 기존 오류 초기화
-
+  
     if (!isValidEmail(email)) return setError("올바른 이메일을 입력하세요.");
     if (!isValidPassword(password)) return setError("비밀번호는 최소 8자 이상이어야 합니다.");
-
+  
     try {
       const { user, access, refresh } = await loginUser(email, password);
+  
       login(user, access, refresh); // Zustand에 유저 정보 저장
-
-      console.log(" 로그인 성공:", user);
-
-      // 로그인 후 페이지 이동 (관리자 여부 확인)
-      if (user.isAdmin) {
-        navigate("/");
-      } else {
-        navigate("/");
-      }
+      console.log("로그인 성공:", user);
+  
+      // 관리자 여부 관계없이 홈으로 이동
+      navigate("/");
     } catch (err) {
       console.error("로그인 실패:", err.message);
       setError(err.message || "로그인 중 오류가 발생했습니다.");
