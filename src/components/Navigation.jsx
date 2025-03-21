@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../assets/images/idolsycn-logo.png";
 import useUserStore from "../store/userStore";
 
 const NavigationLayout = styled.div`
@@ -62,7 +63,7 @@ const NavItem = styled.li.attrs(({ $isactive }) => ({
 const Navigation = () => {
   const { user, logout } = useUserStore();
   console.log("✅ 현재 user 정보:", user);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -89,7 +90,7 @@ const Navigation = () => {
       <NavigationLayout>
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            src="../src/assets/images/idolsycn-logo.png"
+            src={logo}
             alt="idolsync"
             style={{
               width: "40px",
