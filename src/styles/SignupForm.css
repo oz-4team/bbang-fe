@@ -98,29 +98,6 @@ select:focus {
     border-radius: 5px;
   }
   
-  /* 중복 확인 버튼 */
-  .nickname-check {
-    position: absolute;
-    right: 20px; /* 입력 필드의 오른쪽 끝에 배치 */
-    top: 55%; /* 수직 중앙 정렬 */
-    transform: translateY(-50%);
-    height: 30px;
-    padding: 0 10px;
-    background-color: #ccc;
-    border: none;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-  }
-  
-  .nickname-check:hover {
-    background-color: #bbb;
-  }
-  
-  .nickname-check.disabled {
-    background-color: #eee;
-  }
-  
   .error {
     color: red;
   }
