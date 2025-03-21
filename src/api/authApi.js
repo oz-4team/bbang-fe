@@ -17,7 +17,11 @@ export const loginUser = async (email, password) => {
                 if (response.data.user) {
                     useUserStore.getState().login(response.data.user, response.data.access, response.data.refresh);
                 }
-                return response.data;
+                return {
+                    user: response.data.user,
+                    access: response.data.access,
+                    refresh: response.data.refresh,
+                  };
             }
         } catch (error) {
             throw new Error(error.response?.data?.message || "로그인 실패");
