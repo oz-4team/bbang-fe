@@ -28,6 +28,9 @@ const HomePage = () => {
             justifyContent: "space-between",
             paddingTop: "1rem",
             paddingBottom: "1rem",
+            flexWrap: "wrap",
+            width: "100%",
+            gap: "1rem",
           }}
         >
           <MyArtistFilter></MyArtistFilter>
@@ -39,6 +42,8 @@ const HomePage = () => {
               textAlign: "left",
               marginTop: "1rem",
               marginBottom: "1rem",
+              fontSize: "2rem",
+              fontWeight: "bold",
             }}
           >
             오늘의 스케줄

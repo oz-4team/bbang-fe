@@ -24,6 +24,7 @@ import AuthCallback from "./pages/AuthCallback";
 import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleEditPage from "./pages/ScheduleEditPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
+import TestSashaPage from "./pages/TestSashaPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
 import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료 
 
@@ -56,6 +57,7 @@ function App() {
               element={<ScheduleManagementPage />}
             />
             <Route path="/ProfilePage" element={<ProfilePage />} />
+            <Route path="/testsasha" element={<TestSashaPage />} />
           </Route>
 
           <Route element={<EmptyLayout />}>

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { TiArrowSortedDown } from "react-icons/ti";
-import Modal from "./Modal";
+import Modal from "../components/Modal";
 
-const MyArtistFilter = () => {
+const TestSashaPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleclickMyArtistFilter = (e) => {
+
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   const handlePrimaryClick = () => {
     console.log("Primary button clicked");
     handleCloseModal();
@@ -22,26 +23,20 @@ const MyArtistFilter = () => {
   };
 
   return (
-    <>
-      <div>
-        <button
-          style={{
-            minWidth: "300px",
-            width: "100%",
-            height: "60px",
-            textAlign: "left",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          onClick={handleclickMyArtistFilter}
-        >
-          마이 아티스트
-          <span style={{ marginLeft: "auto" }}>
-            <TiArrowSortedDown />
-          </span>
-        </button>
-      </div>
+    <div>
+      {/* 모달 기본 템플릿 */}
+      {/* <button onClick={handleOpenModal}>Open Modal</button>
+      {isModalOpen && (
+        <Modal
+          title="Modal Title"
+          description="This is the modal description."
+          primaryButtonText="Confirm"
+          //   secondaryButtonText="Cancel"
+          onPrimaryClick={handlePrimaryClick}
+          onSecondaryClick={handleSecondaryClick}
+        />
+      )} */}
+      <button onClick={handleOpenModal}>모달오픈</button>
       {isModalOpen && (
         <Modal
           title="로그인이 필요해요 ☺️"
@@ -52,8 +47,8 @@ const MyArtistFilter = () => {
           onSecondaryClick={handleSecondaryClick}
         />
       )}
-    </>
+    </div>
   );
 };
 
-export default MyArtistFilter;
+export default TestSashaPage;
