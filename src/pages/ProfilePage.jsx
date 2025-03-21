@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import useUserStore from "../store/userStore";
 import "../styles/Profile.css";
 
+// PasswordInput 컴포넌트
 const PasswordInput = ({ label, id, value, onChange, error }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,8 +24,9 @@ const PasswordInput = ({ label, id, value, onChange, error }) => {
           onChange={onChange}
           placeholder="**********"
           className="password-input"
+          autoComplete="off"
         />
-        <button
+        <span
           type="button"
           className="toggle-password-btn"
           onClick={togglePasswordVisibility}
@@ -34,85 +36,63 @@ const PasswordInput = ({ label, id, value, onChange, error }) => {
           ) : (
             <FiEye className="password-icon" />
           )}
-        </button>
+        </span>
       </div>
       {error && <p className="error-text">{error}</p>}
     </div>
   );
 };
 
+// 메인 컴포넌트
 const ProfilePage = () => {
   const { user, logout } = useUserStore();
-
-  if (!user) {
-    return null;
-  }
   const navigate = useNavigate();
 
-  const [userEmail, setUserEmail] = useState("user@example.com");
+  const [userEmail, setUserEmail] = useState("");
   const [userNickname, setUserNickname] = useState("");
-  const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [profileImage, setProfileImage] = useState(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    // 여기서 서버로부터 사용자 정보를 가져오는 API 호출을 할 수 있습니다.
-    // 예: fetchUserData();
-  }, []);
-
-  const checkDuplicateNickname = async () => {
-    if (!userNickname.trim()) {
-      alert("닉네임을 입력해주세요.");
-      return;
+    if (user) {
+      setUserEmail(user.email || "user@example.com");
+      setUserNickname(user.nickname || "");
+      // TODO: 필요하면 사용자 프로필 정보 더 불러오기
     }
+  }, [user]);
 
-    setLoading(true);
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const isDuplicate = Math.random() < 0.5;
-
-      if (isDuplicate) {
-        alert("이미 사용 중인 닉네임입니다.");
-      } else {
-        alert("사용 가능한 닉네임입니다.");
-      }
-    } catch (error) {
-      console.error("Error checking nickname:", error);
-      alert("닉네임 중복 확인 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!user) return null;
 
   const validateForm = () => {
+    const newErrors = {};
     let isValid = true;
-    let errorMessage = "";
 
     if (!userNickname.trim()) {
+      newErrors.nickname = "닉네임을 입력해주세요.";
       isValid = false;
-      errorMessage += "닉네임을 입력해주세요.\n";
     }
 
     if (!currentPassword) {
+      newErrors.currentPassword = "현재 비밀번호를 입력해주세요.";
       isValid = false;
-      errorMessage += "현재 비밀번호를 입력해주세요.\n";
     }
 
     if (newPassword || confirmPassword) {
       if (newPassword.length < 8) {
+        newErrors.newPassword = "새 비밀번호는 8자 이상이어야 합니다.";
         isValid = false;
-        errorMessage += "새 비밀번호는 8자 이상이어야 합니다.\n";
       }
       if (newPassword !== confirmPassword) {
+        newErrors.confirmPassword = "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.";
         isValid = false;
-        errorMessage += "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.\n";
       }
     }
 
-    return { isValid, errorMessage };
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleProfileImageChange = (e) => {
@@ -128,37 +108,27 @@ const ProfilePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { isValid, errorMessage } = validateForm();
+    if (!validateForm()) return;
 
-    if (!isValid) {
-      alert(errorMessage);
-    } else {
-      if (
-        window.confirm(
-          "프로필이 성공적으로 업데이트되었습니다. 확인 버튼을 누르면 홈페이지로 이동합니다."
-        )
-      ) {
-        console.log("프로필 업데이트 로직 실행");
-        navigate("/");
-      }
-    }
+    // TODO: 서버에 업데이트 요청 보내기
+    alert("프로필이 성공적으로 업데이트되었습니다.");
+    navigate("/");
   };
 
   const handleDeleteAccount = () => {
     if (
-      window.confirm(
-        "정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다."
-      )
+      window.confirm("정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다.")
     ) {
-      // 사용자 정보 초기화
+      // TODO: 서버에 회원탈퇴 요청 보내기
+
       setUserEmail("");
       setUserNickname("");
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
       setProfileImage(null);
+      logout();
 
-      // 회원탈퇴 후 홈페이지로 이동
       alert("회원탈퇴가 완료되었습니다.");
       navigate("/");
     }
@@ -166,34 +136,33 @@ const ProfilePage = () => {
 
   return (
     <div className="page-container">
-      {/* <Navigation isLoggedIn={true} /> */}
       <div className="profile-page">
-        <div className="profile-picture">
-          <label
-            htmlFor="profile-image-upload"
-            className="profile-image-wrapper"
-          >
-            {profileImage ? (
-              <img src={profileImage} alt="Profile" className="profile-image" />
-            ) : (
-              <>
-                <img
-                  src="/icons/profile-placeholder.png"
-                  alt=""
-                  className="placeholder-icon"
-                />
-                <span className="change-image-text">프로필 사진</span>
-              </>
-            )}
-          </label>
-          <input
-            type="file"
-            id="profile-image-upload"
-            onChange={handleProfileImageChange}
-            accept="image/*"
-            style={{ display: "none" }}
-          />
-        </div>
+      <div className="profile-picture">
+        <label htmlFor="profile-image-upload" className="profile-image-wrapper">
+        <div className="image-preview">
+        <img
+        src={
+          profileImage
+            ? profileImage
+            : "/icons/profile-placeholder.png"
+        }
+        alt="프로필 사진"
+        className="profile-image"
+      />
+      <div className="overlay">
+        <span className="change-image-text">사진 변경</span>
+      </div>
+    </div>
+  </label>
+  <input
+    type="file"
+    id="profile-image-upload"
+    accept="image/*"
+    onChange={handleProfileImageChange}
+    style={{ display: "none" }}
+  />
+</div>
+
 
         <form className="profile-form" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -209,23 +178,14 @@ const ProfilePage = () => {
 
           <div className="form-group">
             <label htmlFor="nickname">닉네임</label>
-            <div className="input-with-button">
-              <input
-                type="text"
-                id="nickname"
-                value={userNickname}
-                onChange={(e) => setUserNickname(e.target.value)}
-                placeholder="닉네임"
-              />
-              <button
-                type="button"
-                className="check-duplicate-btn"
-                onClick={checkDuplicateNickname}
-                disabled={loading}
-              >
-                {loading ? "확인 중..." : "중복확인"}
-              </button>
-            </div>
+            <input
+              type="text"
+              id="nickname"
+              value={userNickname}
+              onChange={(e) => setUserNickname(e.target.value)}
+              placeholder="닉네임"
+            />
+            {errors.nickname && <p className="error-text">{errors.nickname}</p>}
           </div>
 
           <PasswordInput
@@ -233,18 +193,21 @@ const ProfilePage = () => {
             id="current-password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            error={errors.currentPassword}
           />
           <PasswordInput
             label="새로운 비밀번호"
             id="new-password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            error={errors.newPassword}
           />
           <PasswordInput
             label="비밀번호 재확인"
             id="confirm-password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            error={errors.confirmPassword}
           />
 
           <button type="submit" className="update-btn">
