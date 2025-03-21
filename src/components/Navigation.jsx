@@ -15,7 +15,7 @@ const NavigationLayout = styled.div`
   border-bottom: 1px solid #e9ecef;
   position: fixed;
   background-color: white;
-  z-index: 999;
+  z-index: 99;
 `;
 
 const MenuIcon = styled.div`
