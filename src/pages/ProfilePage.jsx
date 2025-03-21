@@ -147,7 +147,7 @@ const ProfilePage = () => {
             : "/icons/profile-placeholder.png"
         }
         alt="프로필 사진"
-        className="profile-image"
+        className="profile-image-edit"
       />
       <div className="overlay">
         <span className="change-image-text">사진 변경</span>
