@@ -31,8 +31,8 @@ function LoginPage() {
     if (!isValidPassword(password)) return setError("비밀번호는 최소 8자 이상이어야 합니다.");
 
     try {
-      const { token, user } = await loginUser(email, password); // 백엔드 API 요청
-      login(user, token); // Zustand에 유저 정보 저장
+      const { user, access, refresh } = await loginUser(email, password);
+      login(user, access, refresh); // Zustand에 유저 정보 저장
 
       console.log(" 로그인 성공:", user);
 

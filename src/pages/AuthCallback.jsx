@@ -51,7 +51,7 @@ const AuthCallback = () => {
                 }
 
                 console.log("🎉 로그인 성공!", response);
-                login(response.email, response.access_token, response.refresh_token);
+                login(response, response.access_token, response.refresh_token);
                 navigate("/");
             } catch (error) {
                 console.warn("⚠️ 로그인 중 문제가 발생할 수 있습니다. 하지만 강제 오류 처리는 제거합니다.");

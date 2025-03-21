@@ -56,7 +56,6 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
     } catch (error) {
         const errorMessage = error.response?.data?.message || "🚨 Google 소셜 로그인 중 오류 발생";
         console.error("🚨 Google 소셜 로그인 실패:", errorMessage);
-        alert(errorMessage);
         throw new Error(errorMessage);
     }
 };
