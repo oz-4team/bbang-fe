@@ -1,9 +1,10 @@
 import React from "react";
 import Calendar from "react-calendar";
+
 import styled from "styled-components";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
-
+import "../styles/calendar.css";
 const SchedulePage = () => {
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
@@ -80,7 +81,14 @@ const SchedulePage = () => {
           }}
         >
           <CalendarContainer>
-            <Calendar />
+            <Calendar
+              calendarType="gregory"
+              view="month"
+              prev2Label={null}
+              next2Label={null}
+
+              // onClickDay={navigateToDetails}
+            />
           </CalendarContainer>
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>

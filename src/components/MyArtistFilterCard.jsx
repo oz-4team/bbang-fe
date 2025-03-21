@@ -9,6 +9,7 @@ const MyArtistFilterCard = () => {
           width: "4rem",
           height: "4rem",
           borderRadius: "50%",
+          objectFit: "cover",
         }}
       />
 
