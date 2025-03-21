@@ -4,7 +4,7 @@ import useUserStore from "../store/userStore";
 
 // 백엔드 API URL 설정
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
-const USE_BACKEND = false; // 백엔드 활성화 여부 (false면 목업 데이터 사용)
+const USE_BACKEND = true; // 백엔드 활성화 여부 (false면 목업 데이터 사용)
 
 // [1] 로그인 (백엔드 API or 목업 데이터)
 export const loginUser = async (email, password) => {
@@ -109,7 +109,6 @@ export const signupUser = async (userData) => {
                     nickname: userData.nickname,
                     gender: userData.gender,
                     birthYear: userData.birthYear,
-                    is_active: true,
                 },
             });
         }, 1000);

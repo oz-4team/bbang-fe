@@ -41,11 +41,11 @@ const AuthCallback = () => {
             try {
                 let response;
                 if (provider === "kakao") {
-                    response = await exchangeKakaoToken(authCode);
+                    response = await exchangeKakaoToken(authCode,navigate);
                 } else if (provider === "naver") {
-                    response = await exchangeNaverToken(authCode);
+                    response = await exchangeNaverToken(authCode,navigate);
                 } else if (provider === "google") {
-                    response = await exchangeGoogleToken(authCode);
+                    response = await exchangeGoogleToken(authCode,navigate);
                 } else {
                     throw new Error("알 수 없는 provider");
                 }
