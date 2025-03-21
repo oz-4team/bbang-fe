@@ -14,9 +14,11 @@ const ScheduleCard = ({ artistname, name, image }) => {
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-        // border: "1px solid black",
         padding: "1rem 0",
+        transition: "transform 0.3s",
       }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
     >
       <div
         style={{
@@ -27,7 +29,15 @@ const ScheduleCard = ({ artistname, name, image }) => {
           overflow: "hidden",
         }}
       >
-        <img src={image} alt="" />
+        <img
+          src={image}
+          alt=""
+          style={{
+            width: "100%",
+            height: "auto",
+            objectFit: "cover",
+          }}
+        />
       </div>
       <div
         style={{

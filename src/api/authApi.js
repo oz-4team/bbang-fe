@@ -1,6 +1,6 @@
 import axios from "axios";
-import { saveToken, removeToken } from "../utils/authUtils";
 import useUserStore from "../store/userStore";
+import { removeToken, saveToken } from "../utils/authUtils";
 
 // 백엔드 API URL 설정
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
@@ -9,34 +9,43 @@ const USE_BACKEND = true; // 백엔드 활성화 여부 (false면 목업 데이�
 // [1] 로그인 (백엔드 API or 목업 데이터)
 export const loginUser = async (email, password) => {
     if (USE_BACKEND) {
-      try {
-        const response = await axios.post(`${API_BASE_URL}/login/`, { email, password });
-  
-        if (response.data.access && response.data.refresh) {
-          saveToken(response.data.access, response.data.refresh);
-  
-          // 유저 정보 수동 추출
-          const userInfo = {
-            email: response.data.email,
-            nickname: response.data.nickname,
-            is_staff: response.data.is_staff,
-            image: response.data.image // optional
-          };
-  
-          // Zustand에 로그인 상태 저장
-          useUserStore.getState().login(userInfo, response.data.access, response.data.refresh);
-  
-          return {
-            user: userInfo,
-            access: response.data.access,
-            refresh: response.data.refresh,
-          };
+        try {
+            const response = await axios.post(`${API_BASE_URL}/login/`, { email, password });
+
+            if (response.data.access && response.data.refresh) {
+                saveToken(response.data.access, response.data.refresh);
+                console.log("🔑ddddddd 저장된 액세스 토큰:", response.data.access);
+                console.log("🔑ddddddd 저장된 액세스 response:", response);
+
+                const accessTokenParts = response.data.refresh.split('.');
+                if (accessTokenParts.length === 3) {
+                    const base64Url = accessTokenParts[1];
+                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    const decodedPayload = JSON.parse(atob(base64));
+                    console.log("🔓 디코딩된 페이로드:", decodedPayload);
+                }
+                // 유저 정보 수동 추출
+                const userInfo = {
+                    email: response.data.email,
+                    nickname: response.data.nickname,
+                    is_staff: response.data.is_staff,
+                    image: response.data.image // optional
+                };
+
+                // Zustand에 로그인 상태 저장
+                useUserStore.getState().login(userInfo, response.data.access, response.data.refresh);
+
+                return {
+                    user: userInfo,
+                    access: response.data.access,
+                    refresh: response.data.refresh,
+                };
+            }
+        } catch (error) {
+            throw new Error(error.response?.data?.message || "로그인 실패");
         }
-      } catch (error) {
-        throw new Error(error.response?.data?.message || "로그인 실패");
-      }
-    }  
-  };
+    }
+};
 
 // [2] 로그아웃
 export const logoutUser = async () => {

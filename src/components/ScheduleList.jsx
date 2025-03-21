@@ -10,7 +10,7 @@ const ScheduleList = () => {
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-        maxHeight: "700px",
+        // maxHeight: "700px",
         overflow: "scroll",
       }}
     >
