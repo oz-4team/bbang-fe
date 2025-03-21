@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/idolsycn-logo.png";
 import useUserStore from "../store/userStore";
 
 const Footer = () => {
@@ -37,7 +38,7 @@ const Footer = () => {
         >
           <div>
             <img
-              src="../src/assets/images/idolsycn-logo.png"
+              src={logo}
               alt="idol sync"
               style={{
                 width: "50px",

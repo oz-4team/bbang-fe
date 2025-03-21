@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
+import bigbangImage from "../assets/images/bigbang.png";
+import ygImage from "../assets/images/yg.png";
 
 const ArtistInfo = () => {
   const [favoriteArtist, setFavoriteArtist] = useState(false);
@@ -39,7 +41,7 @@ const ArtistInfo = () => {
         <div style={{ fontSize: "1.5rem" }}>아티스트명</div>
         <div>
           <img
-            src="/src/assets/images/yg.png"
+            src={ygImage}
             alt="Artist"
             style={{
               maxWidth: "200px",
@@ -49,7 +51,7 @@ const ArtistInfo = () => {
         </div>
         <div>
           <img
-            src="/src/assets/images/bigbang.png"
+            src={bigbangImage}
             alt="Artist"
             style={{
               maxWidth: "200px",
