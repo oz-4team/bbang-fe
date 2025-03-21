@@ -13,6 +13,7 @@ const MyArtistFilterCard = () => {
           objectFit: "cover",
         }}
       />
+
       <div>싸이</div>
     </div>
   );

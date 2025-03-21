@@ -1,7 +1,7 @@
 import React from "react";
+import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import CalendarLayout from "../components/Calendar";
 import ScheduleList from "../components/ScheduleList";
 
 const ScheduleManagementPage = () => {
@@ -76,7 +76,7 @@ const ScheduleManagementPage = () => {
           }}
         >
           <CalendarContainer>
-            <CalendarLayout />
+            <Calendar />
           </CalendarContainer>
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>

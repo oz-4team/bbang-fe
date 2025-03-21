@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
-import { signupUser } from "../api/authApi";
-import SocialLogin from "../components/SocialLogin";
+import { useNavigate } from "react-router-dom";
 import "../styles/SignupForm.css";
+import { FiEye, FiEyeOff } from 'react-icons/fi'; 
+import SocialLogin from "../components/SocialLogin";
+import { signupUser } from "../api/authApi";
+import useUserStore from "../store/userStore";
+import { Link } from "react-router-dom";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -37,37 +39,40 @@ function SignUpPage() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // 폼이 유효한지 확인
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      const formData = new FormData();
-      formData.append("email", email);
-      formData.append("password", password);
-      formData.append("nickname", nickname);
-      formData.append("gender", gender);
-      formData.append("birthYear", birthYear);
-      if (profileImage) {
-        formData.append("profileImage", profileImage);
-      }
+        console.log("회원가입 요청 데이터:", { email, password, nickname, gender, birthYear, profileImage });
 
-      try {
-        const response = await signupUser(formData);
-        console.log("회원가입 응답 데이터:", response);
+        try {
+            const response = await signupUser({
+                email,
+                password,
+                nickname,
+                gender,
+                birthYear,
+                profileImage
+            });
 
-        navigate("/signup-completed", {
-          state: { nickname, email, profileImage },
-        });
-      } catch (error) {
-        console.error("회원가입 실패:", error.message);
-      }
+            console.log("회원가입 응답 데이터:", response);
+
+            navigate("/signup-completed", { state: { nickname, email, profileImage } });
+        } catch (error) {
+          console.error("회원가입 실패:", error.message);
+        }
     }
-  };
-
+};
+  
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfileImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -108,16 +113,13 @@ function SignUpPage() {
       {/* 비밀번호 입력 */}
       <div className="form-group password-group">
         <input
-          type={passwordVisible ? "text" : "password"}
+          type={passwordVisible ? 'text' : 'password'}
           placeholder="비밀번호를 입력해주세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         {errors.password && <p className="error">{errors.password}</p>}
-        <span
-          className="password-toggle"
-          onClick={() => setPasswordVisible(!passwordVisible)}
-        >
+        <span className="password-toggle" onClick={() => setPasswordVisible(!passwordVisible)}>
           {passwordVisible ? <FiEyeOff /> : <FiEye />}
         </span>
       </div>
@@ -125,7 +127,7 @@ function SignUpPage() {
       {/* 비밀번호 재확인 입력 */}
       <div className="form-group password-group">
         <input
-          type={confirmPasswordVisible ? "text" : "password"}
+          type={confirmPasswordVisible ? 'text' : 'password'}
           placeholder="비밀번호를 재입력해주세요"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -133,10 +135,7 @@ function SignUpPage() {
         {errors.confirmPassword && (
           <p className="error">{errors.confirmPassword}</p>
         )}
-        <span
-          className="password-toggle"
-          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-        >
+        <span className="password-toggle" onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
           {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
         </span>
       </div>
@@ -155,20 +154,12 @@ function SignUpPage() {
 
       {/* 성별 및 출생년도 */}
       <div className="form-group birth-info">
-        <select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          className="birth-select"
-        >
+        <select value={gender} onChange={(e) => setGender(e.target.value)} className="birth-select">
           <option value="">성별 (선택)</option>
           <option value="male">남성</option>
           <option value="female">여성</option>
         </select>
-        <select
-          value={birthYear}
-          onChange={(e) => setBirthYear(e.target.value)}
-          className="birth-select"
-        >
+        <select value={birthYear} onChange={(e) => setBirthYear(e.target.value)} className="birth-select">
           <option value="">출생년도 (선택)</option>
           {[...Array(100)].map((_, i) => (
             <option key={i} value={1925 + i}>
@@ -182,20 +173,15 @@ function SignUpPage() {
       <div>
         <label>
           <input type="checkbox" required />{" "}
-          <Link to="/privacy" className="terms-link">
-            이용약관, 개인정보처리방침
-          </Link>
-          에 동의
+          <Link to="/privacy" className="terms-link">이용약관, 개인정보처리방침</Link>에 동의
         </label>
       </div>
 
       {/* 회원가입 버튼 */}
-      <button type="submit" className="submit-button">
-        회원가입
-      </button>
+      <button type="submit" className="submit-button">회원가입</button>
 
       {/* 간편 회원가입 */}
-      <SocialLogin />
+      <SocialLogin/>
     </form>
   );
 }

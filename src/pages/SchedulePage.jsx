@@ -1,11 +1,10 @@
 import React from "react";
+import Calendar from "react-calendar";
 
 import styled from "styled-components";
-import CalendarLayout from "../components/Calendar";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
 import "../styles/calendar.css";
-
 const SchedulePage = () => {
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
@@ -82,7 +81,18 @@ const SchedulePage = () => {
           }}
         >
           <CalendarContainer>
-            <CalendarLayout />
+            <Calendar
+              calendarType="gregory"
+              locale="ko"
+              view="month"
+              prev2Label={null}
+              next2Label={null}
+              formatDay={(locale, date) =>
+                date.toLocaleString("en", { day: "numeric" })
+              }
+
+              // onClickDay={navigateToDetails}
+            />
           </CalendarContainer>
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>
