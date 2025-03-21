@@ -8,7 +8,7 @@ const Footer = () => {
 
   const handleAdminRequestClick = () => {
     window.location.href = "/adminrequest";
-  }
+  };
   const handleHomeClick = () => {
     navigate("/");
   };
@@ -70,19 +70,19 @@ const Footer = () => {
                   paddingBottom: "2rem",
                 }}
               >
-                <li 
+                <li
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleHomeClick}
                 >
                   홈
                 </li>
-                <li 
+                <li
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleArtistClick}
                 >
                   {user?.isAdmin ? "아티스트 관리" : "아티스트"}
                 </li>
-                <li 
+                <li
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleScheduleClick}
                 >
@@ -117,7 +117,7 @@ const Footer = () => {
           <div style={{ textAlign: "right" }}>
             <div>제휴/광고 문의</div>
             <div>
-              <div>aaaa@naver.com</div>
+              <div>info@idolsync.com</div>
             </div>
           </div>
         </div>
