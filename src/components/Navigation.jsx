@@ -61,6 +61,8 @@ const NavItem = styled.li.attrs(({ $isactive }) => ({
 
 const Navigation = () => {
   const { user, logout } = useUserStore();
+  console.log("✅ 현재 user 정보:", user);
+  
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -124,7 +126,7 @@ const Navigation = () => {
             홈
           </NavItem>
 
-          {!user?.isAdmin && (
+          {!user?.is_staff && (
             <>
               <NavItem
                 $isactive={location.pathname === "/artist"}
@@ -147,7 +149,7 @@ const Navigation = () => {
             </>
           )}
 
-          {user?.isAdmin && (
+          {user?.is_staff && (
             <>
               <NavItem
                 $isactive={location.pathname === "/artist-management"}
@@ -176,7 +178,7 @@ const Navigation = () => {
 
           {user ? (
             <>
-              {user.isAdmin ? (
+              {user.is_staff ? (
                 <NavItem style={{ fontWeight: "bold" }}>
                   {user.nickname} 관리자님
                 </NavItem>
@@ -237,7 +239,6 @@ const Navigation = () => {
                     fontSize: "16px",
                     cursor: "pointer",
                     fontWeight: "bold",
-                    // marginLeft: "1rem",
                   }}
                 >
                   로그아웃
