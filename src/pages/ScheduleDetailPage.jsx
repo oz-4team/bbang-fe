@@ -15,6 +15,12 @@ const ScheduleDetailPage = () => {
   const [starred, setStarred] = useState(false);
   const { user, logout } = useUserStore();
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert("URL이 클립보드에 복사되었습니다.");
+    });
+  };
+
   const toggleStar = () => {
     setStarred(!starred);
   };
@@ -134,6 +140,7 @@ const ScheduleDetailPage = () => {
               alignItems: "center",
               // backgroundColor: "none",
             }}
+            onClick={copyToClipboard}
           >
             <div
               style={{

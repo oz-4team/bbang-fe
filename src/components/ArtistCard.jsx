@@ -19,7 +19,7 @@ const ArtistCard = ({ name, image }) => {
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-        // border: "1px solid black",
+
         padding: "1rem",
         cursor: "pointer",
       }}
