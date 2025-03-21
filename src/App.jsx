@@ -78,7 +78,6 @@ function App() {
             <Route path="/auth/kakao/callback" element={<AuthCallback />}/>
             <Route path="/auth/naver/callback" element={<AuthCallback />}/>
             <Route path="/auth/google/callback" element={<AuthCallback />}/>
-            <Route path="/auth/callback" element={<AuthCallback />} />
           </Route>
         </Routes>
       </Router>
