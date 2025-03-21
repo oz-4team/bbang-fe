@@ -61,8 +61,7 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
 
             return response.data;
         } catch (error) {
-            console.warn("⚠️ Kakao 소셜 로그인 중 문제가 발생할 수 있습니다.");
-            alert(`🚨 로그인 실패: ${error.message || "알 수 없는 오류 발생"}`);
+            console.error("🚨 Kakao 로그인 처리 중 오류 발생:", error);
         }
     }
 };
