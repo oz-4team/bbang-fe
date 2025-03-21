@@ -22,7 +22,10 @@ const ArtistCard = ({ name, image }) => {
 
         padding: "1rem",
         cursor: "pointer",
+        transition: "transform 0.3s",
       }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
     >
       <div
         style={{
