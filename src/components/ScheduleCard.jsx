@@ -14,7 +14,6 @@ const ScheduleCard = ({ artistname, name, image }) => {
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-        // border: "1px solid black",
         padding: "1rem 0",
       }}
     >
@@ -27,7 +26,15 @@ const ScheduleCard = ({ artistname, name, image }) => {
           overflow: "hidden",
         }}
       >
-        <img src={image} alt="" />
+        <img
+          src={image}
+          alt=""
+          style={{
+            width: "100%",
+            height: "auto",
+            objectFit: "cover",
+          }}
+        />
       </div>
       <div
         style={{
