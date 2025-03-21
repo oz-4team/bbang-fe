@@ -27,15 +27,15 @@ const MenuIcon = styled.div`
   }
 `;
 
-const NavMenu = styled.ul.attrs(({ isOpen }) => ({
-  "data-open": isOpen,
+const NavMenu = styled.ul.attrs(({ $isopen }) => ({
+  "data-open": $isopen,
 }))`
   display: flex;
   justify-content: space-around;
   align-items: center;
 
   @media (max-width: 768px) {
-    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+    display: ${({ $isopen }) => ($isopen ? "flex" : "none")};
     flex-direction: column;
     position: absolute;
     top: 60px;
@@ -47,11 +47,11 @@ const NavMenu = styled.ul.attrs(({ isOpen }) => ({
   }
 `;
 
-const NavItem = styled.li.attrs(({ isActive }) => ({
-  "data-active": isActive,
+const NavItem = styled.li.attrs(({ $isactive }) => ({
+  "data-active": $isactive,
 }))`
   padding-right: 1rem;
-  font-weight: ${({ isActive }) => (isActive ? "bold" : "normal")};
+  font-weight: ${({ $isactive }) => ($isactive ? "bold" : "normal")};
   cursor: pointer;
   font-size: 1.2rem;
   @media (max-width: 768px) {
@@ -115,9 +115,9 @@ const Navigation = () => {
           {menuOpen ? <FaTimes /> : <FaBars />}
         </MenuIcon>
 
-        <NavMenu isOpen={menuOpen}>
+        <NavMenu $isopen={menuOpen}>
           <NavItem
-            isActive={location.pathname === "/"}
+            $isactive={location.pathname === "/"}
             onClick={() => {
               navigate("/");
               setMenuOpen(false);
@@ -129,7 +129,7 @@ const Navigation = () => {
           {!user?.is_staff && (
             <>
               <NavItem
-                isActive={location.pathname === "/artist"}
+                $isactive={location.pathname === "/artist"}
                 onClick={() => {
                   navigate("/artist");
                   setMenuOpen(false);
@@ -138,7 +138,7 @@ const Navigation = () => {
                 아티스트
               </NavItem>
               <NavItem
-                isActive={location.pathname === "/schedule"}
+                $isactive={location.pathname === "/schedule"}
                 onClick={() => {
                   navigate("/schedule");
                   setMenuOpen(false);
@@ -152,7 +152,7 @@ const Navigation = () => {
           {user?.is_staff && (
             <>
               <NavItem
-                isActive={location.pathname === "/artist-management"}
+                $isactive={location.pathname === "/artist-management"}
                 onClick={() => {
                   navigate("/artist-management");
                   setMenuOpen(false);
@@ -161,7 +161,11 @@ const Navigation = () => {
                 아티스트 관리
               </NavItem>
               <NavItem
-                isActive={location.pathname === "/schedule-management"}
+                $isactive={
+                  location.pathname === "/schedule-management"
+                    ? "true"
+                    : "false"
+                }
                 onClick={() => {
                   navigate("/schedule-management");
                   setMenuOpen(false);

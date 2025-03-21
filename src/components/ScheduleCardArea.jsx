@@ -18,7 +18,7 @@ const ScheduleCardArea = () => {
       {artist.map((a) => (
         <>
           <ScheduleCard
-            key={a.id}
+            key={a.name}
             name={a.name}
             artistname={a.artist.name}
             image={a.image[3]["#text"]}
