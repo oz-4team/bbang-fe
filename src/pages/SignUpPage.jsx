@@ -54,6 +54,7 @@ function SignUpPage() {
         function (data) {
           alert("이미지 업로드에 성공했습니다.");
           console.log("이미지 업로드에 성공했습니다.", data.Location);
+          console.log("이미지 업로드에 성공했습니다. data", data);
           setImage(data.Location);
         },
         function (err) {

@@ -10,10 +10,10 @@ const useReadArtist = () => {
         setLoading(true);
         const readArtist = async () => {
             try {
-                const response = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Younha&api_key=a0edf990bd69f812e893d43caa06b542&format=json`);
+                const response = await axios.get(`http://seonhm.kr/artists/`);
                 console.log("response:", response);
                 console.log("response.data:", response.data);
-                const data = response.data.topalbums.album;
+                const data = response.data;
                 setArtist(data);
                 console.log("data:", data);
                 console.log("artist:", artist);
