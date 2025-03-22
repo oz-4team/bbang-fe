@@ -10,7 +10,7 @@ const useReadArtist = () => {
         setLoading(true);
         const readArtist = async () => {
             try {
-                const response = await axios.get(`/api/http://seonhm.kr/artists/`);
+                const response = await axios.get(`/api/artists/`);
                 console.log("response:", response);
                 console.log("response.data:", response.data);
                 const data = response.data;
