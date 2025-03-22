@@ -12,6 +12,7 @@ export default defineConfig({
         target: 'http://seonhm.kr/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
       }
 
 
