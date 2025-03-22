@@ -12,7 +12,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['aws-sdk'],
+      external: ['aws-sdk', '/src/assets/images/instagram-logo.svg'],
     },
   },
 })
