@@ -1,0 +1,73 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Github Repository 파일불러오기
+        uses: actions/checkout@v2
+
+      # - name: Repository 파일 확인
+      #   run: ls
+
+      - name: Install dependencies using npm ci s
+        run: npm ci
+
+      # - name: 의존성 설치
+      #   run: npm install
+
+      - name: 빌드하기
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_SUPABASE_PROJECT_URL }}
+          VITE_ANON_KEY: ${{ secrets.VITE_ANON_KEY }}
+
+          VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
+          VITE_KAKAO_REDIRECT_URI: ${{ secrets.VITE_KAKAO_REDIRECT_URI }}
+
+          VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
+          VITE_NAVER_REDIRECT_URI: ${{ secrets.VITE_NAVER_REDIRECT_URI }}
+
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_GOOGLE_REDIRECT_URI: ${{ secrets.VITE_GOOGLE_REDIRECT_URI }}
+
+      # - name: Debugging
+      #   run: |
+      #     ls
+      #     echo "------------"
+      #     cd dist
+      #     ls
+
+      - name: AWS Resource에 접근할 수 있게 AWS 인증 설정s
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: S3 기존 파일을 전체 삭제 및 업로드
+        run: |
+          aws s3 rm s3://bbangfe --recursive
+          aws s3 cp ./dist s3://bbangfe/ --recursive
+
+    #   - name: CloudFront 캐시 무효화
+    #     run: |
+    #       aws cloudfront create-invalidation --distribution-id E23UR2AV93H0V9 --paths "/*"
+
+    # aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+    # - name: Invalidate CloudFront cache
+    #   uses: jakejarvis/cloudfront-invalidate-action@master
+    #   with:
+    #     cloudfront-distribution-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+    #     paths: '/*'
+    #   env:
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_REGION: ${{ secrets.AWS_REGION }}
