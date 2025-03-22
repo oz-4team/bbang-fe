@@ -11,9 +11,14 @@ export default defineConfig({
   define: {
     'global': {},
   },
-  build: {
-    rollupOptions: {
-      external: [AWS],
+  // build: {
+  //   rollupOptions: {
+  //     external: [AWS],
+  //   },
+  // },
+  resolve: {
+    alias: {
+      "./runtimeConfig": "./runtimeConfig.browser",
     },
   },
 })
