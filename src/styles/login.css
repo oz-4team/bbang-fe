@@ -1,0 +1,115 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.profile-icon {
+  width: 150px;
+  height: auto;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 16px auto;
+}
+
+.service-name {
+  color: #5a67d8;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  margin-top: 20px;
+}
+
+.login-input {
+  width: calc(100% - 20px);
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: solid thin #cccccc;
+}
+
+.login-button {
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+}
+
+.login-button:hover {
+  background-color: #4c51bf;
+}
+
+.extra-links {
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.extra-links a {
+  color: #5a67d8;
+  text-decoration: none;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 20px); /* login-input과 동일한 너비 */
+  margin: 16px auto;
+  text-align: center;
+  color: #999;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  margin: 0 8px;
+}
+
+/* 소셜 로그인 버튼 스타일 */
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.social-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.social-button img {
+  width: 24px;
+}
+
+/* 네이버, 카카오, 구글 버튼 색상 */
+.naver {
+  background-color: #2DB400;
+}
+
+.kakao {
+  background-color: #FEE500;
+}
+
+.google {
+  background-color: white;
+  border: 1px solid #ccc;
+}
