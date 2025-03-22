@@ -16,7 +16,7 @@ jobs:
       # - name: Repository 파일 확인
       #   run: ls
 
-      - name: Install dependencies using npm ci s
+      - name: Install dependencies using npm ci
         run: npm ci
 
       # - name: 의존성 설치
@@ -44,7 +44,7 @@ jobs:
       #     cd dist
       #     ls
 
-      - name: AWS Resource에 접근할 수 있게 AWS 인증 설정s
+      - name: AWS Resource에 접근할 수 있게 AWS 인증 설정
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
