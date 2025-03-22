@@ -14,7 +14,7 @@ const NavigationLayout = styled.div`
   padding: 1rem;
   border-bottom: 1px solid #e9ecef;
   position: fixed;
-  background-color: white;
+  background-color: inherit;
   z-index: 99;
 `;
 
