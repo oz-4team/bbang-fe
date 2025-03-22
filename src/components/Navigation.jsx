@@ -108,7 +108,7 @@ const Navigation = () => {
             }}
             onClick={() => navigate("/")}
           >
-            IdolSync
+            IdolSync 🎶
           </div>
         </div>
 
