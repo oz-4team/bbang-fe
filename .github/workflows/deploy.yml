@@ -56,9 +56,11 @@ jobs:
           aws s3 rm s3://bbangfe --recursive
           aws s3 cp ./dist s3://bbangfe/ --recursive
 
-    #   - name: CloudFront 캐시 무효화
-    #     run: |
-    #       aws cloudfront create-invalidation --distribution-id E23UR2AV93H0V9 --paths "/*"
+      - name: CloudFront 캐시 무효화
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+    # aws cloudfront create-invalidation --distribution-id E29FELUOUBHQUQ --paths "/*"
 
     # aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
 
