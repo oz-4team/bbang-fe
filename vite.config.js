@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import AWS from "aws-sdk";
+// import AWS from "aws-sdk";
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
@@ -11,14 +11,14 @@ export default defineConfig({
   define: {
     'global': {},
   },
-  build: {
-    rollupOptions: {
-      external: [AWS],
-    },
-  },
-  resolve: {
-    alias: {
-      "./runtimeConfig": "./runtimeConfig.browser",
-    },
-  },
+  // build: {
+  //   rollupOptions: {
+  //     external: [AWS],
+  //   },
+  // },
+  // resolve: {
+  //   alias: {
+  //     "./runtimeConfig": "./runtimeConfig.browser",
+  //   },
+  // },
 })
