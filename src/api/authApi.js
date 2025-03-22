@@ -10,7 +10,7 @@ const USE_BACKEND = true; // 백엔드 활성화 여부 (false면 목업 데이�
 export const loginUser = async (email, password) => {
     if (USE_BACKEND) {
         try {
-            const response = await axios.post(`${API_BASE_URL}/login/`, { email, password });
+            const response = await axios.post(`/api/${API_BASE_URL}/login/`, { email, password });
 
             if (response.data.access && response.data.refresh) {
                 saveToken(response.data.access, response.data.refresh);

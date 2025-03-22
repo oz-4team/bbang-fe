@@ -7,18 +7,18 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-  },
-  define: {
-    'global': {},
-  },
-  // build: {
-  //   rollupOptions: {
-  //     external: [AWS],
-  //   },
-  // },
-  // resolve: {
-  //   alias: {
-  //     "./runtimeConfig": "./runtimeConfig.browser",
-  //   },
-  // },
+    proxy: {
+      '/api': {
+        target: 'http://seonhm.kr/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      }
+
+
+    },
+    define: {
+      'global': {},
+    },
+  }
 })
+
