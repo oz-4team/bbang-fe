@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
 const useReadArtist = () => {
     const [artist, setArtist] = useState([]);
@@ -10,7 +11,7 @@ const useReadArtist = () => {
         setLoading(true);
         const readArtist = async () => {
             try {
-                const response = await axios.get(`/api/artists/`);
+                const response = await axios.get(`${API_BASE_URL}/artists/`);
                 console.log("response:", response);
                 console.log("response.data:", response.data);
                 const data = response.data;
