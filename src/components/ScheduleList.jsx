@@ -6,7 +6,7 @@ const ScheduleList = () => {
     <div
       style={{
         width: "100%",
-        padding: "1rem",
+        paddingTop: "1rem",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",

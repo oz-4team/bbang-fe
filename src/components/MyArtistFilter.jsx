@@ -65,6 +65,8 @@ const MyArtistFilter = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
+                backgroundColor: "#ffffff",
+                border: "1px solid #ccc",
               }}
               onClick={user ? alertLogin : handleclickMyArtistFilter}
             >

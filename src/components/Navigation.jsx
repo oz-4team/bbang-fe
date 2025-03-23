@@ -14,7 +14,7 @@ const NavigationLayout = styled.div`
   padding: 1rem;
   border-bottom: 1px solid #e9ecef;
   position: fixed;
-  background-color: white;
+  background-color: #ffffff;
   z-index: 99;
 `;
 
@@ -108,7 +108,7 @@ const Navigation = () => {
             }}
             onClick={() => navigate("/")}
           >
-            IdolSync
+            IdolSync 🎶
           </div>
         </div>
 

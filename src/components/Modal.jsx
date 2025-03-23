@@ -50,7 +50,7 @@ const Button = styled.button`
 `;
 
 const PrimaryButton = styled(Button)`
-  /* background-color: #007bff; */
+  background-color: #007bff;
   background: none;
   color: #007bff;
   font-weight: bold;

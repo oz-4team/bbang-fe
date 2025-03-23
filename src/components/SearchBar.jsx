@@ -22,6 +22,8 @@ const SearchBar = () => {
           padding: "8px 40px 8px 8px",
           outline: "none",
           height: "60px",
+          marginTop: 0,
+          borderRadius: "8px",
         }}
       />
       <FaSearch style={{ position: "absolute", right: "10px" }} />

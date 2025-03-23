@@ -26,6 +26,8 @@ const HomePage = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
+            alignContent: "center",
             paddingTop: "1rem",
             paddingBottom: "1rem",
             flexWrap: "wrap",
