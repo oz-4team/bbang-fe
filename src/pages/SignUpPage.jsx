@@ -112,28 +112,34 @@ function SignUpPage() {
         }
       );
     }
-
     if (validateForm()) {
       const userData = {
         email,
         password,
         nickname,
         gender,
-        age, // 수정
-        image, // 수정
+        age,  
+        image, 
       };
-
-      console.log("회원가입 요청 데이터:", userData);
-
+  
+      console.log("🚀 회원가입 요청 데이터:", userData); //  전송 전 데이터 확인
+  
       try {
         const response = await signupUser(userData);
-        console.log("회원가입 응답 데이터:", response);
-
+        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
+  
         navigate("/signup-completed", {
           state: { nickname, email, image },
         });
       } catch (error) {
-        console.error("회원가입 실패:", error.message);
+        console.error(" 회원가입 실패:", error.message);
+  
+        if (error.response) {
+          console.error(" 백엔드 응답 데이터:", error.response.data);  // 상세 원인
+          console.error(" 전체 에러 응답 객체:", error.response);      // 상태 코드 등 포함
+        } else {
+          console.error(" 서버 연결 실패 또는 응답 없음:", error);
+        }
       }
     }
   };
