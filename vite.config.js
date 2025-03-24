@@ -7,19 +7,20 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    proxy: {
-      '/api': {
-        target: 'http://3.35.108.208:8000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false,
-      }
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://3.35.108.208:8000',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ''),
+    //     secure: false,
+    //   }
 
 
-    },
-    define: {
-      'global': {},
-    },
-  }
+    // },
+
+  },
+  define: {
+    'global': {},
+  },
 })
 
