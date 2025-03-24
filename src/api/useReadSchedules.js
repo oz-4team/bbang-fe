@@ -11,13 +11,13 @@ const useReadArtist = () => {
         setLoading(true);
         const readArtist = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/artists/1/`)
+                const response = await axios.get(`${API_BASE_URL}/schedules/`);
                 console.log("response:", response);
                 console.log("response.data:", response.data);
                 const data = response.data;
                 setArtist(data);
                 console.log("data:", data);
-                console.log("aaaaaartist:", artist);
+                console.log("artist:", artist);
             }
             catch (error) {
                 console.error("Error reading artist:", error);

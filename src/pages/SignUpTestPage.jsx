@@ -9,7 +9,7 @@ import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존�
 import AWS from "aws-sdk";
 import * as config from "../config/config";
 
-function SignUpPage() {
+function SignUpTestPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -112,6 +112,7 @@ function SignUpPage() {
         }
       );
     }
+
     if (validateForm()) {
       const userData = {
         email,
@@ -120,27 +121,19 @@ function SignUpPage() {
         gender,
         age, // 수정
         image_url, // 수정
-
       };
-  
-      console.log("🚀 회원가입 요청 데이터:", userData); //  전송 전 데이터 확인
-  
+
+      console.log("회원가입 요청 데이터:", userData);
+
       try {
         const response = await signupUser(userData);
-        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
-  
+        console.log("회원가입 응답 데이터:", response);
+
         navigate("/signup-completed", {
           state: { nickname, email, image_url },
         });
       } catch (error) {
-        console.error(" 회원가입 실패:", error.message);
-  
-        if (error.response) {
-          console.error(" 백엔드 응답 데이터:", error.response.data);  // 상세 원인
-          console.error(" 전체 에러 응답 객체:", error.response);      // 상태 코드 등 포함
-        } else {
-          console.error(" 서버 연결 실패 또는 응답 없음:", error);
-        }
+        console.error("회원가입 실패:", error.message);
       }
     }
   };
@@ -281,4 +274,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignUpTestPage;

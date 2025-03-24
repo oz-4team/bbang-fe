@@ -3,32 +3,32 @@ import { useEffect, useState } from 'react';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
 const useReadArtist = () => {
-    const [artist, setArtist] = useState([]);
+    const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         setLoading(true);
-        const readArtist = async () => {
+        const readArtists = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/artists/1/`)
+                const response = await axios.get(`${API_BASE_URL}/artist-groups/2/`);
                 console.log("response:", response);
                 console.log("response.data:", response.data);
                 const data = response.data;
-                setArtist(data);
+                setArtists(data);
                 console.log("data:", data);
-                console.log("aaaaaartist:", artist);
+                console.log("artistssssss:", artists);
             }
             catch (error) {
-                console.error("Error reading artist:", error);
+                console.error("Error reading artistssssss:", error);
             } finally {
                 setLoading(false);
             }
         }
-        readArtist();
+        readArtists();
     }, []);
 
-    return { artist, loading }; // ✅ 추가됨
+    return { artists, loading }; // ✅ 추가됨
 };
 
 

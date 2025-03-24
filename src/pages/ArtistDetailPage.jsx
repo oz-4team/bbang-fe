@@ -3,7 +3,13 @@ import ArtistInfo from "../components/ArtistInfo";
 import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
+import useReadArtist from "../api/useReadArtist";
+import useReadArtists from "../api/useReadArtists";
+import GroupMemberCard from "../components/GroupMemberCard";
+
 const ArtistDetailPage = () => {
+  const { artist } = useReadArtist();
+  const { artists } = useReadArtists();
   return (
     <div
       style={{
@@ -27,9 +33,8 @@ const ArtistDetailPage = () => {
               margin: "2rem auto",
             }}
           >
-            <MemberCard />
-            <MemberCard />
-            <MemberCard />
+            <MemberCard artist={artist} />
+            <GroupMemberCard artists={artists} />
           </div>
         </div>
         <ScheduleAreaInArtist />
