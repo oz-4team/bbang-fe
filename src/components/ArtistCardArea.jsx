@@ -26,6 +26,8 @@ const ArtistCardArea = () => {
             key={a.index}
             name={a.artist_name || a.artist_group}
             image={a.image_url}
+            type={a.artist_group ? "group" : "solo"}
+            id={a.id}
           />
         </>
       ))}

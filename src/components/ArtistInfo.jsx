@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
+import { useParams } from "react-router-dom";
 import bigbangImage from "../assets/images/bigbang.png";
 import ygImage from "../assets/images/yg.png";
 
-const ArtistInfo = () => {
+const ArtistInfo = ({ artist, artistGroups }) => {
   const [favoriteArtist, setFavoriteArtist] = useState(false);
+  const { artist_name, image_url } = artist;
+  const { artist_type, id } = useParams();
+  console.log("artist_type, id", artist_type, id);
+
+  console.log("🥹🥹🥹🥹🥹🥹artist:", artist);
+  console.log("❤️❤️❤️❤️❤️❤️artistGroups:", artistGroups);
+  console.log("🥹🥹🥹🥹🥹🥹artist_name:", artist_name);
+
+  const [matchingArtist, setMatchingArtist] = useState(null);
+
+  useEffect(() => {
+    if (artist_type === "solo") {
+      const matchingArtist = artist.find((artist) => artist.id == id);
+      setMatchingArtist(matchingArtist);
+      console.log("Matching Artist:", matchingArtist, id);
+    }
+  }, []);
 
   const toggleStar = () => {
     setFavoriteArtist(!favoriteArtist);
@@ -28,7 +46,7 @@ const ArtistInfo = () => {
           borderRadius: "15px",
         }}
       >
-        image
+        {matchingArtist?.image_url}
       </div>
       <div
         style={{
@@ -38,7 +56,7 @@ const ArtistInfo = () => {
           flexGrow: "1",
         }}
       >
-        <div style={{ fontSize: "1.5rem" }}>아티스트명</div>
+        <div style={{ fontSize: "1.5rem" }}>{artist_name}</div>
         <div>
           <img
             src={ygImage}

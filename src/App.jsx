@@ -53,9 +53,12 @@ function App() {
           <Route element={<MainLayout />}>
             <Route index path="/" element={<HomePage />} />
             <Route path="/artist" element={<ArtistListPage />} />
-            <Route path="/artist/details" element={<ArtistDetailPage />} />
+            <Route path="/artist/:artist_type/:id" element={<ArtistDetailPage />} />
             <Route path="/schedule" element={<SchedulePage />} />
-            <Route path="/schedule/details" element={<ScheduleDetailPage />} />
+            <Route
+              path="/schedule/details/:id"
+              element={<ScheduleDetailPage />}
+            />
             <Route
               path="/artist-management"
               element={<ArtistManagementPage />}
@@ -90,7 +93,7 @@ function App() {
               element={<ScheduleAddPage />}
             />
             <Route
-              path="/schedule-management/edit"
+              path="/schedule-management/edit/:id"
               element={<ScheduleEditPage />}
             />
 

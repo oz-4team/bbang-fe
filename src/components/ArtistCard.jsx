@@ -2,7 +2,7 @@ import { default as React, useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 
-const ArtistCard = ({ name, image }) => {
+const ArtistCard = ({ name, image, type, id }) => {
   const navigate = useNavigate();
   const [favoriteArtist, setFavoriteArtist] = useState(false);
 
@@ -13,7 +13,7 @@ const ArtistCard = ({ name, image }) => {
     <div
       onClick={(e) => {
         e.stopPropagation();
-        navigate("/artist/details");
+        navigate(`/artist/${type}/${id}`);
       }}
       style={{
         display: "flex",

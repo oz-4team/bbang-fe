@@ -3,13 +3,25 @@ import ArtistInfo from "../components/ArtistInfo";
 import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
-import useReadArtist from "../api/useReadArtist";
+import { useParams } from "react-router-dom";
+import useReadArtists from "../api/useReadArtist";
 import useReadArtistGroups from "../api/useReadArtistGroups";
 import GroupMemberCard from "../components/GroupMemberCard";
 
 const ArtistDetailPage = () => {
-  const { artist } = useReadArtist();
+  const { artists } = useReadArtists();
   const { artistGroups } = useReadArtistGroups();
+  const { artist_type, id } = useParams();
+
+  console.log("artist_type, id", artist_type, id);
+
+  console.log("🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹artists:", artists);
+  console.log("❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️artistGroups:", artistGroups);
+
+  if (!artists || !artistGroups) {
+    return <div>loading...</div>;
+  }
+
   return (
     <div
       style={{
@@ -21,7 +33,12 @@ const ArtistDetailPage = () => {
       }}
     >
       <div style={{ width: "100%", maxWidth: "800px" }}>
-        <ArtistInfo style={{ marginBottom: "2rem" }} />
+        <ArtistInfo
+          style={{ marginBottom: "2rem" }}
+          artist={artist_type === "solo" ? artists : artistGroups}
+          artist_type={artist_type}
+          artist_id={id}
+        />
         <div>
           <div
             style={{
@@ -33,8 +50,11 @@ const ArtistDetailPage = () => {
               margin: "2rem auto",
             }}
           >
-            <MemberCard artist={artist} />
-            <GroupMemberCard artistGroups={artistGroups} />
+            {artist_type === "solo" ? (
+              <MemberCard artist={artists} />
+            ) : (
+              <GroupMemberCard artistGroups={artistGroups} />
+            )}
           </div>
         </div>
         <ScheduleAreaInArtist />

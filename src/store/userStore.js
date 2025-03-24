@@ -13,7 +13,7 @@ try {
   const userData = localStorage.getItem("authUser");
   if (userData && userData !== "undefined") {
     storedUser = JSON.parse(userData);
-    console.log("✅ 저장된 사용자 정보:", storedUser);
+    // console.log("✅ 저장된 사용자 정보:", storedUser);
   } else {
     console.warn("⚠️ authUser 값이 비어있거나 'undefined'입니다.");
   }

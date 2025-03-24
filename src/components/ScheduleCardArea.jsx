@@ -1,6 +1,5 @@
 import React from "react";
 import useReadArtist from "../api/useReadArtist";
-import ScheduleCard from "./ScheduleCard";
 
 const ScheduleCardArea = () => {
   const { artist } = useReadArtist();
@@ -15,7 +14,7 @@ const ScheduleCardArea = () => {
         gap: "32px",
       }}
     >
-      {artist.map((a) => (
+      {/* {artist.map((a) => (
         <>
           <ScheduleCard
             key={a.name}
@@ -24,7 +23,7 @@ const ScheduleCardArea = () => {
             image={a.image[3]["#text"]}
           />
         </>
-      ))}
+      ))} */}
     </div>
   );
 };
