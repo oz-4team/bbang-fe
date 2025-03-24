@@ -17,7 +17,17 @@ const SocialLogin = () => {
 
   const handleNaverLogin = () => {
     console.log("🔗 네이버 로그인 페이지로 이동:", NAVER_AUTH_URL);
-    window.location.href = NAVER_AUTH_URL;
+  
+    const logoutWindow = window.open("https://nid.naver.com/nidlogin.logout", "_blank", "width=500,height=600");
+  
+    // 팝업 닫기 (0.5초 후)
+    setTimeout(() => {
+      if (logoutWindow) {
+        logoutWindow.close();
+      }
+      // 로그인 페이지로 리디렉트
+      window.location.href = NAVER_AUTH_URL;
+    }, 700);
   };
 
   const handleGoogleLogin = () => {
