@@ -1,10 +1,11 @@
 import React from "react";
+import psyImage from "../assets/images/psy.jpg";
 
 const MyArtistFilterCard = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <img
-        src="src/assets/images/psy.jpg"
+        src={psyImage}
         style={{
           width: "4rem",
           height: "4rem",

@@ -1,5 +1,5 @@
 import React from "react";
-import InstagramLogo from "/src/assets/images/instagram-logo.svg";
+import InstagramLogo from "../assets/images/Instagram-logo.svg";
 
 const MemberCard = () => {
   return (

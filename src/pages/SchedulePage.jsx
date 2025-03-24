@@ -97,7 +97,19 @@ const SchedulePage = () => {
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>
             <div>
-              <select id="view-select" value={view} onChange={handleViewChange}>
+              <select
+                style={{
+                  minWidth: "300px",
+                  width: "100%",
+                  height: "60px",
+                  marginTop: "10px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #ccc",
+                }}
+                id="view-select"
+                value={view}
+                onChange={handleViewChange}
+              >
                 <option value="주간">주간</option>
                 <option value="일간">일간</option>
                 <option value="월간">월간</option>

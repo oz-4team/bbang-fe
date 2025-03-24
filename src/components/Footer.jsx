@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/idolsycn-logo.png";
 import useUserStore from "../store/userStore";
 
 const Footer = () => {
@@ -33,11 +34,12 @@ const Footer = () => {
             justifyContent: "space-between",
             alignItems: "flex-end",
             width: "100vw",
+            flexWrap: "wrap",
           }}
         >
           <div>
             <img
-              src="../src/assets/images/idolsycn-logo.png"
+              src={logo}
               alt="idol sync"
               style={{
                 width: "50px",
@@ -114,7 +116,14 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div style={{ textAlign: "right" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+            }}
+          >
             <div>제휴/광고 문의</div>
             <div>
               <div>info@idolsync.com</div>

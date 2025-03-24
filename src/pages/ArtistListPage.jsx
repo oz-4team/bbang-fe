@@ -21,7 +21,13 @@ const ArtistListPage = () => {
         }}
       >
         <BannerAd />
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            paddingTop: "1rem",
+          }}
+        >
           <SearchBar />
         </div>
 

@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import EmptyLayout from "./layouts/EmptyLayout";
@@ -18,18 +19,24 @@ import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 
 import Privacy from "./components/Privacy";
 
-import { useEffect } from "react"; //로그인 확인용
 import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
+import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료
 import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleEditPage from "./pages/ScheduleEditPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
+import TestSashaPage from "./pages/TestSashaPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
-import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료 
 
 function App() {
   //로그인 확인용
   const { user } = useUserStore();
+
+  useEffect(() => {
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("light");
+    // document.documentElement.classList.add(theme);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -56,6 +63,7 @@ function App() {
               element={<ScheduleManagementPage />}
             />
             <Route path="/ProfilePage" element={<ProfilePage />} />
+            <Route path="/testsasha" element={<TestSashaPage />} />
           </Route>
 
           <Route element={<EmptyLayout />}>

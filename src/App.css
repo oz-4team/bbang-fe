@@ -41,3 +41,16 @@
 .read-the-docs {
   color: #888;
 }
+
+/* styles.css */
+/* 색상테마 */
+.light {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.light input{
+  background-color: #ffffff;
+  color: #333; 
+}
+
