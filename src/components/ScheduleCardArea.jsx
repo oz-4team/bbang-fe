@@ -1,5 +1,5 @@
 import React from "react";
-import useReadArtist from "../api/useReadArtist";
+import useReadArtist from "../api/useReadArtists";
 
 const ScheduleCardArea = () => {
   const { artist } = useReadArtist();

@@ -4,8 +4,8 @@ import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
 import { useParams } from "react-router-dom";
-import useReadArtists from "../api/useReadArtist";
 import useReadArtistGroups from "../api/useReadArtistGroups";
+import useReadArtists from "../api/useReadArtists";
 import GroupMemberCard from "../components/GroupMemberCard";
 
 const ArtistDetailPage = () => {
