@@ -6,7 +6,7 @@ import Modal from "./Modal";
 const MyArtistFilter = () => {
   const { user, logout } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleclickMyArtistFilter = (e) => {
+  const handleclickUserCheck = (e) => {
     setIsModalOpen(true);
   };
 
@@ -68,7 +68,7 @@ const MyArtistFilter = () => {
                 backgroundColor: "#ffffff",
                 border: "1px solid #ccc",
               }}
-              onClick={user ? alertLogin : handleclickMyArtistFilter}
+              onClick={user ? alertLogin : handleclickUserCheck}
             >
               마이 아티스트
               <span style={{ marginLeft: "auto" }}>

@@ -1,44 +1,45 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import useUserStore from '../store/userStore';
+import useUserStore from "../../store/userStore";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
-const useReadArtistGroups = () => {
-
+const useReadArtists = () => {
     const { accessToken } = useUserStore();
-    const [artistGroups, setArtistGroups] = useState([]);
+    console.log("🔑 artists token:", accessToken);
+    const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         setLoading(true);
-        const readArtistGroups = async () => {
+        const readArtists = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/artist-groups/`, {
+                const response = await axios.get(`${API_BASE_URL}/artists/`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                });
+                })
                 console.log("response:", response);
+                // console.log("response:", token);
                 console.log("response.data:", response.data);
                 const data = response.data;
-                setArtistGroups(data);
+                setArtists(data);
                 console.log("data:", data);
-                console.log("artistssssss:", artistGroups);
+                console.log("aaaaaartist:", artists);
             }
             catch (error) {
-                console.error("Error reading artistssssss:", error);
+                console.error("Error reading artist:", error);
             } finally {
                 setLoading(false);
             }
         }
-        readArtistGroups();
+        readArtists();
     }, []);
 
-    return { artistGroups, loading }; // ✅ 추가됨
+    return { artists, loading }; // ✅ 추가됨
 };
 
 
 
 
-export default useReadArtistGroups;
+export default useReadArtists;

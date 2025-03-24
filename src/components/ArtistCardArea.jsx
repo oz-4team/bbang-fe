@@ -1,8 +1,8 @@
 import React from "react";
-import useReadArtistAndGroups from "../api/useReadArtistAndGroups";
+import useReadArtistAndGroups from "../api/artist/useReadArtistAndGroups";
 import ArtistCard from "./ArtistCard";
 
-const ArtistCardArea = () => {
+const ArtistCardArea = ({ onCardClick }) => {
   const { artistAndGroups } = useReadArtistAndGroups();
   if (artistAndGroups.length === 0) {
     return <div>loading...</div>;
@@ -23,11 +23,12 @@ const ArtistCardArea = () => {
       {artistAndGroups.data.map((a) => (
         <>
           <ArtistCard
-            key={a.index}
+            key={a.id}
             name={a.artist_name || a.artist_group}
             image={a.image_url}
             type={a.artist_group ? "group" : "solo"}
             id={a.id}
+            onCardClick={() => onCardClick()}
           />
         </>
       ))}
