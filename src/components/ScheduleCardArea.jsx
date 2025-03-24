@@ -4,8 +4,11 @@ import ScheduleCard from "./ScheduleCard";
 
 const ScheduleCardArea = () => {
   const { artist } = useReadArtist();
+  if (artist.length === null) {
+    return <div>loading..a.</div>;
+  }
   if (artist.length === 0) {
-    return <div>loading...</div>;
+    return <div>호출 성공했지만 배열이 0인 상태</div>;
   }
   return (
     <div
