@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "../styles/AdminRequest.css";
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 추가
+import { useNavigate } from "react-router-dom";
+import { isValidEmail, isValidPhone } from "../utils/validation"; // ✅ 유효성 검사 함수 사용
+
+// ✅ 환경 변수 + 백업 주소 설정
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
 const AdminRequestPage = () => {
   const [artistName, setArtistName] = useState("");
@@ -11,7 +16,7 @@ const AdminRequestPage = () => {
   const [preview, setPreview] = useState(null);
   const [errors, setErrors] = useState({ email: "", phone: "" });
 
-  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -28,27 +33,17 @@ const AdminRequestPage = () => {
     }
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePhone = (phone) => {
-    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678
-    return phoneRegex.test(phone);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let emailError = "";
     let phoneError = "";
 
-    if (!validateEmail(email)) {
+    if (!isValidEmail(email)) {
       emailError = "올바른 이메일 형식을 입력해주세요.";
     }
 
-    if (!validatePhone(phone)) {
+    if (!isValidPhone(phone)) {
       phoneError = "전화번호는 '010-1234-5678' 형식이어야 합니다.";
     }
 
@@ -57,8 +52,21 @@ const AdminRequestPage = () => {
       return;
     }
 
-    // 신청 완료 후 페이지 이동
-    navigate("/admin-request-completed", { state: { artistName, companyName } });
+    try {
+      await axios.post(`${API_BASE_URL}/api/admin-request/`, {
+        artistName,
+        companyName,
+        email,
+        phone,
+      });
+
+      navigate("/admin-request-completed", {
+        state: { artistName, companyName },
+      });
+    } catch (err) {
+      console.error("신청 실패:", err);
+      alert("신청 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -113,7 +121,6 @@ const AdminRequestPage = () => {
           </div>
         )}
         <p className="notice">* 소요시간은 1 ~ 2일 소요될 수 있습니다</p>
-        {/* 신청하기 버튼 - 첨부파일 없으면 비활성화 */}
         <button type="submit" className="submit-button" disabled={!file}>
           신청하기
         </button>
@@ -123,5 +130,3 @@ const AdminRequestPage = () => {
 };
 
 export default AdminRequestPage;
-
-

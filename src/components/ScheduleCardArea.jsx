@@ -15,15 +15,13 @@ const ScheduleCardArea = () => {
         gap: "32px",
       }}
     >
-      {artists.map((a) => (
-        <>
-          <ScheduleCard
-            key={a.id}
-            name={a.name}
-            artistname={a.name}
-            image={a.image}
-          />
-        </>
+      {artist.map((a) => (
+        <ScheduleCard
+          key={a.name}
+          name={a.name}
+          artistname={a.name}
+          image={a.image?.[3]?.["#text"] || "default.png"}
+        />
       ))}
     </div>
   );

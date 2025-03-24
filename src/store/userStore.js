@@ -38,6 +38,12 @@ const useUserStore = create((set, get) => ({
       return;
     }
 
+    // ✅ 유효한 userData만 저장
+    if (typeof userData !== "object" || !userData.email) {
+      console.warn("⚠️ userData가 올바르지 않습니다. 저장하지 않습니다.");
+      return;
+    }
+
     localStorage.setItem("authUser", JSON.stringify(userData));
     saveToken(accessToken, refreshToken);
 
