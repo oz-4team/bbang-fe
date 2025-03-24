@@ -8,6 +8,8 @@ const ArtistCardArea = () => {
     return <div>loading...</div>;
   }
 
+  console.log("artist area 🙂:", artist);
+
   return (
     <div
       style={{
@@ -18,9 +20,9 @@ const ArtistCardArea = () => {
         alignContent: "center", // 수직 중앙 정렬
       }}
     >
-      {artist.map((a) => (
+      {artist.data.map((a) => (
         <>
-          <ArtistCard key={a.name} name={a.name} image={a.image[3]["#text"]} />
+          <ArtistCard key={a.id} name={a.artist_name} image={a.image_url} />
         </>
       ))}
     </div>

@@ -9,7 +9,7 @@ import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존�
 import AWS from "aws-sdk";
 import * as config from "../config/config";
 
-function SignUpPage() {
+function SignUpTestPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -274,4 +274,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignUpTestPage;

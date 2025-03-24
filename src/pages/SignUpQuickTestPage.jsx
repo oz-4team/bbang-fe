@@ -9,7 +9,7 @@ import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존�
 import AWS from "aws-sdk";
 import * as config from "../config/config";
 
-function SignUpPage() {
+function SignUpQuickTestPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -220,41 +220,6 @@ function SignUpPage() {
         </span>
       </div>
 
-      <div className="form-group nickname-group">
-        <input
-          type="text"
-          placeholder="닉네임을 입력해주세요"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          className="nickname-input"
-        />
-        {errors.nickname && <p className="error">{errors.nickname}</p>}
-      </div>
-
-      <div className="form-group birth-info">
-        <select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          className="birth-select"
-        >
-          <option value="">성별 (선택)</option>
-          <option value="male">남성</option>
-          <option value="female">여성</option>
-        </select>
-        <select
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-          className="birth-select"
-        >
-          <option value="">출생년도 (선택)</option>
-          {[...Array(100)].map((_, i) => (
-            <option key={i} value={1925 + i}>
-              {1925 + i}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div>
         <label>
           <input type="checkbox" required />{" "}
@@ -274,4 +239,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignUpQuickTestPage;
