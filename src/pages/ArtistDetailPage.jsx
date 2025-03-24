@@ -4,12 +4,12 @@ import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
 import useReadArtist from "../api/useReadArtist";
-import useReadArtists from "../api/useReadArtists";
+import useReadArtistGroups from "../api/useReadArtistGroups";
 import GroupMemberCard from "../components/GroupMemberCard";
 
 const ArtistDetailPage = () => {
   const { artist } = useReadArtist();
-  const { artists } = useReadArtists();
+  const { artistGroups } = useReadArtistGroups();
   return (
     <div
       style={{
@@ -34,7 +34,7 @@ const ArtistDetailPage = () => {
             }}
           >
             <MemberCard artist={artist} />
-            <GroupMemberCard artists={artists} />
+            <GroupMemberCard artistGroups={artistGroups} />
           </div>
         </div>
         <ScheduleAreaInArtist />

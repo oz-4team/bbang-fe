@@ -19,7 +19,6 @@ const ArtistCard = ({ name, image }) => {
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-
         padding: "1rem",
         cursor: "pointer",
         transition: "transform 0.3s",
@@ -30,13 +29,22 @@ const ArtistCard = ({ name, image }) => {
       <div
         style={{
           minHeight: "150px",
-          width: "100%",
+          minWidth: "150px",
           border: "1px solid #AFB1B6",
           borderRadius: "15px",
           overflow: "hidden",
         }}
       >
-        <img src={image} alt="" />
+        <img
+          src={image}
+          alt=""
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            aspectRatio: "1/1",
+          }}
+        />
       </div>
       <div
         style={{

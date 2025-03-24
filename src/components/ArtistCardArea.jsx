@@ -1,14 +1,14 @@
 import React from "react";
-import useReadArtist from "../api/useReadArtist";
+import useReadArtistAndGroups from "../api/useReadArtistAndGroups";
 import ArtistCard from "./ArtistCard";
 
 const ArtistCardArea = () => {
-  const { artist } = useReadArtist();
-  if (artist.length === 0) {
+  const { artistAndGroups } = useReadArtistAndGroups();
+  if (artistAndGroups.length === 0) {
     return <div>loading...</div>;
   }
 
-  console.log("artist area 🙂:", artist);
+  console.log("artist area 🙂:", artistAndGroups);
 
   return (
     <div
@@ -20,9 +20,13 @@ const ArtistCardArea = () => {
         alignContent: "center", // 수직 중앙 정렬
       }}
     >
-      {artist.data.map((a) => (
+      {artistAndGroups.data.map((a) => (
         <>
-          <ArtistCard key={a.id} name={a.artist_name} image={a.image_url} />
+          <ArtistCard
+            key={a.index}
+            name={a.artist_name || a.artist_group}
+            image={a.image_url}
+          />
         </>
       ))}
     </div>

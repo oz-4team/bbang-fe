@@ -1,6 +1,7 @@
 import React from "react";
 import ArtistCardArea from "../components/ArtistCardArea";
 import BannerAd from "../components/BannerAd";
+import MyArtistFilter from "../components/MyArtistFilter";
 import SearchBar from "../components/SearchBar";
 
 const ArtistListPage = () => {
@@ -24,11 +25,18 @@ const ArtistListPage = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
+            alignItems: "center",
+            alignContent: "center",
             paddingTop: "1rem",
+            paddingBottom: "1rem",
+            flexWrap: "wrap",
+            width: "100%",
+            gap: "1rem",
           }}
         >
-          <SearchBar />
+          <MyArtistFilter></MyArtistFilter>
+          <SearchBar></SearchBar>
         </div>
 
         <ArtistCardArea />

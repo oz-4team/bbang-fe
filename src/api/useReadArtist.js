@@ -11,7 +11,7 @@ const useReadArtist = () => {
         setLoading(true);
         const readArtist = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/artists/1/`)
+                const response = await axios.get(`${API_BASE_URL}/artists/`)
                 console.log("response:", response);
                 console.log("response.data:", response.data);
                 const data = response.data;

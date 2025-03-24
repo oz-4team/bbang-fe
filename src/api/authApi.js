@@ -29,11 +29,12 @@ export const loginUser = async (email, password) => {
                     email: response.data.email,
                     nickname: response.data.nickname,
                     is_staff: response.data.is_staff,
-                    image: response.data.image // optional
+                    image: response.data.image_url
                 };
 
                 // Zustand에 로그인 상태 저장
                 useUserStore.getState().login(userInfo, response.data.access, response.data.refresh);
+                console.log("🔑duserInfouserInfouserInfouserInfo", userInfo);
 
                 return {
                     user: userInfo,
@@ -108,6 +109,7 @@ export const fetchUserProfile = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/profile/`);
             return response.data;
+            console.log("🔑profile user data:", response.data);
         } catch (error) {
             throw new Error(error.response?.data?.message || "프로필 정보 가져오기 실패");
         }
@@ -121,6 +123,7 @@ export const updateUserProfile = async (userData) => {
         try {
             const response = await axios.patch(`${API_BASE_URL}/profile/`, userData);
             return response.data;
+
         } catch (error) {
             throw new Error(error.response?.data?.message || "프로필 업데이트 실패");
         }

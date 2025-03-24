@@ -1,8 +1,8 @@
 import React from "react";
 import InstagramLogo from "../assets/images/Instagram-logo.svg";
 
-const GroupMemberCard = ({ artists }) => {
-  const artist = artists;
+const GroupMemberCard = ({ artistGroups }) => {
+  const artist = artistGroups;
   console.log("GroupMemberCard", artist);
   return (
     <div
