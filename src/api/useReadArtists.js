@@ -25,7 +25,7 @@ const useReadArtists = () => {
                 const data = response.data;
                 setArtists(data);
                 console.log("data:", data);
-                console.log("aaaaaartist:", artist);
+                console.log("aaaaaartist:", artists);
             }
             catch (error) {
                 console.error("Error reading artist:", error);

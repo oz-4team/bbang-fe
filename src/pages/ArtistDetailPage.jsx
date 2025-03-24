@@ -1,25 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import useReadArtistApi from "../api/artist/useReadArtistApi";
 import ArtistInfo from "../components/ArtistInfo";
-import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
-import { useParams } from "react-router-dom";
-import useReadArtistGroups from "../api/useReadArtistGroups";
-import useReadArtists from "../api/useReadArtists";
-import GroupMemberCard from "../components/GroupMemberCard";
-
 const ArtistDetailPage = () => {
-  const { artists } = useReadArtists();
-  const { artistGroups } = useReadArtistGroups();
-  const { artist_type, id } = useParams();
+  const { id } = useParams();
 
-  console.log("artist_type, id", artist_type, id);
+  const { artist, readArtist, loading, error } = useReadArtistApi();
 
-  console.log("🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹🥹artists:", artists);
-  console.log("❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️artistGroups:", artistGroups);
+  useEffect(() => {
+    readArtist({ id });
+  }, [id]);
 
-  if (!artists || !artistGroups) {
-    return <div>loading...</div>;
+  if (loading || !artist) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -35,8 +30,8 @@ const ArtistDetailPage = () => {
       <div style={{ width: "100%", maxWidth: "800px" }}>
         <ArtistInfo
           style={{ marginBottom: "2rem" }}
-          artist={artist_type === "solo" ? artists : artistGroups}
-          artist_type={artist_type}
+          artist={artist}
+          // artist_type={artist_type}
           artist_id={id}
         />
         <div>
@@ -50,11 +45,11 @@ const ArtistDetailPage = () => {
               margin: "2rem auto",
             }}
           >
-            {artist_type === "solo" ? (
+            {/* {artist_type === "solo" ? (
               <MemberCard artist={artists} />
             ) : (
               <GroupMemberCard artistGroups={artistGroups} />
-            )}
+            )} */}
           </div>
         </div>
         <ScheduleAreaInArtist />

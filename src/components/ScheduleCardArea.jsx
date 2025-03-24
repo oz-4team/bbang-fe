@@ -1,9 +1,10 @@
 import React from "react";
-import useReadArtist from "../api/useReadArtists";
+import useReadArtists from "../api/useReadArtists";
+import ScheduleCard from "./ScheduleCard";
 
 const ScheduleCardArea = () => {
-  const { artist } = useReadArtist();
-  if (artist.length === 0) {
+  const { artists } = useReadArtists();
+  if (artists.length === 0) {
     return <div>loading...</div>;
   }
   return (
@@ -14,16 +15,16 @@ const ScheduleCardArea = () => {
         gap: "32px",
       }}
     >
-      {/* {artist.map((a) => (
+      {artists.map((a) => (
         <>
           <ScheduleCard
-            key={a.name}
+            key={a.id}
             name={a.name}
-            artistname={a.artist.name}
-            image={a.image[3]["#text"]}
+            artistname={a.name}
+            image={a.image}
           />
         </>
-      ))} */}
+      ))}
     </div>
   );
 };
