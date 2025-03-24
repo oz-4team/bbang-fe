@@ -87,30 +87,31 @@ function SignUpTestPage() {
     if (files && files[0].size > 10 * 1024 * 1024) {
       alert("10mb 이하의 파일만 업로드할 수 있습니다.");
     } else {
-      const uploadFiles = files[0];
-      const keyname = files[0].name;
+      setImage_url(files[0]);
+      // const uploadFiles = files[0];
+      // const keyname = files[0].name;
 
       // Todo S3에 파일 저장 후 response로 파일 링크 받아오기
-      const upload = new AWS.S3.ManagedUpload({
-        params: {
-          Bucket: "bbangu", // 업로드할 대상 버킷명
-          Key: keyname, //파일명+확장자
-          Body: uploadFiles, // 업로드할 파일 객체
-        },
-      });
+      // const upload = new AWS.S3.ManagedUpload({
+      //   params: {
+      //     Bucket: "bbangu", // 업로드할 대상 버킷명
+      //     Key: keyname, //파일명+확장자
+      //     Body: uploadFiles, // 업로드할 파일 객체
+      //   },
+      // });
 
-      const promise = upload.promise();
+      // const promise = upload.promise();
 
-      promise.then(
-        function (data) {
-          alert("이미지 업로드에 성공했습니다.");
-          console.log("이미지 업로드에 성공했습니다.", data.Location);
-          setImage_url(data.Location);
-        },
-        function (err) {
-          return alert("오류가 발생했습니다: ", err.message);
-        }
-      );
+      // promise.then(
+      //   function (data) {
+      //     alert("이미지 업로드에 성공했습니다.");
+      //     console.log("이미지 업로드에 성공했습니다.", data.Location);
+      //     setImage_url(data.Location);
+      //   },
+      //   function (err) {
+      //     return alert("오류가 발생했습니다: ", err.message);
+      //   }
+      // );
     }
 
     if (validateForm()) {
