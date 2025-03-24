@@ -22,7 +22,10 @@ const ArtistCardArea = () => {
     >
       {artist.data.map((a) => (
         <>
-          <ArtistCard key={a.id} name={a.artist_name} image={a.image_url} />
+
+
+          <ArtistCard key={a.name} name={a.name} image={a.image[3]?.["#text"]} />
+
         </>
       ))}
     </div>

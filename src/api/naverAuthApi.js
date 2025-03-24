@@ -7,7 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8
 const USE_BACKEND = true; // 백엔드 활성화 여부
 
 // Naver 인증 URL (리다이렉트 URI에 provider 정보 없이 설정)
-export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/naver/callback/&response_type=code`;
+export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=http://localhost:5173/auth/naver/callback/&response_type=code&prompt=login`;
 
 // Naver 로그인 함수
 export const exchangeNaverToken = async (authCode, navigate) => {
