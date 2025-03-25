@@ -32,6 +32,7 @@ const ScheduleCardArea = () => {
             }
             title={a.title}
             id={a.id}
+            onCardClick={() => onCardClick()}
           />
         </>
       ))}

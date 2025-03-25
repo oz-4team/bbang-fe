@@ -28,7 +28,7 @@ const useReadArtistAndGroups = () => {
         readAartistAndGroups();
     }, []);
 
-    return { artistAndGroups, loading }; // ✅ 추가됨
+    return { artistAndGroups, loading };
 };
 
 
