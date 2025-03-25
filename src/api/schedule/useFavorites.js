@@ -37,6 +37,29 @@ const useFavorites = () => {
         }
     }
 
+    const deleteFavorite = async ({ id }) => {
+        try {
+            const response = await axios.delete(`${API_BASE_URL}/favorite/`,
+                { schedule_id: id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+            const data = response.data;
+            console.log("delete datadelete datadelete data:", data);
+            // setFavorite(data);
+
+
+        }
+        catch (error) {
+            console.error("Error reading schedule:", error);
+
+        } finally {
+            setLoading(false);
+        }
+    }
 
 
     const readFavorite = async () => {
@@ -62,7 +85,8 @@ const useFavorites = () => {
     }
 
 
-    return { favorite, loading, addFavorite, readFavorite };
+
+    return { favorite, loading, addFavorite, readFavorite, deleteFavorite };
 
 };
 

@@ -8,12 +8,20 @@ const ScheduleCard = ({ artistname, name, image, title, id, onCardClick }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
-  const { favorite, loading, addFavorite, readFavorite } = useFavorites();
+  const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
+    useFavorites();
 
   const toggleStar = (e) => {
     e.stopPropagation();
     setStarred(!starred);
-    addFavorite({ id });
+    if (starred === false) {
+      addFavorite({ id });
+    }
+
+    if (starred === true) {
+      deleteFavorite({ id });
+      // console.log("deleteFavorite:", deleteFavorite);
+    }
     // useUserStore.setState({ starred: !starred });
   };
   const handleClickScheduleDetail = (e) => {
