@@ -2,10 +2,12 @@ import React from "react";
 import useReadArtistAndGroups from "../api/artist/useReadArtistAndGroups";
 import ArtistCard from "./ArtistCard";
 
+
 const ArtistCardArea = ({ onCardClick }) => {
   const { artistAndGroups } = useReadArtistAndGroups();
   if (artistAndGroups.length === 0) {
     return <div>loading...</div>;
+
   }
 
   console.log("artist area 🙂:", artistAndGroups);

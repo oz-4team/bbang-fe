@@ -3,8 +3,21 @@ import { BsPerson } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import styled from "styled-components";
 import ScheduleCategoryInput from "../components/ScheduleCategoryInput";
 import ScheduleHashtagInput from "../components/ScheduleHashtagInput";
+
+const Foo1Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+  flex-wrap: nowrap;
+
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+  }
+`;
 
 const ScheduleAddPage = () => {
   const [preview, setPreview] = React.useState(null);
@@ -31,14 +44,7 @@ const ScheduleAddPage = () => {
       }}
     >
       <div style={{ width: "100%", maxWidth: "800px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            gap: "2rem",
-          }}
-        >
+        <Foo1Layout>
           <div
             style={{
               maxWidth: "300px",
@@ -119,31 +125,43 @@ const ScheduleAddPage = () => {
                 type="date"
               />
             </div>
-            <div>
-              <label>시작 시간</label>
-              <input
-                style={{
-                  padding: "1rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  marginTop: "8px",
-                  width: "100%",
-                  display: "block",
-                }}
-                type="time"
-              />
-              <label>종료 시간 (선택)</label>
-              <input
-                style={{
-                  padding: "1rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  marginTop: "8px",
-                  width: "100%",
-                  display: "block",
-                }}
-                type="time"
-              />
+
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                gap: "1rem",
+                flexGrow: 1,
+              }}
+            >
+              <div style={{ width: "50%" }}>
+                <label>시작 시간</label>
+                <input
+                  style={{
+                    padding: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "8px",
+                    width: "100%",
+                    display: "block",
+                  }}
+                  type="time"
+                />
+              </div>
+              <div style={{ width: "50%" }}>
+                <label>종료 시간 (선택)</label>
+                <input
+                  style={{
+                    padding: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "8px",
+                    width: "100%",
+                    display: "block",
+                  }}
+                  type="time"
+                />
+              </div>
             </div>
             <div>
               <label>카테고리</label>
@@ -154,7 +172,8 @@ const ScheduleAddPage = () => {
               <ScheduleHashtagInput />
             </div>
           </div>
-        </div>
+        </Foo1Layout>
+
         <div
           style={{
             borderBottom: "1px solid #AFB1B6",
@@ -270,7 +289,7 @@ const ScheduleAddPage = () => {
         ></div>
       </div>
 
-      <button>등록하기</button>
+      <button style={{ width: "100%" }}>등록하기</button>
       <button>삭제하기</button>
     </div>
   );
