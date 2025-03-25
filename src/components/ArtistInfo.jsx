@@ -5,7 +5,7 @@ import ygImage from "../assets/images/yg.png";
 
 const ArtistInfo = ({ artist }) => {
   const [favoriteArtist, setFavoriteArtist] = useState(false);
-  const { artist_name, image_url } = artist;
+  const { artist_group, artist_name, image_url } = artist;
 
   const toggleStar = () => {
     setFavoriteArtist(!favoriteArtist);
@@ -43,7 +43,9 @@ const ArtistInfo = ({ artist }) => {
           flexGrow: "1",
         }}
       >
-        <div style={{ fontSize: "1.5rem" }}>{artist_name}</div>
+        <div style={{ fontSize: "1.5rem" }}>
+          {artist_name ? artist_name : artist_group}
+        </div>
         <div>
           <img
             src={ygImage}

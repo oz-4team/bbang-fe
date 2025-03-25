@@ -1,10 +1,13 @@
 import React from "react";
-import useReadArtists from "../api/artist/useReadArtists";
+import useReadSchedules from "../api/useReadSchedules";
 import ScheduleCard from "./ScheduleCard";
 
 const ScheduleCardArea = () => {
-  const { artists } = useReadArtists();
-  if (artists.length === 0) {
+  const { schedules } = useReadSchedules();
+
+  console.log("schedules🙂:", schedules);
+
+  if (schedules.length === 0) {
     return <div>loading...</div>;
   }
   return (
@@ -15,13 +18,22 @@ const ScheduleCardArea = () => {
         gap: "32px",
       }}
     >
-      {artist.map((a) => (
-        <ScheduleCard
-          key={a.name}
-          name={a.name}
-          artistname={a.name}
-          image={a.image?.[3]?.["#text"] || "default.png"}
-        />
+      {schedules.map((a) => (
+        <>
+          <ScheduleCard
+            key={a.id}
+            name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
+            image={
+              a.image_url
+                ? a.image_url
+                : a.artist
+                ? a.artist.image_url
+                : a.artist_group.image_url
+            }
+            title={a.title}
+            id={a.id}
+          />
+        </>
       ))}
     </div>
   );

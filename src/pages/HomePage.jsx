@@ -1,10 +1,12 @@
 import React from "react";
+import useReadSchedules from "../api/useReadSchedules";
 import BannerAd from "../components/BannerAd";
 import MyArtistFilter from "../components/MyArtistFilter";
 import ScheduleCardArea from "../components/ScheduleCardArea";
 import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
+  const { schedules } = useReadSchedules();
   return (
     <div
       style={{
@@ -50,7 +52,8 @@ const HomePage = () => {
           >
             오늘의 스케줄
           </h1>
-          <ScheduleCardArea></ScheduleCardArea>
+
+          <ScheduleCardArea schedules={schedules}></ScheduleCardArea>
         </div>
       </div>
     </div>

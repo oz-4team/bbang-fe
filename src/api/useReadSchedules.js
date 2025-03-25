@@ -1,23 +1,25 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import useUserStore from '../store/userStore';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
-const useReadArtist = () => {
-    const [artist, setArtist] = useState([]);
+const useReadSchedules = () => {
+    const { accessToken } = useUserStore();
+    const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         setLoading(true);
-        const readArtist = async () => {
+        const readSchedules = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/schedules/`);
                 console.log("response:", response);
                 console.log("response.data:", response.data);
                 const data = response.data;
-                setArtist(data);
-                console.log("data:", data);
-                console.log("artist:", artist);
+                setSchedules(data);
+                console.log("API Scheduel data:", data);
+                console.log("API schedules:", schedules);
             }
             catch (error) {
                 console.error("Error reading artist:", error);
@@ -25,13 +27,13 @@ const useReadArtist = () => {
                 setLoading(false);
             }
         }
-        readArtist();
+        readSchedules();
     }, []);
 
-    return { artist, loading }; // ✅ 추가됨
+    return { schedules, loading }; // ✅ 추가됨
 };
 
 
 
 
-export default useReadArtist;
+export default useReadSchedules;
