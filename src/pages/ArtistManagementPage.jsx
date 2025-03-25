@@ -124,7 +124,7 @@ const ArtistManagementPage = () => {
             <div className="member-photo">
               {member.photo && <img src={member.photo} alt="멤버 사진" />}
               <label className="upload-button">
-                +업로드
+                업로드
                 <input
                   type="file"
                   accept="image/*"
