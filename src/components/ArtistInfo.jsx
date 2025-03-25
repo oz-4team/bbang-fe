@@ -3,8 +3,9 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import bigbangImage from "../assets/images/bigbang.png";
 import ygImage from "../assets/images/yg.png";
 
-const ArtistInfo = () => {
+const ArtistInfo = ({ artist }) => {
   const [favoriteArtist, setFavoriteArtist] = useState(false);
+  const { artist_group, artist_name, image_url } = artist;
 
   const toggleStar = () => {
     setFavoriteArtist(!favoriteArtist);
@@ -28,7 +29,11 @@ const ArtistInfo = () => {
           borderRadius: "15px",
         }}
       >
-        image
+        <img
+          src={image_url}
+          alt="Artist"
+          style={{ width: "100%", height: "100%", borderRadius: "15px" }}
+        />
       </div>
       <div
         style={{
@@ -38,7 +43,9 @@ const ArtistInfo = () => {
           flexGrow: "1",
         }}
       >
-        <div style={{ fontSize: "1.5rem" }}>아티스트명</div>
+        <div style={{ fontSize: "1.5rem" }}>
+          {artist_name ? artist_name : artist_group}
+        </div>
         <div>
           <img
             src={ygImage}

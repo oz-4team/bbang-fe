@@ -46,6 +46,7 @@ const PasswordInput = ({ label, id, value, onChange, error }) => {
 // 메인 컴포넌트
 const ProfilePage = () => {
   const { user, logout } = useUserStore();
+
   const navigate = useNavigate();
 
   const [userEmail, setUserEmail] = useState("");
@@ -53,7 +54,7 @@ const ProfilePage = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
+  const [image, setImage] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -86,7 +87,8 @@ const ProfilePage = () => {
         isValid = false;
       }
       if (newPassword !== confirmPassword) {
-        newErrors.confirmPassword = "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.";
+        newErrors.confirmPassword =
+          "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.";
         isValid = false;
       }
     }
@@ -100,7 +102,7 @@ const ProfilePage = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfileImage(reader.result);
+        setImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -117,7 +119,9 @@ const ProfilePage = () => {
 
   const handleDeleteAccount = () => {
     if (
-      window.confirm("정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다.")
+      window.confirm(
+        "정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다."
+      )
     ) {
       // TODO: 서버에 회원탈퇴 요청 보내기
 
@@ -126,7 +130,7 @@ const ProfilePage = () => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setProfileImage(null);
+      setImage(null);
       logout();
 
       alert("회원탈퇴가 완료되었습니다.");
@@ -137,32 +141,30 @@ const ProfilePage = () => {
   return (
     <div className="page-container">
       <div className="profile-page">
-      <div className="profile-picture">
-        <label htmlFor="profile-image-upload" className="profile-image-wrapper">
-        <div className="image-preview">
-        <img
-        src={
-          profileImage
-            ? profileImage
-            : "/icons/profile-placeholder.png"
-        }
-        alt="프로필 사진"
-        className="profile-image-edit"
-      />
-      <div className="overlay">
-        <span className="change-image-text">사진 변경</span>
-      </div>
-    </div>
-  </label>
-  <input
-    type="file"
-    id="profile-image-upload"
-    accept="image/*"
-    onChange={handleProfileImageChange}
-    style={{ display: "none" }}
-  />
-</div>
-
+        <div className="profile-picture">
+          <label
+            htmlFor="profile-image-upload"
+            className="profile-image-wrapper"
+          >
+            <div className="image-preview">
+              <img
+                src={user.image ? user.image : "/icons/profile-placeholder.png"}
+                alt="프로필 사진"
+                className="profile-image-edit"
+              />
+              <div className="overlay">
+                <span className="change-image-text">사진 변경</span>
+              </div>
+            </div>
+          </label>
+          <input
+            type="file"
+            id="profile-image-upload"
+            accept="image/*"
+            onChange={handleProfileImageChange}
+            style={{ display: "none" }}
+          />
+        </div>
 
         <form className="profile-form" onSubmit={handleSubmit}>
           <div className="form-group">

@@ -20,6 +20,7 @@ import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 
 import Privacy from "./components/Privacy";
 
+import ArtistGroupDetailPage from "./pages/ArtistGroupDetailPage";
 import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
 import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료
@@ -53,9 +54,16 @@ function App() {
           <Route element={<MainLayout />}>
             <Route index path="/" element={<HomePage />} />
             <Route path="/artist" element={<ArtistListPage />} />
-            <Route path="/artist/details" element={<ArtistDetailPage />} />
+            <Route path="/artist/solo/:id" element={<ArtistDetailPage />} />
+            <Route
+              path="/artist/group/:id"
+              element={<ArtistGroupDetailPage />}
+            />
             <Route path="/schedule" element={<SchedulePage />} />
-            <Route path="/schedule/details" element={<ScheduleDetailPage />} />
+            <Route
+              path="/schedule/details/:id"
+              element={<ScheduleDetailPage />}
+            />
             <Route
               path="/artist-management"
               element={<ArtistManagementPage />}
@@ -90,7 +98,7 @@ function App() {
               element={<ScheduleAddPage />}
             />
             <Route
-              path="/schedule-management/edit"
+              path="/schedule-management/edit/:id"
               element={<ScheduleEditPage />}
             />
 

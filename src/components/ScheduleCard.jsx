@@ -1,7 +1,7 @@
 import { default as React, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
-const ScheduleCard = ({ artistname, name, image }) => {
+const ScheduleCard = ({ artistname, name, image, title }) => {
   const [starred, setStarred] = useState(false);
 
   const toggleStar = () => {
@@ -34,8 +34,9 @@ const ScheduleCard = ({ artistname, name, image }) => {
           alt=""
           style={{
             width: "100%",
-            height: "auto",
+            height: "100%",
             objectFit: "cover",
+            aspectRatio: "1/1",
           }}
         />
       </div>
@@ -49,7 +50,7 @@ const ScheduleCard = ({ artistname, name, image }) => {
         <div
           style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
         >
-          {name}
+          {title}
         </div>
         <div
           onClick={toggleStar}
@@ -58,7 +59,7 @@ const ScheduleCard = ({ artistname, name, image }) => {
           {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
         </div>
       </div>
-      <div style={{ textAlign: "left" }}>{artistname}</div>
+      <div style={{ textAlign: "left" }}>{name}</div>
     </div>
   );
 };

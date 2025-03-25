@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
-import { signupUser } from "../api/authApi";
 import SocialLogin from "../components/SocialLogin";
 import "../styles/SignupForm.css";
-import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존성 유효성 함수 불러오기
 
 import AWS from "aws-sdk";
 import * as config from "../config/config";
@@ -64,54 +61,65 @@ function SignUpQuickTestPage() {
   //   }
   // }
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!isValidEmail(email)) {
-      newErrors.email = "올바른 이메일 형식인지 확인해주세요.";
-    }
-    if (!isValidPassword(password)) {
-      newErrors.password = "비밀번호는 8자이상으로 설정해주세요";
-    }
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
-    }
-    if (!nickname) {
-      newErrors.nickname = "닉네임을 입력해주세요.";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  // const validateForm = () => {
+  //   const newErrors = {};
+  //   if (!isValidEmail(email)) {
+  //     newErrors.email = "올바른 이메일 형식인지 확인해주세요.";
+  //   }
+  //   if (!isValidPassword(password)) {
+  //     newErrors.password = "비밀번호는 8자이상으로 설정해주세요";
+  //   }
+  //   if (password !== confirmPassword) {
+  //     newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
+  //   }
+  //   if (!nickname) {
+  //     newErrors.nickname = "닉네임을 입력해주세요.";
+  //   }
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (files && files[0].size > 10 * 1024 * 1024) {
       alert("10mb 이하의 파일만 업로드할 수 있습니다.");
     } else {
-      const uploadFiles = files[0];
-      const keyname = files[0].name;
-
-      // Todo S3에 파일 저장 후 response로 파일 링크 받아오기
-      const upload = new AWS.S3.ManagedUpload({
-        params: {
-          Bucket: "bbangu", // 업로드할 대상 버킷명
-          Key: keyname, //파일명+확장자
-          Body: uploadFiles, // 업로드할 파일 객체
-        },
-      });
-
-      const promise = upload.promise();
-
-      promise.then(
-        function (data) {
-          alert("이미지 업로드에 성공했습니다.");
-          console.log("이미지 업로드에 성공했습니다.", data.Location);
-          setImage_url(data.Location);
-        },
-        function (err) {
-          return alert("오류가 발생했습니다: ", err.message);
-        }
-      );
+      setEmail("testemail@gggg.com");
+      setPassword("abcd12345678");
+      setConfirmPassword("abcd12345678");
+      setNickname("sashatest");
+      setGender("female");
+      setAge("1956");
+      setImage_url(files);
+      // const uploadFiles = files[0];
+      // const keyname = files[0].name;
+      // // Todo S3에 파일 저장 후 response로 파일 링크 받아오기
+      // const upload = new AWS.S3.ManagedUpload({
+      //   params: {
+      //     Bucket: "bbangu", // 업로드할 대상 버킷명
+      //     Key: keyname, //파일명+확장자
+      //     Body: uploadFiles, // 업로드할 파일 객체
+      //   },
+      // });
+      // const promise = upload.promise();
+      // promise.then(
+      //   function (data) {
+      //     alert("이미지 업로드에 성공했습니다.");
+      //     console.log("이미지 업로드에 성공했습니다.", data.Location);
+      //     setImage_url(data.Location);
+      //   },
+      //   function (err) {
+      //     return alert("오류가 발생했습니다: ", err.message);
+      //   }
+      // );
     }
+    // let formData = new FormData();
+    // formData.append("email", email);
+    // formData.append("password", password);
+    // formData.append("nickname", nickname);
+    // formData.append("image_url", image_url);
+    // formData.append("age", age);
+    // formData.append("gentder", gender);
 
     if (validateForm()) {
       const userData = {
@@ -123,10 +131,10 @@ function SignUpQuickTestPage() {
         image_url, // 수정
       };
 
-      console.log("회원가입 요청 데이터:", userData);
+      console.log("회원가입 요청 데이터:", formData);
 
       try {
-        const response = await signupUser(userData);
+        const response = await signupUser(formData);
         console.log("회원가입 응답 데이터:", response);
 
         navigate("/signup-completed", {
@@ -176,7 +184,7 @@ function SignUpQuickTestPage() {
         {/* <button onClick={saveEventhandler}>upload</button> */}
       </div>
 
-      <div className="form-group">
+      {/* <div className="form-group">
         <input
           type="email"
           placeholder="이메일을 입력해주세요"
@@ -184,42 +192,7 @@ function SignUpQuickTestPage() {
           onChange={(e) => setEmail(e.target.value)}
         />
         {errors.email && <p className="error">{errors.email}</p>}
-      </div>
-
-      <div className="form-group password-group">
-        <input
-          type={passwordVisible ? "text" : "password"}
-          placeholder="비밀번호를 입력해주세요"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {errors.password && <p className="error">{errors.password}</p>}
-        <span
-          className="password-toggle"
-          onClick={() => setPasswordVisible(!passwordVisible)}
-        >
-          {passwordVisible ? <FiEyeOff /> : <FiEye />}
-        </span>
-      </div>
-
-      <div className="form-group password-group">
-        <input
-          type={confirmPasswordVisible ? "text" : "password"}
-          placeholder="비밀번호를 재입력해주세요"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        {errors.confirmPassword && (
-          <p className="error">{errors.confirmPassword}</p>
-        )}
-        <span
-          className="password-toggle"
-          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-        >
-          {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
-        </span>
-      </div>
-
+      </div> */}
       <div>
         <label>
           <input type="checkbox" required />{" "}

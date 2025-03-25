@@ -6,9 +6,6 @@ import SocialLogin from "../components/SocialLogin";
 import "../styles/SignupForm.css";
 import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존성 유효성 함수 불러오기
 
-import AWS from "aws-sdk";
-import * as config from "../config/config";
-
 function SignUpPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -24,45 +21,6 @@ function SignUpPage() {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const [files, setFiles] = useState("");
-
-  AWS.config.update({
-    region: config.awsRegion, // 버킷이 존재하는 리전을 문자열로 입력합니다. (Ex. "ap-northeast-2")
-    credentials: new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: config.awsIdentityPoolId, // cognito 인증 풀에서 받아온 키를 문자열로 입력합니다. (Ex. "ap-northeast-2...")
-    }),
-  });
-
-  // function saveEventhandler() {
-  //   if (files && files[0].size > 10 * 1024 * 1024) {
-  //     alert("10mb 이하의 파일만 업로드할 수 있습니다.");
-  //   } else {
-  //     const uploadFiles = files[0];
-  //     const keyname = files[0].name;
-
-  //     // Todo S3에 파일 저장 후 response로 파일 링크 받아오기
-  //     const upload = new AWS.S3.ManagedUpload({
-  //       params: {
-  //         Bucket: "bbangu", // 업로드할 대상 버킷명
-  //         Key: keyname, //파일명+확장자
-  //         Body: uploadFiles, // 업로드할 파일 객체
-  //       },
-  //     });
-
-  //     const promise = upload.promise();
-
-  //     promise.then(
-  //       function (data) {
-  //         alert("이미지 업로드에 성공했습니다.");
-  //         console.log("이미지 업로드에 성공했습니다.", data.Location);
-  //         console.log("이미지 업로드에 성공했습니다. data", data);
-  //         setImage(data.Location);
-  //       },
-  //       function (err) {
-  //         return alert("오류가 발생했습니다: ", err.message);
-  //       }
-  //     );
-  //   }
-  // }
 
   const validateForm = () => {
     const newErrors = {};
@@ -87,30 +45,7 @@ function SignUpPage() {
     if (files && files[0].size > 10 * 1024 * 1024) {
       alert("10mb 이하의 파일만 업로드할 수 있습니다.");
     } else {
-      const uploadFiles = files[0];
-      const keyname = files[0].name;
-
-      // Todo S3에 파일 저장 후 response로 파일 링크 받아오기
-      const upload = new AWS.S3.ManagedUpload({
-        params: {
-          Bucket: "bbangu", // 업로드할 대상 버킷명
-          Key: keyname, //파일명+확장자
-          Body: uploadFiles, // 업로드할 파일 객체
-        },
-      });
-
-      const promise = upload.promise();
-
-      promise.then(
-        function (data) {
-          alert("이미지 업로드에 성공했습니다.");
-          console.log("이미지 업로드에 성공했습니다.", data.Location);
-          setImage_url(data.Location);
-        },
-        function (err) {
-          return alert("오류가 발생했습니다: ", err.message);
-        }
-      );
+      setImage_url(files[0]);
     }
     if (validateForm()) {
       const userData = {
@@ -118,26 +53,25 @@ function SignUpPage() {
         password,
         nickname,
         gender,
-        age, // 수정
-        image_url, // 수정
-
+        age,
+        image_url,
       };
-  
+
       console.log("🚀 회원가입 요청 데이터:", userData); //  전송 전 데이터 확인
-  
+
       try {
         const response = await signupUser(userData);
         console.log(" 회원가입 응답 데이터:", response); //  응답 확인
-  
+
         navigate("/signup-completed", {
           state: { nickname, email, image_url },
         });
       } catch (error) {
         console.error(" 회원가입 실패:", error.message);
-  
+
         if (error.response) {
-          console.error(" 백엔드 응답 데이터:", error.response.data);  // 상세 원인
-          console.error(" 전체 에러 응답 객체:", error.response);      // 상태 코드 등 포함
+          console.error(" 백엔드 응답 데이터:", error.response.data); // 상세 원인
+          console.error(" 전체 에러 응답 객체:", error.response); // 상태 코드 등 포함
         } else {
           console.error(" 서버 연결 실패 또는 응답 없음:", error);
         }
