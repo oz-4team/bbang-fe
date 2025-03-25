@@ -3,10 +3,22 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/userStore";
 
-const ScheduleListItem = () => {
+const ScheduleListItem = ({ schedules }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
+  const id = schedules?.id;
+  const title = schedules?.title;
+  const full_date = schedules?.start_date?.split("T")[0];
+  const date = full_date.split("-").slice(1).join(".");
+  const full_start_time = schedules?.start_date?.split("T")[1];
+  const start_time = full_start_time.split(":").slice(0, 2).join(":");
+  const end_time = schedules?.end_date?.split("T")[1];
+
+  console.log("date🙂:", date);
+  console.log("start_time🙂:", start_time);
+  console.log("end_time🙂:", end_time);
+  console.log("schedule🙂:", schedules);
 
   const toggleStar = () => {
     setStarred(!starred);
@@ -15,7 +27,7 @@ const ScheduleListItem = () => {
     <div
       onClick={(e) => {
         e.stopPropagation();
-        navigate("/schedule/details");
+        navigate(`/schedule/details/${id}`);
       }}
       style={{
         display: "flex",
@@ -35,9 +47,9 @@ const ScheduleListItem = () => {
           alignItems: "top",
         }}
       >
-        <div>3.12</div>
-        <div>18:00</div>
-        <div style={{ textAlign: "left" }}>스케줄명</div>
+        <div> {date} </div>
+        <div>{start_time}</div>
+        <div style={{ textAlign: "left" }}>{title}</div>
       </div>
       {user?.isAdmin ? null : (
         <div

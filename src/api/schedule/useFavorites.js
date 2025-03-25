@@ -49,8 +49,8 @@ const useFavorites = () => {
 
             const data = response.data;
             setFavoriteIds(data);
-            console.log("data:", data);
-            console.log("favorite:", favoriteIds);
+            console.log("favouserfavoriteuserfavoriteuserfavoriteuserfavoriterite:", data);
+            console.log("favouserfavoriteuserfavoriteuserfavoriteuserfavoriterite:", favoriteIds);
 
         }
         catch (error) {
@@ -62,7 +62,7 @@ const useFavorites = () => {
     }
 
 
-    return { favorite, loading, favoriteIds, addFavorite, readFavorite }; // ✅ 추가됨
+    return { favorite, loading, addFavorite, readFavorite };
 
 };
 
