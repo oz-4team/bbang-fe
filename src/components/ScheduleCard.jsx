@@ -1,15 +1,33 @@
-import { default as React, useState } from "react";
+import { default as React, useEffect, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import useFavorites from "../api/schedule/useFavorites";
+import useUserStore from "../store/userStore";
 
-const ScheduleCard = ({ artistname, name, image, title }) => {
+const ScheduleCard = ({ artistname, name, image, title, id, onCardClick }) => {
+  const { user, logout } = useUserStore();
+  const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
+  const { favorite, loading, addFavorite, readFavorite } = useFavorites();
 
-  const toggleStar = () => {
+  const toggleStar = (e) => {
+    e.stopPropagation();
     setStarred(!starred);
+    addFavorite({ id });
+    // useUserStore.setState({ starred: !starred });
   };
+  const handleClickScheduleDetail = (e) => {
+    e.stopPropagation();
+    navigate(`/schedule/details/${id}`);
+  };
+
+  useEffect(() => {
+    readFavorite();
+  }, []);
 
   return (
     <div
+      onClick={user ? handleClickScheduleDetail : onCardClick}
       style={{
         display: "flex",
         flexDirection: "column",
