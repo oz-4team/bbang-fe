@@ -1,239 +1,256 @@
 /* 전체 페이지 스타일 */
 .artist-management-page {
-    font-family: "Arial", sans-serif;
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  /* 그룹 정보 섹션 */
-  .group-info {
-    display: flex;
-    align-items: flex-start; /* 그룹사진과 텍스트 상단 정렬 */
-    background-color: #e0e0e0;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-/* 그룹 로고 컨테이너 */
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 그룹 정보 섹션 */
+.group-info {
+  display: flex;
+  align-items: flex-start;
+  background-color: #f3f3f3;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 30px;
+}
+
+/* 그룹 사진 컨테이너 */
+.group-photo {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.group-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.group-photo:hover img {
+  transform: scale(1.1);
+}
+
+.group-photo .upload-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.group-photo:hover .upload-button {
+  opacity: 1;
+}
+
+/* 그룹 세부 정보 */
+.group-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.group-details input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
 .group-logo {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    overflow: hidden;
-  }
-  
-  /* 그룹 로고 이미지 */
-  .group-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transition: transform 0.3s ease;
-  }
-  
-  /* 그룹 로고 호버 효과 */
-  .group-logo:hover img {
-    transform: scale(1.1);
-  }
-  
-  /* 그룹 로고 업로드 버튼 오버레이 */
-  .group-logo .upload-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .group-logo:hover .upload-button {
-    opacity: 1;
-  }
-  
-  /* 그룹 사진 컨테이너 */
-  .group-photo {
-    position: relative;
-    width: 250px;
-    height: 250px;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    overflow: hidden;
-  }
-  
-  /* 그룹 사진 이미지 */
-  .group-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transition: transform 0.3s ease;
-  }
-  
-  /* 그룹 사진 호버 효과 */
-  .group-photo:hover img {
-    transform: scale(1.1);
-  }
-  
-  /* 그룹 사진 업로드 버튼 오버레이 */
-  .group-photo .upload-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .group-photo:hover .upload-button {
-    opacity: 1;
-  }
-  
-  /* 파일 입력 숨김 (그룹 로고와 그룹 사진 모두에 적용) */
-  .upload-button input {
-    display: none;
-  }
-  
-  
-  .group-details {
-    margin-left: 40px; /* 그룹사진 크기에 맞춰 여백 확대 */
-    width: calc(100% - 250px - 40px); /* 그룹사진 옆 공간을 채우도록 설정 */
-  }
-  
-  /* 텍스트 왼쪽 정렬 */
-  .group-details h2 {
-    font-size: 28px; /* 그룹명 텍스트 크기 확대 */
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  .group-details p {
-    margin: 8px 0;
-    text-align: left;
-  }
-  
-  /* 팬덤 텍스트와 저장 버튼 정렬 */
-  .fandom-row {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .fandom-row p {
-    text-align: left;
-    white-space: nowrap;   /* 줄 바꿈 방지 */
-  }
-  
-  .save-button {
-    margin-top: auto;
-    padding: 5px 10px;
-    background-color: transparent;
-    color: #6200ea;
-    border: none;
-  }
-  
-  /* 멤버 섹션 제목 */
-  .member-section-title {
-    font-size: 20px;
-    margin-top: 30px;
-  }
-  
-  /* 멤버 카드 컨테이너 */
-  .member-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  /* 멤버 카드 스타일 */
-  .member-card {
-    position: relative;
-    width: calc(50% - 10px);
-    max-width: 400px;
-    background-color: white;
-    border-radius: 25px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-  }
-  
-  /* 삭제 버튼 */
-  .delete-button {
-    position: absolute;
-    background: none;
-    border-radius: 250px;
-    top: 2px;
-    right: 3px;
-  }
-  
-/* 멤버 사진 컨테이너 */
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.group-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.group-logo:hover img {
+  transform: scale(1.1);
+}
+
+.group-logo .upload-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.group-logo:hover .upload-button {
+  opacity: 1;
+}
+
+/* 팬덤 입력과 저장 버튼 */
+.fandom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-button {
+  padding: 6px 12px;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.save-button:hover {
+  background-color: #4b00b3;
+}
+
+/* 멤버 섹션 제목 */
+.member-section-title {
+  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+}
+
+/* 멤버 컨테이너 */
+.member-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* 멤버 카드 */
+.member-card {
+  position: relative;
+  width: calc(50% - 10px);
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 삭제 버튼 */
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* 멤버 사진 */
 .member-photo {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 15px;
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    overflow: hidden;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-/* 멤버 사진이 있을 경우 */
 .member-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-/* 호버 효과 추가 */
 .member-photo:hover img {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
-/* 멤버 사진 업로드 버튼 오버레이 */
 .member-photo .upload-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .member-photo:hover .upload-button {
-    opacity: 1;
+  opacity: 1;
+}
+
+/* 인풋 필드 */
+.member-card input[type="text"] {
+  padding: 8px 10px;
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* 멤버 추가 버튼 */
+.add-member-button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #03a9f4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-member-button:hover {
+  background-color: #0288d1;
 }
 
 /* 파일 입력 숨김 */
-.member-photo .upload-button input {
-    display: none;
+.upload-button input {
+  display: none;
 }
