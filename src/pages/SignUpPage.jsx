@@ -14,13 +14,16 @@ function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
+
   const [image_url, setImage_url] = useState(null);
+
   const [errors, setErrors] = useState({});
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const [files, setFiles] = useState("");
+  const [preview, setPreview] = useState(null);
 
   const validateForm = () => {
     const newErrors = {};
@@ -42,10 +45,12 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (files && files[0].size > 10 * 1024 * 1024) {
       alert("10mb 이하의 파일만 업로드할 수 있습니다.");
     } else {
       setImage_url(files[0]);
+
     }
     if (validateForm()) {
       const userData = {
@@ -81,13 +86,15 @@ function SignUpPage() {
 
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
-    setFiles(e.target.files);
+    setFiles(file);
     if (file) {
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage_url(reader.result);
       };
       reader.readAsDataURL(file);
+
     }
   };
 

@@ -2,6 +2,7 @@ import React from "react";
 import useReadSchedules from "../api/schedule/useReadSchedules";
 import ScheduleCard from "./ScheduleCard";
 
+
 const ScheduleCardArea = ({ onCardClick }) => {
   const { schedules } = useReadSchedules();
 
@@ -9,6 +10,7 @@ const ScheduleCardArea = ({ onCardClick }) => {
 
   if (schedules.length === 0) {
     return <div>loading...</div>;
+
   }
   return (
     <div
