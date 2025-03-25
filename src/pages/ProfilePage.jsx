@@ -59,8 +59,10 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
+      console.log("✅ user.image_url 확인:", user.image_url);
       setUserEmail(user.email || "user@example.com");
       setUserNickname(user.nickname || "");
+      setImage(user.image_url || ""); 
       // TODO: 필요하면 사용자 프로필 정보 더 불러오기
     }
   }, [user]);
@@ -148,7 +150,7 @@ const ProfilePage = () => {
           >
             <div className="image-preview">
               <img
-                src={user.image ? user.image : "/icons/profile-placeholder.png"}
+                src={image || user.image_url || "/icons/profile-placeholder.png"}
                 alt="프로필 사진"
                 className="profile-image-edit"
               />
