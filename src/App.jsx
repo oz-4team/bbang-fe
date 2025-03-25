@@ -15,16 +15,19 @@ import ResetPasswordPage from "./pages/ResetPasswordPage"; // ✅ 수정됨
 import ScheduleDetailPage from "./pages/ScheduleDetailPage";
 import SchedulePage from "./pages/SchedulePage";
 import SignUpPage from "./pages/SignUpPage";
+import SignUpTestPage from "./pages/SignUpTestPage";
 import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 
 import Privacy from "./components/Privacy";
 
+import ArtistGroupDetailPage from "./pages/ArtistGroupDetailPage";
 import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
 import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료
 import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleEditPage from "./pages/ScheduleEditPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
+import SignUpQuickTestPage from "./pages/SignUpQuickTestPage";
 import TestSashaPage from "./pages/TestSashaPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
 
@@ -51,9 +54,16 @@ function App() {
           <Route element={<MainLayout />}>
             <Route index path="/" element={<HomePage />} />
             <Route path="/artist" element={<ArtistListPage />} />
-            <Route path="/artist/details" element={<ArtistDetailPage />} />
+            <Route path="/artist/solo/:id" element={<ArtistDetailPage />} />
+            <Route
+              path="/artist/group/:id"
+              element={<ArtistGroupDetailPage />}
+            />
             <Route path="/schedule" element={<SchedulePage />} />
-            <Route path="/schedule/details" element={<ScheduleDetailPage />} />
+            <Route
+              path="/schedule/details/:id"
+              element={<ScheduleDetailPage />}
+            />
             <Route
               path="/artist-management"
               element={<ArtistManagementPage />}
@@ -69,6 +79,8 @@ function App() {
           <Route element={<EmptyLayout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signup-test" element={<SignUpTestPage />} />
+            <Route path="/signup-quicktest" element={<SignUpQuickTestPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/signup-completed" element={<SignupCompletedPage />} />
@@ -86,7 +98,7 @@ function App() {
               element={<ScheduleAddPage />}
             />
             <Route
-              path="/schedule-management/edit"
+              path="/schedule-management/edit/:id"
               element={<ScheduleEditPage />}
             />
 

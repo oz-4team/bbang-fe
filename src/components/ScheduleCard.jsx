@@ -1,15 +1,33 @@
-import { default as React, useState } from "react";
+import { default as React, useEffect, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import useFavorites from "../api/schedule/useFavorites";
+import useUserStore from "../store/userStore";
 
-const ScheduleCard = ({ artistname, name, image }) => {
+const ScheduleCard = ({ artistname, name, image, title, id, onCardClick }) => {
+  const { user, logout } = useUserStore();
+  const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
+  const { favorite, loading, addFavorite, readFavorite } = useFavorites();
 
-  const toggleStar = () => {
+  const toggleStar = (e) => {
+    e.stopPropagation();
     setStarred(!starred);
+    addFavorite({ id });
+    // useUserStore.setState({ starred: !starred });
   };
+  const handleClickScheduleDetail = (e) => {
+    e.stopPropagation();
+    navigate(`/schedule/details/${id}`);
+  };
+
+  useEffect(() => {
+    readFavorite();
+  }, []);
 
   return (
     <div
+      onClick={user ? handleClickScheduleDetail : onCardClick}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -34,8 +52,9 @@ const ScheduleCard = ({ artistname, name, image }) => {
           alt=""
           style={{
             width: "100%",
-            height: "auto",
+            height: "100%",
             objectFit: "cover",
+            aspectRatio: "1/1",
           }}
         />
       </div>
@@ -49,7 +68,7 @@ const ScheduleCard = ({ artistname, name, image }) => {
         <div
           style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
         >
-          {name}
+          {title}
         </div>
         <div
           onClick={toggleStar}
@@ -58,7 +77,7 @@ const ScheduleCard = ({ artistname, name, image }) => {
           {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
         </div>
       </div>
-      <div style={{ textAlign: "left" }}>{artistname}</div>
+      <div style={{ textAlign: "left" }}>{name}</div>
     </div>
   );
 };

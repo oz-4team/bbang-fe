@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { FiLink } from "react-icons/fi";
@@ -7,13 +7,37 @@ import { IoDocumentTextOutline, IoShareSocialOutline } from "react-icons/io5";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useReadScheduleApi from "../api/schedule/useReadScheduleApi";
 import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
+  const { id } = useParams();
+  // const [date, setDate] = useState("");
+  const { schedule, loading, readSchedule } = useReadScheduleApi();
+  const date = schedule?.start_date?.split("T")[0];
+  const start_time = schedule?.start_date?.split("T")[1];
+  const end_time = schedule?.end_date?.split("T")[1];
+  const location = schedule?.location;
+  const description = schedule?.description;
+  const image =
+    schedule?.image_url ||
+    schedule?.artist?.image_url ||
+    schedule?.artist_group?.image_url;
+
+  useEffect(() => {
+    readSchedule({ id });
+  }, [id]);
+
   const navigate = useNavigate();
   const [starred, setStarred] = useState(false);
   const { user, logout } = useUserStore();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
@@ -51,9 +75,19 @@ const ScheduleDetailPage = () => {
               minHeight: "200px",
               border: "1px solid #AFB1B6",
               borderRadius: "15px",
+              overflow: "hidden",
             }}
           >
-            image
+            <img
+              src={image}
+              alt=""
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                aspectRatio: "1/1",
+              }}
+            />
           </div>
           <div
             style={{
@@ -64,12 +98,15 @@ const ScheduleDetailPage = () => {
               gap: "1rem",
             }}
           >
-            <div style={{ fontSize: "1.5rem" }}>스케줄명</div>
+            <div style={{ fontSize: "1.5rem" }}>{schedule.title}</div>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-              <LuCalendarDays color="#AFB1B6" /> <div>2025.03.12</div>
+              <LuCalendarDays color="#AFB1B6" /> <div>{date}</div>
             </div>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-              <MdOutlineWatchLater color="#AFB1B6" /> <div>18:00 ~ 24:00</div>
+              <MdOutlineWatchLater color="#AFB1B6" />{" "}
+              <div>
+                {start_time} ~ {end_time}
+              </div>
             </div>
             <div>category tag area</div>
             <div>hashtag area</div>
@@ -99,14 +136,15 @@ const ScheduleDetailPage = () => {
             <BsPerson color="#AFB1B6" /> <div>출연진</div>
           </div>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <IoDocumentTextOutline color="#AFB1B6" /> <div>설명</div>
+            <IoDocumentTextOutline color="#AFB1B6" />{" "}
+            <div>{schedule.description}</div>
           </div>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <FiLink color="#AFB1B6" /> <div>링크</div>
           </div>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
-            <div>주소 ㅇㅇ시 ㅇㅇ구 ㅇㅇ동 ㅇㅇ번지 </div>
+            <div>{schedule.location} </div>
           </div>
         </div>
         <div

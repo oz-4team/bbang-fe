@@ -62,7 +62,7 @@ const NavItem = styled.li.attrs(({ $isactive }) => ({
 
 const Navigation = () => {
   const { user, logout } = useUserStore();
-  console.log("✅ 현재 user 정보:", user);
+  // console.log("✅ 현재 user 정보:", user);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -73,8 +73,11 @@ const Navigation = () => {
   };
 
   const handleLogoutClick = () => {
-    logout();
-    navigate("/");
+    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      logout();
+      navigate("/");
+    }
   };
 
   const handleProfileClick = () => {

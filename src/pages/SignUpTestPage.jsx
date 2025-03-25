@@ -6,7 +6,7 @@ import SocialLogin from "../components/SocialLogin";
 import "../styles/SignupForm.css";
 import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존성 유효성 함수 불러오기
 
-function SignUpPage() {
+function SignUpTestPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,16 +14,13 @@ function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
-
   const [image_url, setImage_url] = useState(null);
-
   const [errors, setErrors] = useState({});
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const [files, setFiles] = useState("");
-  const [preview, setPreview] = useState(null);
 
   const validateForm = () => {
     const newErrors = {};
@@ -45,13 +42,12 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (files && files[0].size > 10 * 1024 * 1024) {
       alert("10mb 이하의 파일만 업로드할 수 있습니다.");
     } else {
       setImage_url(files[0]);
-
     }
+
     if (validateForm()) {
       const userData = {
         email,
@@ -62,39 +58,30 @@ function SignUpPage() {
         image_url,
       };
 
-      console.log("🚀 회원가입 요청 데이터:", userData); //  전송 전 데이터 확인
+      console.log("회원가입 요청 데이터:", userData);
 
       try {
         const response = await signupUser(userData);
-        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
+        console.log("회원가입 응답 데이터:", response);
 
         navigate("/signup-completed", {
           state: { nickname, email, image_url },
         });
       } catch (error) {
-        console.error(" 회원가입 실패:", error.message);
-
-        if (error.response) {
-          console.error(" 백엔드 응답 데이터:", error.response.data); // 상세 원인
-          console.error(" 전체 에러 응답 객체:", error.response); // 상태 코드 등 포함
-        } else {
-          console.error(" 서버 연결 실패 또는 응답 없음:", error);
-        }
+        console.error("회원가입 실패:", error.message);
       }
     }
   };
 
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
-    setFiles(file);
+    setFiles(e.target.files);
     if (file) {
-
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage_url(reader.result);
       };
       reader.readAsDataURL(file);
-
     }
   };
 
@@ -222,4 +209,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignUpTestPage;

@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useReadArtistApi from "../api/artist/useReadArtistApi";
+import useReadArtistGroupApi from "../api/artist/useReadArtistGroupApi";
 import ArtistInfo from "../components/ArtistInfo";
+import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
-const ArtistDetailPage = () => {
+const ArtistGroupDetailPage = () => {
   const { id } = useParams();
 
-  const { artist, readArtist, loading, error } = useReadArtistApi();
+  const { artist, readArtist, loading, error } = useReadArtistGroupApi();
 
   useEffect(() => {
     readArtist({ id });
@@ -45,11 +46,7 @@ const ArtistDetailPage = () => {
               margin: "2rem auto",
             }}
           >
-            {/* {artist_type === "solo" ? (
-              <MemberCard artist={artists} />
-            ) : (
-              <GroupMemberCard artistGroups={artistGroups} />
-            )} */}
+            <MemberCard artist={artist} />
           </div>
         </div>
         <ScheduleAreaInArtist />
@@ -58,4 +55,4 @@ const ArtistDetailPage = () => {
   );
 };
 
-export default ArtistDetailPage;
+export default ArtistGroupDetailPage;

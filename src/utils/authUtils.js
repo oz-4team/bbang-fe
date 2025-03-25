@@ -51,3 +51,54 @@ export const removeToken = () => {
 
     console.log("모든 토큰 삭제 완료!");
 };
+
+// 토큰 만료 여부 검사
+export const isTokenExpired = () => {
+    const token = getToken();
+    if (!token) return true;
+
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1])); // JWT payload 디코딩
+        const now = Math.floor(Date.now() / 1000); // 현재 시간 (초 단위)
+        return payload.exp < now;
+    } catch (err) {
+        console.error("토큰 디코딩 오류:", err);
+        return true;
+    }
+};
+
+export const shouldAutoLogout = () => {
+    const lastActivity = localStorage.getItem("lastActivity");
+    const now = Date.now();
+
+    return lastActivity && now - parseInt(lastActivity, 10) > 30 * 60 * 1000; // 30분
+};
+
+export const initInactivityLogoutTimer = () => {
+    let timeout;
+
+    const handleActivity = () => {
+        clearTimeout(timeout);
+        localStorage.setItem("lastActivity", Date.now());
+        timeout = setTimeout(() => {
+            console.log("⏰ 30분 동안 활동이 없어 자동 로그아웃 처리됩니다.");
+            useUserStore.getState().logout();
+            removeToken();
+        }, 30 * 60 * 1000); // 30분
+    };
+
+    window.addEventListener("mousemove", handleActivity);
+    window.addEventListener("keydown", handleActivity);
+    window.addEventListener("click", handleActivity);
+    window.addEventListener("scroll", handleActivity);
+
+    handleActivity(); // 최초 진입 시 타이머 시작
+
+    return () => {
+        clearTimeout(timeout);
+        window.removeEventListener("mousemove", handleActivity);
+        window.removeEventListener("keydown", handleActivity);
+        window.removeEventListener("click", handleActivity);
+        window.removeEventListener("scroll", handleActivity);
+    };
+};

@@ -1,14 +1,16 @@
 import React from "react";
-import useReadArtist from "../api/useReadArtist";
+import useReadSchedules from "../api/schedule/useReadSchedules";
 import ScheduleCard from "./ScheduleCard";
 
-const ScheduleCardArea = () => {
-  const { artist } = useReadArtist();
-  if (artist.length === null) {
-    return <div>loading..a.</div>;
-  }
-  if (artist.length === 0) {
-    return <div>호출 성공했지만 배열이 0인 상태</div>;
+
+const ScheduleCardArea = ({ onCardClick }) => {
+  const { schedules } = useReadSchedules();
+
+  console.log("schedules🙂:", schedules);
+
+  if (schedules.length === 0) {
+    return <div>loading...</div>;
+
   }
   return (
     <div
@@ -18,13 +20,21 @@ const ScheduleCardArea = () => {
         gap: "32px",
       }}
     >
-      {artist.map((a) => (
+      {schedules.map((a) => (
         <>
           <ScheduleCard
-            key={a.name}
-            name={a.name}
-            artistname={a.artist.name}
-            image={a.image[3]["#text"]}
+            key={a.id}
+            name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
+            image={
+              a.image_url
+                ? a.image_url
+                : a.artist
+                ? a.artist.image_url
+                : a.artist_group.image_url
+            }
+            title={a.title}
+            id={a.id}
+            onCardClick={() => onCardClick()}
           />
         </>
       ))}

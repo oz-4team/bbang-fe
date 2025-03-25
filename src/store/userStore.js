@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import {
-  getToken,
   getRefreshToken,
-  saveToken,
-  removeToken,
+  getToken,
   refreshAccessToken,
+  removeToken,
+  saveToken,
 } from "../utils/authUtils";
 
 // ✅ localStorage에서 안전하게 user 정보 파싱
@@ -13,6 +13,7 @@ try {
   const userData = localStorage.getItem("authUser");
   if (userData && userData !== "undefined") {
     storedUser = JSON.parse(userData);
+    // console.log("✅ 저장된 사용자 정보:", storedUser);
   } else {
     console.warn("⚠️ authUser 값이 비어있거나 'undefined'입니다.");
   }
@@ -34,6 +35,12 @@ const useUserStore = create((set, get) => ({
 
     if (!accessToken || !refreshToken) {
       console.error("🚨 액세스 토큰 또는 리프레시 토큰이 없습니다. 로그인 실패!");
+      return;
+    }
+
+    // ✅ 유효한 userData만 저장
+    if (typeof userData !== "object" || !userData.email) {
+      console.warn("⚠️ userData가 올바르지 않습니다. 저장하지 않습니다.");
       return;
     }
 

@@ -1,8 +1,9 @@
 import React from "react";
 import InstagramLogo from "../assets/images/Instagram-logo.svg";
 
-const MemberCard = ({ artist }) => {
-  const { artist_name, image_url } = artist;
+const GroupMemberCard = ({ artistGroups }) => {
+  const artist = artistGroups;
+  console.log("GroupMemberCard", artist);
   return (
     <div
       style={{
@@ -41,7 +42,7 @@ const MemberCard = ({ artist }) => {
             textAlign: "left",
           }}
         >
-          {artist_name}
+          {artist.artist_group}
         </div>
         <div style={{ cursor: "pointer", fontSize: "2rem" }}>
           <img
@@ -55,4 +56,4 @@ const MemberCard = ({ artist }) => {
   );
 };
 
-export default MemberCard;
+export default GroupMemberCard;
