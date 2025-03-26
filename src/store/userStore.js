@@ -70,9 +70,10 @@ const useUserStore = create((set, get) => ({
     console.log("🚪 로그아웃 실행");
 
     try {
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout/`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/logout/`, {
         method: "POST",
         headers: { Authorization: `Bearer ${getToken()}` },
+        body: JSON.stringify({ refresh: getRefreshToken() }),
       });
     } catch (error) {
       console.warn("⚠️ 백엔드 로그아웃 요청 실패:", error);

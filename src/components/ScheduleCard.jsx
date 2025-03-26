@@ -27,7 +27,7 @@ const ScheduleCard = ({
     }
 
     if (starred === true) {
-      deleteFavorite({ id });
+      deleteFavorite(id);
       // console.log("deleteFavorite:", deleteFavorite);
     }
     // useUserStore.setState({ starred: !starred });
