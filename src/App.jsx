@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayout from "./layouts/MainLayout";
 import AdminRequestCompletedPage from "./pages/AdminRequestCompletedPage";
