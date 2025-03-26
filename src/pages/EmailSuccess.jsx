@@ -53,14 +53,13 @@ function EmailSuccess() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await axios.get(`http://seonhm.kr/verify-email/`, {
+        const response = await axios.get(`https://seonhm.kr/verify-email/`, {
           params: { token },
         });
 
         console.log("✅ 이메일 인증 성공:", response.data);
         setStatus("success");
       } catch (error) {
-        console.error("❌ 이메일 인증 실패:", error);
         setStatus("fail");
       }
     };
@@ -74,7 +73,7 @@ function EmailSuccess() {
 
   const handleLoginRedirect = async () => {
     try {
-      const response = await axios.get(`http://seonhm.kr/verify-email/`, {
+      const response = await axios.get(`https://seonhm.kr/verify-email/`, {
         params: { token },
       });
 

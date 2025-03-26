@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/authApi"; // 백엔드 API 연결
+import { loginUser, fetchUserProfile } from "../api/authApi"; // 백엔드 API 연결
 import useUserStore from "../store/userStore";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 import SocialLogin from "../components/SocialLogin.jsx";
@@ -34,13 +34,17 @@ function LoginPage() {
       const { user, access, refresh } = await loginUser(email, password);
   
       login(user, access, refresh); // Zustand에 유저 정보 저장
-      console.log("로그인 성공:", user);
+      
+      console.log("✅ 로그인 성공:", user);
   
-      // 관리자 여부 관계없이 홈으로 이동
       navigate("/");
     } catch (err) {
-      console.error("로그인 실패:", err.message);
-      setError(err.message || "로그인 중 오류가 발생했습니다.");
+      // ✅ 여기 아래 로그 추가해 주세요!
+      console.error("❌ 로그인 실패 전체 에러 객체:", err);
+      console.error("❌ 서버 응답 데이터:", err.response?.data);
+      console.error("❌ 에러 메시지:", err.message);
+  
+      setError(err.response?.data?.message || err.message || "로그인 중 오류가 발생했습니다.");
     }
   };
 

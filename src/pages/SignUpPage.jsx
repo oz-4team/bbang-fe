@@ -42,38 +42,40 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (files && files[0].size > 10 * 1024 * 1024) {
       alert("10mb 이하의 파일만 업로드할 수 있습니다.");
-    } else {
-      setImage_url(files[0]);
+      return;
     }
+  
     if (validateForm()) {
-      const userData = {
-        email,
-        password,
-        nickname,
-        gender,
-        age,
-        image_url,
-      };
-
-      console.log("🚀 회원가입 요청 데이터:", userData); //  전송 전 데이터 확인
-
+      const formData = new FormData(); // FormData로 전송해야 함
+  
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("nickname", nickname);
+      formData.append("gender", gender);
+      formData.append("age", age);
+  
+      if (files && files[0]) {
+        formData.append("image_url", files[0]);
+      }
+  
+      console.log("🚀 회원가입 요청 데이터(FormData):", [...formData.entries()]);
+  
       try {
-        const response = await signupUser(userData);
-        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
-
+        const response = await signupUser(formData); // formData로 전송
+        console.log("회원가입 응답 데이터:", response);
+  
         navigate("/signup-completed", {
-          state: { nickname, email, image_url },
+          state: { nickname, email },
         });
       } catch (error) {
-        console.error(" 회원가입 실패:", error.message);
-
+        console.error("회원가입 실패:", error.message);
         if (error.response) {
-          console.error(" 백엔드 응답 데이터:", error.response.data); // 상세 원인
-          console.error(" 전체 에러 응답 객체:", error.response); // 상태 코드 등 포함
+          console.error("백엔드 응답 데이터:", error.response.data);
         } else {
-          console.error(" 서버 연결 실패 또는 응답 없음:", error);
+          console.error("서버 연결 실패 또는 응답 없음:", error);
         }
       }
     }

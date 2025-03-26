@@ -5,13 +5,13 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8
 
 // 토큰 저장
 export const saveToken = (accessToken, refreshToken) => {
-    localStorage.setItem("authToken", accessToken);
+    localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 };
 
 // 토큰 가져오기 & 갱신
-export const getToken = () => localStorage.getItem("authToken");
+export const getToken = () => localStorage.getItem("accessToken");
 export const getRefreshToken = () => localStorage.getItem("refreshToken");
 
 export const refreshAccessToken = async () => {
@@ -42,7 +42,7 @@ export const refreshAccessToken = async () => {
 
 // 토큰 삭제 (로그아웃 시 사용)
 export const removeToken = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
     if (axios.defaults.headers.common["Authorization"]) {
