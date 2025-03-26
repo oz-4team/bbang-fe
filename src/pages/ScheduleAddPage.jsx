@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
@@ -21,6 +21,8 @@ const Foo1Layout = styled.div`
 
 const ScheduleAddPage = () => {
   const [preview, setPreview] = React.useState(null);
+
+  const [] = useState();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -109,10 +111,10 @@ const ScheduleAddPage = () => {
           >
             <div>
               <label>스케줄명</label>
-              <input style={{ width: "100%" }} type="text" />
+              <input value={title} style={{ width: "100%" }} type="text" />
             </div>
             <div>
-              <label>스케줄 날짜</label>
+              <label value={start_date}>스케줄 날짜</label>
               <input
                 style={{
                   padding: "1rem",
@@ -268,6 +270,7 @@ const ScheduleAddPage = () => {
               <div>주소</div>
             </div>
             <input
+            value={location}
               style={{
                 padding: "1rem",
                 border: "1px solid #ccc",
