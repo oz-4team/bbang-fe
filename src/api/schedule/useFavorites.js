@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
-import useUserStore from '../../store/userStore';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
 const useFavorites = () => {
-    const { accessToken } = useUserStore();
+    const accessToken = localStorage.getItem("authToken");
+
     const [favorite, setFavorite] = useState([]);
     const [loading, setLoading] = useState(true);
     const [favoriteIds, setFavoriteIds] = useState();
@@ -24,6 +24,7 @@ const useFavorites = () => {
 
             const data = response.data;
             setFavorite(data);
+            console.log("add favorite!!!!");
             console.log("data:", data);
             console.log("favorite:", favorite);
 
@@ -72,7 +73,7 @@ const useFavorites = () => {
 
             const data = response.data;
             setFavoriteIds(data);
-            console.log("favouserfavoriteuserfavoriteuserfavoriteuserfavoriterite:", data);
+            console.log("AlllikeAlllikeAlllikeAlllike:", data);
             console.log("favouserfavoriteuserfavoriteuserfavoriteuserfavoriterite:", favoriteIds);
 
         }

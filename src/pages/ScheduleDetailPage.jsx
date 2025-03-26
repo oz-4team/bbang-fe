@@ -24,13 +24,19 @@ const ScheduleDetailPage = () => {
     schedule?.image_url ||
     schedule?.artist?.image_url ||
     schedule?.artist_group?.image_url;
+  const is_favorited = schedule?.is_favorited;
+  const [starred, setStarred] = useState(is_favorited);
+
+  useEffect(() => {
+    setStarred(is_favorited);
+  }, [is_favorited]);
 
   useEffect(() => {
     readSchedule({ id });
   }, [id]);
 
   const navigate = useNavigate();
-  const [starred, setStarred] = useState(false);
+
   const { user, logout } = useUserStore();
 
   useEffect(() => {

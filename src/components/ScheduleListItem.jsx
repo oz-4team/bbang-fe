@@ -6,7 +6,7 @@ import useUserStore from "../store/userStore";
 const ScheduleListItem = ({ schedules }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
-  const [starred, setStarred] = useState(false);
+
   const id = schedules?.id;
   const title = schedules?.title;
   const full_date = schedules?.start_date?.split("T")[0];
@@ -14,6 +14,8 @@ const ScheduleListItem = ({ schedules }) => {
   const full_start_time = schedules?.start_date?.split("T")[1];
   const start_time = full_start_time.split(":").slice(0, 2).join(":");
   const end_time = schedules?.end_date?.split("T")[1];
+  const is_favorited = schedules?.is_favorited;
+  const [starred, setStarred] = useState(is_favorited);
 
   console.log("date🙂:", date);
   console.log("start_time🙂:", start_time);

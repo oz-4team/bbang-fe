@@ -76,7 +76,7 @@ export const signupUser = async (userData) => {
                 error.response?.data?.detail || // Django의 기본 오류 메시지 키
                 error.message ||
                 "회원가입 실패"
-              );
+            );
         }
     }
 };
