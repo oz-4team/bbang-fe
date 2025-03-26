@@ -21,7 +21,6 @@ function SignUpPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-  // ✅ 마운트 시 localStorage에서 복원
   useEffect(() => {
     const saved = localStorage.getItem("signupFormData");
     if (saved) {
@@ -36,7 +35,6 @@ function SignUpPage() {
     }
   }, []);
 
-  // ✅ 입력값 변경 시 localStorage에 저장
   useEffect(() => {
     const formData = {
       email,
@@ -64,7 +62,7 @@ function SignUpPage() {
     if (!nickname) {
       newErrors.nickname = "닉네임을 입력해주세요.";
     }
-    setErrors(newErrors);
+    setErrors((prev) => ({ ...prev, ...newErrors }));
     return Object.keys(newErrors).length === 0;
   };
 
@@ -83,7 +81,7 @@ function SignUpPage() {
         nickname,
         gender,
         age,
-        image_url: imageFile, // 서버에 전송할 때는 File 객체
+        image_url: imageFile,
       };
 
       console.log("🚀 회원가입 요청 데이터:", userData);
@@ -91,6 +89,17 @@ function SignUpPage() {
       try {
         const response = await signupUser(userData);
         console.log("✅ 회원가입 응답:", response);
+
+        // 🔄 입력값 초기화
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setNickname("");
+        setGender("");
+        setAge("");
+        setImageFile(null);
+        setPreviewImageUrl(null);
+        setErrors({});
 
         localStorage.removeItem("signupFormData");
 
@@ -108,13 +117,49 @@ function SignUpPage() {
     }
   };
 
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(value)) {
+      setErrors((prev) => ({
+        ...prev,
+        passwordLang: "비밀번호에는 한글을 입력할 수 없습니다.",
+      }));
+    } else {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors.passwordLang;
+        return newErrors;
+      });
+    }
+    const filtered = value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, "");
+    setPassword(filtered);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(value)) {
+      setErrors((prev) => ({
+        ...prev,
+        passwordLang: "비밀번호에는 한글을 입력할 수 없습니다.",
+      }));
+    } else {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors.passwordLang;
+        return newErrors;
+      });
+    }
+    const filtered = value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, "");
+    setConfirmPassword(filtered);
+  };
+
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImageUrl(reader.result); // base64 preview
+        setPreviewImageUrl(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -160,9 +205,10 @@ function SignUpPage() {
           type={passwordVisible ? "text" : "password"}
           placeholder="비밀번호를 입력해주세요"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
         />
         {errors.password && <p className="error">{errors.password}</p>}
+        {errors.passwordLang && <p className="error">{errors.passwordLang}</p>}
         <span
           className="password-toggle"
           onClick={() => setPasswordVisible(!passwordVisible)}
@@ -176,14 +222,17 @@ function SignUpPage() {
           type={confirmPasswordVisible ? "text" : "password"}
           placeholder="비밀번호를 재입력해주세요"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={handleConfirmPasswordChange}
         />
         {errors.confirmPassword && (
           <p className="error">{errors.confirmPassword}</p>
         )}
+        {errors.passwordLang && <p className="error">{errors.passwordLang}</p>}
         <span
           className="password-toggle"
-          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+          onClick={() =>
+            setConfirmPasswordVisible(!confirmPasswordVisible)
+          }
         >
           {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
         </span>
