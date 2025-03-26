@@ -53,7 +53,7 @@ function EmailSuccess() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await axios.get(`http://seonhm.kr/verify-email/`, {
+        const response = await axios.get(`https://seonhm.kr/verify-email/`, {
           params: { token },
         });
 
@@ -74,7 +74,7 @@ function EmailSuccess() {
 
   const handleLoginRedirect = async () => {
     try {
-      const response = await axios.get(`http://seonhm.kr/verify-email/`, {
+      const response = await axios.get(`https://seonhm.kr/verify-email/`, {
         params: { token },
       });
 
