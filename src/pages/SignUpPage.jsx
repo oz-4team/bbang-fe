@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { signupUser } from "../api/authApi";
 import SocialLogin from "../components/SocialLogin";
 import "../styles/SignupForm.css";
-import { isValidEmail, isValidPassword } from "../utils/validation"; // 의존성 유효성 함수 불러오기
+import { isValidEmail, isValidPassword } from "../utils/validation";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -14,13 +14,41 @@ function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
-  const [image_url, setImage_url] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [previewImageUrl, setPreviewImageUrl] = useState(null);
   const [errors, setErrors] = useState({});
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-  const [files, setFiles] = useState("");
+  // ✅ 마운트 시 localStorage에서 복원
+  useEffect(() => {
+    const saved = localStorage.getItem("signupFormData");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setEmail(parsed.email || "");
+      setPassword(parsed.password || "");
+      setConfirmPassword(parsed.confirmPassword || "");
+      setNickname(parsed.nickname || "");
+      setGender(parsed.gender || "");
+      setAge(parsed.age || "");
+      setPreviewImageUrl(parsed.previewImageUrl || null);
+    }
+  }, []);
+
+  // ✅ 입력값 변경 시 localStorage에 저장
+  useEffect(() => {
+    const formData = {
+      email,
+      password,
+      confirmPassword,
+      nickname,
+      gender,
+      age,
+      previewImageUrl,
+    };
+    localStorage.setItem("signupFormData", JSON.stringify(formData));
+  }, [email, password, confirmPassword, nickname, gender, age, previewImageUrl]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -28,7 +56,7 @@ function SignUpPage() {
       newErrors.email = "올바른 이메일 형식인지 확인해주세요.";
     }
     if (!isValidPassword(password)) {
-      newErrors.password = "비밀번호는 8자이상으로 설정해주세요";
+      newErrors.password = "비밀번호는 8자 이상으로 설정해주세요.";
     }
     if (password !== confirmPassword) {
       newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
@@ -42,11 +70,12 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (files && files[0].size > 10 * 1024 * 1024) {
-      alert("10mb 이하의 파일만 업로드할 수 있습니다.");
-    } else {
-      setImage_url(files[0]);
+
+    if (imageFile && imageFile.size > 10 * 1024 * 1024) {
+      alert("10MB 이하의 파일만 업로드할 수 있습니다.");
+      return;
     }
+
     if (validateForm()) {
       const userData = {
         email,
@@ -54,26 +83,26 @@ function SignUpPage() {
         nickname,
         gender,
         age,
-        image_url,
+        image_url: imageFile, // 서버에 전송할 때는 File 객체
       };
 
-      console.log("🚀 회원가입 요청 데이터:", userData); //  전송 전 데이터 확인
+      console.log("🚀 회원가입 요청 데이터:", userData);
 
       try {
         const response = await signupUser(userData);
-        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
+        console.log("✅ 회원가입 응답:", response);
+
+        localStorage.removeItem("signupFormData");
 
         navigate("/signup-completed", {
-          state: { nickname, email, image_url },
+          state: { nickname, email, image_url: previewImageUrl },
         });
       } catch (error) {
-        console.error(" 회원가입 실패:", error.message);
-
+        console.error("❌ 회원가입 실패:", error.message);
         if (error.response) {
-          console.error(" 백엔드 응답 데이터:", error.response.data); // 상세 원인
-          console.error(" 전체 에러 응답 객체:", error.response); // 상태 코드 등 포함
+          console.error("백엔드 응답:", error.response.data);
         } else {
-          console.error(" 서버 연결 실패 또는 응답 없음:", error);
+          console.error("서버 연결 실패:", error);
         }
       }
     }
@@ -81,11 +110,11 @@ function SignUpPage() {
 
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
-    setFiles(e.target.files);
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage_url(reader.result);
+        setPreviewImageUrl(reader.result); // base64 preview
       };
       reader.readAsDataURL(file);
     }
@@ -98,9 +127,9 @@ function SignUpPage() {
       <div className="form-group">
         <label>프로필 업로드 (선택)</label>
         <div className="profile-upload">
-          {image_url ? (
+          {previewImageUrl ? (
             <img
-              src={image_url}
+              src={previewImageUrl}
               alt="프로필 미리보기"
               className="profile-preview"
             />
@@ -114,7 +143,6 @@ function SignUpPage() {
           className="profile-upload-input"
           onChange={handleProfileImageChange}
         />
-        {/* <button onClick={saveEventhandler}>upload</button> */}
       </div>
 
       <div className="form-group">
