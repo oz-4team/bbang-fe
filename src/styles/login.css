@@ -4,6 +4,13 @@
   min-height: 100vh;
   justify-content: center;
   padding: 20px;
+  width: 100vw;
+  align-items: center;
+}
+
+.login-container-style {
+  width: 100%;
+  max-width: 500px;
 }
 
 .login-title {
@@ -28,6 +35,7 @@
 
 .login-form {
   margin-top: 20px;
+  width: 100%;
 }
 
 .login-input {
@@ -112,4 +120,30 @@
 .google {
   background-color: white;
   border: 1px solid #ccc;
+}
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%; /* login-form과 동일한 너비 */
+  margin-bottom: 16px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #cccccc;
+  padding-right: 40px; /* 아이콘 공간 확보 */
+  box-sizing: border-box;
+}
+
+.toggle-password-icon {
+  position: absolute;
+  top: 40%;
+  right: 20px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
 }

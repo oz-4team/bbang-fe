@@ -48,7 +48,10 @@ const useUserStore = create((set, get) => ({
     saveToken(accessToken, refreshToken);
 
     set({
-      user: userData,
+      user: {
+        ...userData,
+        image_url: userData.image_url || userData.image || "", 
+      },
       accessToken,
       refreshToken,
       isAuthenticated: true,

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { loginUser } from "../api/authApi"; // 백엔드 API 연결
 import useUserStore from "../store/userStore";
 import { isValidEmail, isValidPassword } from "../utils/validation";
@@ -13,6 +14,7 @@ function LoginPage() {
   const { login } = useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   // 이미 로그인된 경우 홈으로 이동
@@ -46,6 +48,7 @@ function LoginPage() {
 
   return (
     <div className="login-container">
+      <div className='login-container-style'>
       <h1 className="login-title">로그인</h1>
       <img src={logo} alt="프로젝트 로고" className="profile-icon" />
       <p className="service-name">IdolSync</p>
@@ -59,14 +62,22 @@ function LoginPage() {
           required
           className="login-input"
         />
-        <input
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="login-input"
-        />
+        <div className="password-input-wrapper">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="비밀번호를 입력해주세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="login-input password-input"
+          />
+          <span
+            className="toggle-password-icon"
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </span>
+        </div>
         <button type="submit" className="login-button">
           로그인
         </button>
@@ -85,6 +96,7 @@ function LoginPage() {
 
       {/* 소셜 로그인 버튼 */}
       <SocialLogin />
+    </div>
     </div>
   );
 }
