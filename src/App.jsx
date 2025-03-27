@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes, } from "react-router-dom";
 import "./App.scss";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -30,6 +30,7 @@ import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import SignUpQuickTestPage from "./pages/SignUpQuickTestPage";
 import TestSashaPage from "./pages/TestSashaPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
+import { shouldAutoLogout, removeToken, initInactivityLogoutTimer } from "./utils/authUtils";
 
 function App() {
   //로그인 확인용
@@ -52,6 +53,20 @@ function App() {
       console.log(`현재 로그인한 닉네임: ${user.nickname}`); //  로그인 상태 유지 중 닉네임 출력
     }
   }, [user]);
+
+  useEffect(() => {
+    if (shouldAutoLogout()) {
+      removeToken();
+      useUserStore.getState().logout();
+      alert("30분 이상 활동이 없어 자동 로그아웃되었습니다.");
+      window.location.href = "/";
+    }
+
+    const cleanup = initInactivityLogoutTimer();
+    return () => {
+      cleanup();
+    };
+  }, []);
 
   return (
     <>

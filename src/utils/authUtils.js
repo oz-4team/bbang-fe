@@ -3,14 +3,14 @@ import useUserStore from "../store/userStore";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
-// 토큰 저장
+/**토큰 저장*/
 export const saveToken = (accessToken, refreshToken) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 };
 
-// 토큰 가져오기 & 갱신
+/**토큰 가져오기*/
 export const getToken = () => localStorage.getItem("accessToken");
 export const getRefreshToken = () => localStorage.getItem("refreshToken");
 
@@ -40,7 +40,7 @@ export const refreshAccessToken = async () => {
     }
 };
 
-// 토큰 삭제 (로그아웃 시 사용)
+/** 토큰 삭제 */
 export const removeToken = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -52,7 +52,7 @@ export const removeToken = () => {
     console.log("모든 토큰 삭제 완료!");
 };
 
-// 토큰 만료 여부 검사
+/** 토큰 만료 여부 검사 */
 export const isTokenExpired = () => {
     const token = getToken();
     if (!token) return true;
@@ -66,14 +66,14 @@ export const isTokenExpired = () => {
         return true;
     }
 };
-
+/** 자동 로그아웃 */
 export const shouldAutoLogout = () => {
     const lastActivity = localStorage.getItem("lastActivity");
     const now = Date.now();
 
     return lastActivity && now - parseInt(lastActivity, 10) > 30 * 60 * 1000; // 30분
 };
-
+/** 타이머 */
 export const initInactivityLogoutTimer = () => {
     let timeout;
 
@@ -81,7 +81,6 @@ export const initInactivityLogoutTimer = () => {
         clearTimeout(timeout);
         localStorage.setItem("lastActivity", Date.now());
         timeout = setTimeout(() => {
-            console.log("⏰ 30분 동안 활동이 없어 자동 로그아웃 처리됩니다.");
             useUserStore.getState().logout();
             removeToken();
         }, 30 * 60 * 1000); // 30분

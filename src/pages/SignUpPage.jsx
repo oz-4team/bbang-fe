@@ -83,45 +83,57 @@ function SignUpPage() {
     }
 
     if (validateForm()) {
-      const userData = {
-        email,
-        password,
-        nickname,
-        gender,
-        age,
-        image_url: imageFile,
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result;
+
+        const userData = {
+          email,
+          password,
+          nickname,
+          gender,
+          age,
+          image_url: base64Image, // send as base64
+        };
+
+        console.log("🚀 회원가입 요청 데이터:", userData);
+
+        try {
+          const response = await signupUser(userData);
+          console.log("✅ 회원가입 응답:", response);
+
+          // Reset fields
+          setEmail("");
+          setPassword("");
+          setConfirmPassword("");
+          setNickname("");
+          setGender("");
+          setAge("");
+          setImageFile(null);
+          setPreviewImageUrl(null);
+          setErrors({});
+
+          localStorage.removeItem("signupFormData");
+
+          navigate("/signup-completed", {
+            state: { nickname, email, image_url: previewImageUrl },
+          });
+        } catch (error) {
+          console.error("❌ 회원가입 실패:", error.message);
+          if (error.response) {
+            console.error("백엔드 응답:", error.response.data);
+          } else {
+            console.error("서버 연결 실패:", error);
+          }
+        }
       };
 
-      console.log("🚀 회원가입 요청 데이터:", userData);
-
-      try {
-        const response = await signupUser(userData);
-        console.log("✅ 회원가입 응답:", response);
-
-        // 🔄 입력값 초기화
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
-        setNickname("");
-        setGender("");
-        setAge("");
-        setImageFile(null);
-        setPreviewImageUrl(null);
-        setErrors({});
-
-        localStorage.removeItem("signupFormData");
-
-        navigate("/signup-completed", {
-          state: { nickname, email, image_url: previewImageUrl },
-        });
-      } catch (error) {
-        console.error("❌ 회원가입 실패:", error.message);
-        if (error.response) {
-          console.error("백엔드 응답:", error.response.data);
-        } else {
-          console.error("서버 연결 실패:", error);
-        }
+      if (imageFile) {
+        reader.readAsDataURL(imageFile);
+      } else {
+        reader.onloadend(); // trigger immediately if no image
       }
+      return;
     }
   };
 
