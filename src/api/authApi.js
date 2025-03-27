@@ -47,7 +47,12 @@ export const loginUser = async (email, password) => {
 export const logoutUser = async () => {
     if (USE_BACKEND) {
         try {
-            await axios.post(`${API_BASE_URL}/logout/`);
+            const refreshToken = localStorage.getItem("refreshToken");
+            await axios.post(`${API_BASE_URL}/logout/`, { refresh: refreshToken }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             useUserStore.getState().logout();
         } catch (error) {
         }
