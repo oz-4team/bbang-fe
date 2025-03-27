@@ -3,7 +3,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import useUserStore from "../store/userStore";
-import { updateUserProfile, deleteUserProfile } from "../api/authApi";
+import { updateUserProfile, deleteUserProfile, fetchUserProfile } from "../api/authApi";
 import "../styles/Profile.css";
 
 // PasswordInput 컴포넌트
@@ -125,6 +125,8 @@ const ProfilePage = () => {
 
     try {
       await updateUserProfile(userData);
+      const updatedUser = await fetchUserProfile();
+      useUserStore.getState().setUser(updatedUser);
       console.log("📦 전송한 userData:", userData);
       alert("프로필이 성공적으로 업데이트되었습니다.");
       navigate("/");
