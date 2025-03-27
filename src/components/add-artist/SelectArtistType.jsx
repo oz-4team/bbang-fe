@@ -61,8 +61,12 @@ const TypeSelectArea = styled.div`
   gap: 1rem;
 `;
 
-const SelectArtistType = () => {
+const SelectArtistType = ({ setArtistType }) => {
   const [selectedType, setSelectedType] = React.useState(null);
+
+  React.useEffect(() => {
+    setArtistType(selectedType);
+  }, [selectedType]);
 
   const handleSelect = (type) => {
     setSelectedType(type);

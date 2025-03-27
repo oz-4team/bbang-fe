@@ -29,7 +29,8 @@ export const loginUser = async (email, password) => {
                     email: response.data.email,
                     nickname: response.data.nickname,
                     is_staff: response.data.is_staff,
-                    image_url: response.data.image_url
+                    image_url: response.data.image_url,
+                    id: response.data.id,
                 };
 
                 // Zustand에 로그인 상태 저장
