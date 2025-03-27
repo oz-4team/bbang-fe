@@ -1,21 +1,30 @@
 import { default as React, useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import useLikes from "../api/artist/useLikes";
 import useUserStore from "../store/userStore";
 
-const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
-  const { user, logout } = useUserStore();
+const ArtistCard = ({ name, image, type, id, onCardClick }) => {
+  const { user } = useUserStore();
   const navigate = useNavigate();
-  const [favoriteArtist, setFavoriteArtist] = useState(false);
+  const [favoriteArtist, setFavoriteArtist] = useState(is_liked);
+  const { addLikeArtist, deleteLike } = useLikes();
 
   const handleClickArtistDetail = (e) => {
     e.stopPropagation();
     navigate(`/artist/${type}/${id}`);
   };
 
-  const toggleStar = (e) => {
+  const toggleLike = (e) => {
     e.stopPropagation();
     setFavoriteArtist(!favoriteArtist);
+    if (favoriteArtist === false) {
+      addLikeArtist(id);
+    }
+
+    if (favoriteArtist === true) {
+      deleteLike(id);
+    }
   };
   return (
     <div
@@ -64,7 +73,7 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
           {name}
         </div>
         <div
-          onClick={user ? toggleStar : onCardClick}
+          onClick={user ? toggleLike : onCardClick}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
           {favoriteArtist ? <GoHeartFill color="#fe0000" /> : <GoHeart />}
