@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/AdminRequest.css";
 import { useNavigate } from "react-router-dom";
 import { isValidEmail, isValidPhone } from "../utils/validation"; // ✅ 유효성 검사 함수 사용
+import { setupAxiosInterceptors } from "../api/axiosInterceptors";
 
 // ✅ 환경 변수 + 백업 주소 설정
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
@@ -53,13 +54,13 @@ const AdminRequestPage = () => {
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/api/admin-request/`, {
-        artistName,
-        companyName,
-        email,
-        phone,
+      await axios.post(`${API_BASE_URL}/authority/`, {
+        artistName: artistName,
+        artist_agency: companyName,
+        phone_number: phone,
+        image_url: preview,
       });
-
+      setupAxiosInterceptors()
       navigate("/admin-request-completed", {
         state: { artistName, companyName },
       });

@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/images/idolsycn-logo.png";
 import useUserStore from "../store/userStore";
+import { logoutUser } from "../api/authApi";
 
 const NavigationLayout = styled.div`
   width: 100vw;
@@ -72,11 +73,16 @@ const Navigation = () => {
     navigate("/login");
   };
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = async () => {
     const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
     if (confirmLogout) {
-      logout();
-      navigate("/");
+      try {
+        await logoutUser();
+        navigate("/");
+      } catch (error) {
+        console.error("로그아웃 실패:", error.message);
+        alert("로그아웃에 실패했습니다.");
+      }
     }
   };
 

@@ -27,22 +27,6 @@ const Text = styled.p`
   margin-bottom: 1.5rem;
 `;
 
-const StyledButton = styled.button`
-  background-color: #22c55e;
-  color: white;
-  font-weight: 600;
-  padding: 0.5rem 1.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #16a34a;
-  }
-`;
-
 function EmailSuccess() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -59,6 +43,9 @@ function EmailSuccess() {
 
         console.log("✅ 이메일 인증 성공:", response.data);
         setStatus("success");
+        setTimeout(() => {
+          window.close();
+        }, 3000); // 3초 후 창 닫기
       } catch (error) {
         setStatus("fail");
       }
@@ -71,20 +58,6 @@ function EmailSuccess() {
     }
   }, [token]);
 
-  const handleLoginRedirect = async () => {
-    try {
-      const response = await axios.get(`https://seonhm.kr/verify-email/`, {
-        params: { token },
-      });
-
-      console.log("📨 이메일 인증 상태 확인 성공:", response.data);
-      navigate("/login"); // ✅ 성공 시 로그인 페이지로 이동
-    } catch (error) {
-      console.error("⚠️ 이메일 인증 상태 확인 실패:", error);
-      alert("이메일 인증을 다시 확인해주세요.");
-    }
-  };
-
   return (
     <Container>
       {status === "loading" && <Text>이메일 인증 중...</Text>}
@@ -94,8 +67,7 @@ function EmailSuccess() {
       {status === "success" && (
         <>
           <Title>✅ 이메일 인증이 완료되었습니다!</Title>
-          <Text>이제 로그인하실 수 있어요.</Text>
-          <StyledButton onClick={handleLoginRedirect}>로그인하러 가기</StyledButton>
+          <Text>잠시 후 창이 자동으로 닫힙니다.</Text>
         </>
       )}
     </Container>

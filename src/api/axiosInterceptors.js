@@ -1,7 +1,8 @@
-// src/api/axiosInterceptors.js
+
 import axios from "axios";
 import { getToken, isTokenExpired, refreshAccessToken } from "../utils/authUtils";
 
+/** 인터셉터 */
 export const setupAxiosInterceptors = () => {
   axios.interceptors.request.use(async (config) => {
     const token = getToken();

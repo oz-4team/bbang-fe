@@ -6,7 +6,7 @@ import { removeToken, saveToken } from "../utils/authUtils";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 const USE_BACKEND = true; // 백엔드 활성화 여부 (false면 목업 데이터 사용)
 
-// [1] 로그인 (백엔드 API or 목업 데이터)
+/** 로그인 */ 
 export const loginUser = async (email, password) => {
     if (USE_BACKEND) {
         try {
@@ -23,10 +23,6 @@ export const loginUser = async (email, password) => {
                     image_url: response.data.image_url,
                     id: response.data.id,
                 };
-
-                // ✅ Store tokens and user info in localStorage
-                localStorage.setItem("access_token", response.data.access);
-                localStorage.setItem("refresh_token", response.data.refresh);
                 localStorage.setItem("user_info", JSON.stringify(userInfo));
 
                 // Zustand에 로그인 상태 저장
@@ -47,20 +43,24 @@ export const loginUser = async (email, password) => {
     }
 };
 
-// [2] 로그아웃
+/** 로그아웃 */
 export const logoutUser = async () => {
     if (USE_BACKEND) {
         try {
             await axios.post(`${API_BASE_URL}/logout/`);
             useUserStore.getState().logout();
         } catch (error) {
-            throw new Error(error.response?.data?.message || "로그아웃 실패");
         }
     }
     useUserStore.getState().logout();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user_info");
+    localStorage.removeItem("signupFormData");
+    localStorage.removeItem("lastActivity");
 };
 
-// [3] 회원가입 (백엔드 API or 목업 데이터)
+/** 회원가입 */
 export const signupUser = async (userData) => {
     if (USE_BACKEND) {
         console.log("📤 회원가입 요청 데이터:", userData);
@@ -88,7 +88,7 @@ export const signupUser = async (userData) => {
         }
     }
 };
-// [4] 비밀번호 찾기 (백엔드 API or 목업 데이터)
+/** 비밀번호 찾기 */
 export const sendPasswordResetEmail = async (email) => {
     if (USE_BACKEND) {
         try {
@@ -99,13 +99,13 @@ export const sendPasswordResetEmail = async (email) => {
         }
     }
 };
-// [5] 비밀번호 재설정
+/** 비밀번호 재설정 */
 export const resetPassword = async (token, newPassword) => {
     if (USE_BACKEND) {
       try {
         const payload = {
           token: token,
-          password: newPassword, // 여기 수정
+          password: newPassword,
         };
   
         console.log("🚀 실제 보낼 payload:", payload);
@@ -133,7 +133,7 @@ export const resetPassword = async (token, newPassword) => {
       }
     }
   };
-// [6] 프로필 조회
+/** 프로필 조회 */
 export const fetchUserProfile = async () => {
     if (USE_BACKEND) {
       try {
@@ -148,7 +148,7 @@ export const fetchUserProfile = async () => {
   };
 
 
-// [7] 프로필 수정
+/** 프로필 수정 */
 export const updateUserProfile = async (userData) => {
     if (USE_BACKEND) {
         try {
@@ -203,11 +203,11 @@ export const updateUserProfile = async (userData) => {
     return null;
 };
 
-// [8] 프로필 삭제
+/** 프로필 삭제 */
 export const deleteUserProfile = async (token) => {
     if (USE_BACKEND) {
       try {
-        // 요청에 Authorization 헤더를 추가
+        
         const response = await axios.delete(`${API_BASE_URL}/profile/`, {
           headers: {
             "Content-Type": "application/json",

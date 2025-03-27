@@ -45,8 +45,6 @@ const useUserStore = create((set, get) => ({
 
     localStorage.setItem("authUser", JSON.stringify(userData));
     saveToken(accessToken, refreshToken);
-    localStorage.setItem("access_token", accessToken);
-    localStorage.setItem("refresh_token", refreshToken);
 
     set({
       user: {
@@ -85,8 +83,8 @@ const useUserStore = create((set, get) => ({
 
     removeToken();
     localStorage.removeItem("authUser");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
 
     set({
       user: null,
@@ -114,7 +112,7 @@ const useUserStore = create((set, get) => ({
 
       if (newAccessToken) {
         set({ accessToken: newAccessToken, isAuthenticated: true });
-        localStorage.setItem("access_token", newAccessToken);
+        
         console.log("✅ 액세스 토큰 갱신 완료!");
       } else {
         console.warn("🚨 토큰 갱신 실패, 자동 로그아웃 실행");
