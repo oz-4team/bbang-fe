@@ -60,7 +60,6 @@ function EmailSuccess() {
         console.log("✅ 이메일 인증 성공:", response.data);
         setStatus("success");
       } catch (error) {
-        console.error("❌ 이메일 인증 실패:", error);
         setStatus("fail");
       }
     };

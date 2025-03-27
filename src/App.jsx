@@ -38,7 +38,13 @@ function App() {
   useEffect(() => {
     document.documentElement.classList.remove("dark");
     document.documentElement.classList.add("light");
-    // document.documentElement.classList.add(theme);
+    const access = localStorage.getItem("access_token");
+    const refresh = localStorage.getItem("refresh_token");
+    const userInfo = JSON.parse(localStorage.getItem("user_info"));
+    if (access && refresh && userInfo) {
+      useUserStore.getState().login(userInfo, access, refresh);
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -83,6 +89,7 @@ function App() {
             <Route path="/signup-quicktest" element={<SignUpQuickTestPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/password-reset/check-token" element={<ResetPasswordPage />} />
             <Route path="/signup-completed" element={<SignupCompletedPage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
 

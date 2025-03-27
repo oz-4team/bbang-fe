@@ -57,6 +57,7 @@ const AuthCallback = () => {
           gender: response.gender,
           is_staff: response.is_staff,
           image_url: response.image_url || null,
+          id: response.id,
         };
 
         login(userInfo, response.access_token, response.refresh_token);

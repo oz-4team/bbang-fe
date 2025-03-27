@@ -40,12 +40,13 @@ const useUserStore = create((set, get) => ({
 
     // ✅ 유효한 userData만 저장
     if (typeof userData !== "object" || !userData.email) {
-      console.warn("⚠️ userData가 올바르지 않습니다. 저장하지 않습니다.");
       return;
     }
 
     localStorage.setItem("authUser", JSON.stringify(userData));
     saveToken(accessToken, refreshToken);
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
 
     set({
       user: {
@@ -83,6 +84,8 @@ const useUserStore = create((set, get) => ({
 
     removeToken();
     localStorage.removeItem("authUser");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
 
     set({
       user: null,
@@ -110,6 +113,7 @@ const useUserStore = create((set, get) => ({
 
       if (newAccessToken) {
         set({ accessToken: newAccessToken, isAuthenticated: true });
+        localStorage.setItem("access_token", newAccessToken);
         console.log("✅ 액세스 토큰 갱신 완료!");
       } else {
         console.warn("🚨 토큰 갱신 실패, 자동 로그아웃 실행");
@@ -119,6 +123,11 @@ const useUserStore = create((set, get) => ({
 
     set({ refreshInterval });
   },
+
+  setUser: (newUserInfo) =>
+    set((state) => ({
+      user: { ...state.user, ...newUserInfo },
+    })),
 }));
 
 export default useUserStore;

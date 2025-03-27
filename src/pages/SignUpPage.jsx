@@ -68,7 +68,7 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (imageFile && imageFile.size > 10 * 1024 * 1024) {
       alert("10MB 이하의 파일만 업로드할 수 있습니다.");
       return;
