@@ -63,23 +63,8 @@ const useUserStore = create((set, get) => ({
     }
   },
 
-  logout: async () => {
-    if (!getToken() && !getRefreshToken()) {
-      console.warn("🚨 로그아웃 요청했지만 저장된 토큰 없음.");
-      return;
-    }
-
+  logout: () => {
     console.log("🚪 로그아웃 실행");
-
-    try {
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/logout/`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ refresh: getRefreshToken() }),
-      });
-    } catch (error) {
-      console.warn("⚠️ 백엔드 로그아웃 요청 실패:", error);
-    }
 
     removeToken();
     localStorage.removeItem("authUser");
