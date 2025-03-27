@@ -23,10 +23,6 @@ export const loginUser = async (email, password) => {
                     image_url: response.data.image_url,
                     id: response.data.id,
                 };
-
-                
-                localStorage.setItem("access_token", response.data.access);
-                localStorage.setItem("refresh_token", response.data.refresh);
                 localStorage.setItem("user_info", JSON.stringify(userInfo));
 
                 // Zustand에 로그인 상태 저장
@@ -54,10 +50,14 @@ export const logoutUser = async () => {
             await axios.post(`${API_BASE_URL}/logout/`);
             useUserStore.getState().logout();
         } catch (error) {
-            throw new Error(error.response?.data?.message || "로그아웃 실패");
         }
     }
     useUserStore.getState().logout();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user_info");
+    localStorage.removeItem("signupFormData");
+    localStorage.removeItem("lastActivity");
 };
 
 /** 회원가입 */
