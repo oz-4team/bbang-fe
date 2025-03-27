@@ -1,13 +1,103 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import styled from "styled-components";
+// import { addSchedule } from "../api/schedule/useAddSchedule";
 import ScheduleCategoryInput from "../components/ScheduleCategoryInput";
 import ScheduleHashtagInput from "../components/ScheduleHashtagInput";
 
+const Foo1Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+  flex-wrap: nowrap;
+
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+  }
+`;
+
 const ScheduleAddPage = () => {
-  const [preview, setPreview] = React.useState(null);
+  const [preview, setPreview] = useState(null);
+  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const [start_date, setStart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
+  const [description, setDescription] = useState("");
+  const [image_url, setImage_url] = useState("");
+
+  useEffect(() => {
+    console.log(
+      "스케줄 추가 페이지",
+      "title:",
+      title,
+      "location:",
+      location,
+      "start_date:",
+      start_date,
+
+
+
+
+
+
+
+      "end_date:",
+      end_date,
+      "description:",
+      description,
+      "image_url:",
+      image_url
+    );
+  }, [title, location, start_date, end_date, description, image_url]);
+
+  const validateForm = () => {
+    console.log(
+      "🚀 ~ file: ScheduleAddPage.jsx ~ line 52 ~ validateForm ~ title",
+      title
+    );
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (files) {
+      setImage_url(files[0]);
+    }
+    if (validateForm()) {
+      const scheduleData = {
+        title,
+        location,
+        start_date,
+        end_date,
+        description,
+        image_url,
+      };
+
+      console.log("🚀 스케줄 추가 데이터:", scheduleData); //  전송 전 데이터 확인
+
+      try {
+        // const response = await addSchedule(userData);
+        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
+
+        navigate("/signup-completed", {
+          state: { nickname, email, image_url },
+        });
+      } catch (error) {
+        console.error(" 회원가입 실패:", error.message);
+
+        if (error.response) {
+          console.error(" 백엔드 응답 데이터:", error.response.data); // 상세 원인
+          console.error(" 전체 에러 응답 객체:", error.response); // 상태 코드 등 포함
+        } else {
+          console.error(" 서버 연결 실패 또는 응답 없음:", error);
+        }
+      }
+    }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -31,14 +121,7 @@ const ScheduleAddPage = () => {
       }}
     >
       <div style={{ width: "100%", maxWidth: "800px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            gap: "2rem",
-          }}
-        >
+        <Foo1Layout>
           <div
             style={{
               maxWidth: "300px",
@@ -103,11 +186,18 @@ const ScheduleAddPage = () => {
           >
             <div>
               <label>스케줄명</label>
-              <input style={{ width: "100%" }} type="text" />
+              <input
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+                style={{ width: "100%" }}
+                type="text"
+              />
             </div>
             <div>
               <label>스케줄 날짜</label>
               <input
+                value={start_date}
+                onChange={(e) => setStart_date(e.target.value)}
                 style={{
                   padding: "1rem",
                   border: "1px solid #ccc",
@@ -119,31 +209,45 @@ const ScheduleAddPage = () => {
                 type="date"
               />
             </div>
-            <div>
-              <label>시작 시간</label>
-              <input
-                style={{
-                  padding: "1rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  marginTop: "8px",
-                  width: "100%",
-                  display: "block",
-                }}
-                type="time"
-              />
-              <label>종료 시간 (선택)</label>
-              <input
-                style={{
-                  padding: "1rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  marginTop: "8px",
-                  width: "100%",
-                  display: "block",
-                }}
-                type="time"
-              />
+
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                gap: "1rem",
+                flexGrow: 1,
+              }}
+            >
+              <div style={{ width: "50%" }}>
+                <label>시작 시간</label>
+                <input
+                  style={{
+                    padding: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "8px",
+                    width: "100%",
+                    display: "block",
+                  }}
+                  type="time"
+                />
+              </div>
+              <div style={{ width: "50%" }}>
+                <label>종료 시간 (선택)</label>
+                <input
+                  value={end_date}
+                  onChange={(e) => setEnd_date(e.target.value)}
+                  style={{
+                    padding: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "8px",
+                    width: "100%",
+                    display: "block",
+                  }}
+                  type="time"
+                />
+              </div>
             </div>
             <div>
               <label>카테고리</label>
@@ -154,7 +258,8 @@ const ScheduleAddPage = () => {
               <ScheduleHashtagInput />
             </div>
           </div>
-        </div>
+        </Foo1Layout>
+
         <div
           style={{
             borderBottom: "1px solid #AFB1B6",
@@ -200,6 +305,8 @@ const ScheduleAddPage = () => {
               <div>설명</div>
             </div>
             <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               style={{
                 padding: "1rem",
                 border: "1px solid #ccc",
@@ -249,6 +356,8 @@ const ScheduleAddPage = () => {
               <div>주소</div>
             </div>
             <input
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               style={{
                 padding: "1rem",
                 border: "1px solid #ccc",
@@ -270,7 +379,9 @@ const ScheduleAddPage = () => {
         ></div>
       </div>
 
-      <button>등록하기</button>
+      <button style={{ width: "100%" }} onClick={handleSubmit}>
+        등록하기
+      </button>
       <button>삭제하기</button>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { signupUser } from "../api/authApi";
@@ -46,7 +46,15 @@ function SignUpPage() {
       previewImageUrl,
     };
     localStorage.setItem("signupFormData", JSON.stringify(formData));
-  }, [email, password, confirmPassword, nickname, gender, age, previewImageUrl]);
+  }, [
+    email,
+    password,
+    confirmPassword,
+    nickname,
+    gender,
+    age,
+    previewImageUrl,
+  ]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -68,7 +76,7 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (imageFile && imageFile.size > 10 * 1024 * 1024) {
       alert("10MB 이하의 파일만 업로드할 수 있습니다.");
       return;
@@ -230,9 +238,7 @@ function SignUpPage() {
         {errors.passwordLang && <p className="error">{errors.passwordLang}</p>}
         <span
           className="password-toggle"
-          onClick={() =>
-            setConfirmPasswordVisible(!confirmPasswordVisible)
-          }
+          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
         >
           {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
         </span>

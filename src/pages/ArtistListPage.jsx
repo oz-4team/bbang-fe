@@ -24,35 +24,10 @@ const ArtistListPage = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "1rem",
-        width: "100vw",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "1200px",
-        }}
-      >
+    <div className="outlet-container">
+      <div className="inner">
         <BannerAd />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            alignContent: "center",
-            paddingTop: "1rem",
-            paddingBottom: "1rem",
-            flexWrap: "wrap",
-            width: "100%",
-            gap: "1rem",
-          }}
-        >
+        <div className="filter-container">
           <MyArtistFilter></MyArtistFilter>
           <SearchBar />
         </div>

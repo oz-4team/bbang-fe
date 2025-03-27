@@ -1,8 +1,8 @@
 import React from "react";
-import useReadSchedules from "../api/useReadSchedules";
+import useReadSchedules from "../api/schedule/useReadSchedules";
 import ScheduleCard from "./ScheduleCard";
 
-const ScheduleCardArea = () => {
+const ScheduleCardArea = ({ onCardClick }) => {
   const { schedules } = useReadSchedules();
 
   console.log("schedules🙂:", schedules);
@@ -32,6 +32,8 @@ const ScheduleCardArea = () => {
             }
             title={a.title}
             id={a.id}
+            onCardClick={() => onCardClick()}
+            is_favorited={a.is_favorited}
           />
         </>
       ))}

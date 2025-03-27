@@ -1,12 +1,35 @@
-import React from "react";
-import useReadSchedules from "../api/useReadSchedules";
+import React, { useState } from "react";
+import useFavorites from "../api/schedule/useFavorites";
 import BannerAd from "../components/BannerAd";
+import Modal from "../components/Modal";
 import MyArtistFilter from "../components/MyArtistFilter";
 import ScheduleCardArea from "../components/ScheduleCardArea";
 import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
-  const { schedules } = useReadSchedules();
+  const { readFavorite } = useFavorites();
+
+  useState(() => {
+    readFavorite();
+    console.log("readFavorite");
+  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSecondaryClick = () => {
+    console.log("Secondary button clicked");
+    handleCloseModal();
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLoginClick = () => {
+    window.location.href = "/login";
+    console.log("로그인 페이지로 이동");
+  };
+  const handleclickUserCheck = (e) => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div
       style={{
@@ -53,7 +76,17 @@ const HomePage = () => {
             오늘의 스케줄
           </h1>
 
-          <ScheduleCardArea schedules={schedules}></ScheduleCardArea>
+          <ScheduleCardArea onCardClick={handleclickUserCheck} />
+          {isModalOpen && (
+            <Modal
+              title="로그인이 필요해요 ☺️"
+              description="로그인하시고 최애 정보를 확인해보세요!"
+              primaryButtonText="로그인하러 가기"
+              secondaryButtonText="닫기"
+              onPrimaryClick={handleLoginClick}
+              onSecondaryClick={handleSecondaryClick}
+            />
+          )}
         </div>
       </div>
     </div>

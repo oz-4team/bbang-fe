@@ -84,14 +84,14 @@ const Modal = ({
         <HorizontalLine />
         <ButtonContainer>
           {secondaryButtonText && (
-            <SecondaryButton onClick={onSecondaryClick}>
+            <button className="btn-secondary" onClick={onSecondaryClick}>
               {secondaryButtonText}
-            </SecondaryButton>
+            </button>
           )}
           {primaryButtonText && (
-            <PrimaryButton onClick={onPrimaryClick}>
+            <button className="btn-primary bg-none" onClick={onPrimaryClick}>
               {primaryButtonText}
-            </PrimaryButton>
+            </button>
           )}
         </ButtonContainer>
       </ModalContent>
