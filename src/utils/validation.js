@@ -12,3 +12,5 @@ export const isValidPhone = (phone) => {
     const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
     return phoneRegex.test(phone); 
 };
+
+

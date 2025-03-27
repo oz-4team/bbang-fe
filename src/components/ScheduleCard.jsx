@@ -4,16 +4,32 @@ import { useNavigate } from "react-router-dom";
 import useFavorites from "../api/schedule/useFavorites";
 import useUserStore from "../store/userStore";
 
-const ScheduleCard = ({ artistname, name, image, title, id, onCardClick }) => {
+const ScheduleCard = ({
+  artistname,
+  name,
+  image,
+  title,
+  id,
+  onCardClick,
+  is_favorited,
+}) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
-  const [starred, setStarred] = useState(false);
-  const { favorite, loading, addFavorite, readFavorite } = useFavorites();
+  const [starred, setStarred] = useState(is_favorited);
+  const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
+    useFavorites();
 
   const toggleStar = (e) => {
     e.stopPropagation();
     setStarred(!starred);
-    addFavorite({ id });
+    if (starred === false) {
+      addFavorite({ id });
+    }
+
+    if (starred === true) {
+      deleteFavorite(id);
+      // console.log("deleteFavorite:", deleteFavorite);
+    }
     // useUserStore.setState({ starred: !starred });
   };
   const handleClickScheduleDetail = (e) => {
@@ -71,7 +87,7 @@ const ScheduleCard = ({ artistname, name, image, title, id, onCardClick }) => {
           {title}
         </div>
         <div
-          onClick={toggleStar}
+          onClick={user ? toggleStar : onCardClick}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
           {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}

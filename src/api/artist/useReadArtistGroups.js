@@ -14,7 +14,8 @@ const useReadArtistGroups = () => {
         setLoading(true);
         const readArtistGroups = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/artist-groups/`, {
+                // const response = await axios.get(`${API_BASE_URL}/artist-groups/`, {
+                const response = await axios.get(`${API_BASE_URL}/staff/artist-and-groups/`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },

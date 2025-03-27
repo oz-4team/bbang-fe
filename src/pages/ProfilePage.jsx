@@ -3,6 +3,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import useUserStore from "../store/userStore";
+import { updateUserProfile, deleteUserProfile } from "../api/authApi";
 import "../styles/Profile.css";
 
 // PasswordInput 컴포넌트
@@ -55,12 +56,15 @@ const ProfilePage = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [image, setImage] = useState("");
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (user) {
+      console.log("✅ user.image_url 확인:", user.image_url);
       setUserEmail(user.email || "user@example.com");
       setUserNickname(user.nickname || "");
+      setImage(user.image_url || ""); 
       // TODO: 필요하면 사용자 프로필 정보 더 불러오기
     }
   }, [user]);
@@ -79,7 +83,7 @@ const ProfilePage = () => {
     if (!currentPassword) {
       newErrors.currentPassword = "현재 비밀번호를 입력해주세요.";
       isValid = false;
-    }
+    } 
 
     if (newPassword || confirmPassword) {
       if (newPassword.length < 8) {
@@ -100,6 +104,7 @@ const ProfilePage = () => {
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setSelectedImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
@@ -108,33 +113,52 @@ const ProfilePage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    // TODO: 서버에 업데이트 요청 보내기
-    alert("프로필이 성공적으로 업데이트되었습니다.");
-    navigate("/");
+    const userData = {
+      nickname: userNickname || "", // nickname이 항상 포함되도록 수정
+      image_url: selectedImageFile instanceof File ? selectedImageFile : null,
+      password: newPassword || undefined,
+    };
+
+    try {
+      await updateUserProfile(userData);
+      console.log("📦 전송한 userData:", userData);
+      alert("프로필이 성공적으로 업데이트되었습니다.");
+      navigate("/");
+    } catch (error) {
+      console.error("❌ 프로필 수정 실패:", error.message);
+      alert("프로필 수정 중 오류가 발생했습니다.");
+    }
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     if (
       window.confirm(
         "정말로 회원탈퇴를 하시겠습니까? 회원 정보가 모두 삭제됩니다."
       )
     ) {
-      // TODO: 서버에 회원탈퇴 요청 보내기
-
-      setUserEmail("");
-      setUserNickname("");
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-      setImage(null);
-      logout();
-
-      alert("회원탈퇴가 완료되었습니다.");
-      navigate("/");
+      try {
+        // 로컬 스토리지에서 토큰 가져오기
+        const token = localStorage.getItem("access_token");
+  
+        // 토큰이 없으면 로그인되지 않은 상태일 수 있음
+        if (!token) {
+          alert("로그인 상태가 아닙니다.");
+          return;
+        }
+  
+        // 프로필 삭제 호출
+        await deleteUserProfile(token);  // 토큰을 전달
+        logout();
+        alert("회원탈퇴가 완료되었습니다.");
+        navigate("/");
+      } catch (error) {
+        console.error("❌ 회원탈퇴 실패:", error.message);
+        alert("회원탈퇴 중 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -148,7 +172,7 @@ const ProfilePage = () => {
           >
             <div className="image-preview">
               <img
-                src={user.image ? user.image : "/icons/profile-placeholder.png"}
+                src={image || user.image_url || "/icons/profile-placeholder.png"}
                 alt="프로필 사진"
                 className="profile-image-edit"
               />
