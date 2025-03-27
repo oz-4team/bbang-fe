@@ -24,7 +24,7 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-        padding: "1rem",
+        // padding: "1rem",
         cursor: "pointer",
         transition: "transform 0.3s",
       }}

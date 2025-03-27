@@ -15,7 +15,7 @@ const ArtistCardArea = ({ onCardClick }) => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(150px, 2fr))",
         gap: "16px",
         justifyContent: "center", // 수평 중앙 정렬
         alignContent: "center", // 수직 중앙 정렬
