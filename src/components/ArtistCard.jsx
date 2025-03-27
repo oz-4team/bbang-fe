@@ -3,7 +3,7 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/userStore";
 
-const ArtistCard = ({ name, image, type, id, onCardClick }) => {
+const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
   const [favoriteArtist, setFavoriteArtist] = useState(false);

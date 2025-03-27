@@ -42,23 +42,13 @@ const ArtistManagementPage = () => {
   return (
     <>
       <div className="outlet-container">
-        {artistGroups?.length === 0 ? (
-          <div className="inner p-24">
-            <SelectArtistType setArtistType={handleArtistTypeChange} />
-            {artistType === "group" && (
-              <ArtistInfoGroup artistType={artistType} />
-            )}
-            {artistType === "solo" && (
-              <ArtistInfoSolo artistType={artistType} />
-            )}
-          </div>
-        ) : (
-          <div>
-            {/* <p>{addedArtistType}</p> */}
-            <p>Artist Groups Count: {artistGroups?.artists.length}</p>
-            <p>Artist Groups Count: {artistGroups?.artist_groups.length}</p>
-          </div>
-        )}
+        <div className="inner p-24">
+          <SelectArtistType setArtistType={handleArtistTypeChange} />
+          {artistType === "group" && (
+            <ArtistInfoGroup artistType={artistType} />
+          )}
+          {artistType === "solo" && <ArtistInfoSolo artistType={artistType} />}
+        </div>
       </div>
     </>
   );
