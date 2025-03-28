@@ -62,9 +62,7 @@ const NavItem = styled.li.attrs(({ $isactive }) => ({
 `;
 
 const Navigation = () => {
-  const { user, logout } = useUserStore();
-  // console.log("✅ 현재 user 정보:", user);
-
+  const { user } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -171,11 +169,7 @@ const Navigation = () => {
                 아티스트 관리
               </NavItem>
               <NavItem
-                $isactive={
-                  location.pathname === "/schedule-management"
-                    ? "true"
-                    : "false"
-                }
+                $isactive={location.pathname === "/schedule-management"}
                 onClick={() => {
                   navigate("/schedule-management");
                   setMenuOpen(false);
