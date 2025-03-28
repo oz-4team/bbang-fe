@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
+import useUserStore from "../store/userStore";
+import { fetchFavoriteSchedules } from "../api/schedule/scheduleApi";
 import ScheduleListItem from "./ScheduleListItem";
 import { fetchAllSchedules } from "../api/schedule/scheduleApi";
 
 const ScheduleList = () => {
+  const { user } = useUserStore();
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
     const loadSchedules = async () => {
       try {
-        const data = await fetchAllSchedules();
+        const data = user ? await fetchFavoriteSchedules() : await fetchAllSchedules();
         setSchedules(data);
       } catch (error) {
         console.error("❌ 일정 불러오기 실패:", error);
       }
     };
     loadSchedules();
-  }, []);
+  }, [user]);
 
   if (schedules.length === 0) return <div>일정이 없습니다.</div>;
 
