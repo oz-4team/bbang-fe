@@ -84,7 +84,7 @@ function App() {
             <Route
               path="/schedule/details/:id"
               element={<ScheduleDetailPage />}
-            />ㅌㅌ
+            />
             <Route
               path="/artist-management"
               element={<ArtistManagementPage />}
