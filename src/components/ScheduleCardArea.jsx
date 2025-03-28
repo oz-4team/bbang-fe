@@ -1,13 +1,27 @@
-import React from "react";
-import useReadSchedules from "../api/schedule/useReadSchedules";
+import React, { useEffect, useState } from "react";
 import ScheduleCard from "./ScheduleCard";
+import { fetchAllSchedules } from "../api/schedule/scheduleApi";
 
 const ScheduleCardArea = ({ onCardClick }) => {
-  const { schedules } = useReadSchedules();
+  const [schedules, setSchedules] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  console.log("schedules🙂:", schedules);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchAllSchedules();
+        setSchedules(data);
+      } catch (error) {
+        console.error("❌ 일정 조회 오류:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (schedules.length === 0) {
+    fetchData();
+  }, []);
+
+  if (loading) {
     return <div>loading...</div>;
   }
   return (

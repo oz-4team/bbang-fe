@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import { fetchArtistSchedules, fetchGroupSchedules } from "../api/schedule/scheduleApi";
+import { useNavigate } from "react-router-dom";
 
-const ScheduleAreaInArtist = () => {
+const ScheduleAreaInArtist = ({ type, id }) => {
+  
+  const [schedules, setSchedules] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadSchedules = async () => {
+      try {
+        let data = [];
+        if (type === "artist") {
+          data = await fetchArtistSchedules(id);
+        } else if (type === "group") {
+          data = await fetchGroupSchedules(id);
+        }
+        setSchedules(data);
+      } catch (error) {
+        console.error("일정 데이터를 불러오는 데 실패했습니다.");
+      }
+    };
+
+    if (id) {
+      loadSchedules();
+    }
+  }, [type, id]);
+
   return (
     <div>
       <div
@@ -30,101 +56,33 @@ const ScheduleAreaInArtist = () => {
           margin: "0 auto",
         }}
       >
-        <div
-          style={{
-            border: "1px solid #AFB1B6",
-            borderRadius: "15px",
-            textAlign: "left",
-            padding: "1rem",
-            color: "AFB1B6",
-            fontSize: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          스케줄명
-          <div>
-            <IoIosArrowForward />
-          </div>
-        </div>
-        <div
-          style={{
-            border: "1px solid #AFB1B6",
-            borderRadius: "15px",
-            textAlign: "left",
-            padding: "1rem",
-            color: "AFB1B6",
-            fontSize: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          스케줄명
-          <div>
-            <IoIosArrowForward />
-          </div>
-        </div>
-        <div
-          style={{
-            border: "1px solid #AFB1B6",
-            borderRadius: "15px",
-            textAlign: "left",
-            padding: "1rem",
-            color: "AFB1B6",
-            fontSize: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          스케줄명
-          <div>
-            <IoIosArrowForward />
-          </div>
-        </div>
-        <div
-          style={{
-            border: "1px solid #AFB1B6",
-            borderRadius: "15px",
-            textAlign: "left",
-            padding: "1rem",
-            color: "AFB1B6",
-            fontSize: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          스케줄명
-          <div>
-            <IoIosArrowForward />
-          </div>
-        </div>
-        <div
-          style={{
-            border: "1px solid #AFB1B6",
-            borderRadius: "15px",
-            textAlign: "left",
-            padding: "1rem",
-            color: "AFB1B6",
-            fontSize: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          스케줄명
-          <div>
-            <IoIosArrowForward />
-          </div>
-        </div>
+        {schedules.length > 0 ? (
+          schedules.map((schedule) => (
+            <div
+              key={schedule.id}
+              onClick={() => navigate(`/schedule/details/${schedule.id}`)}
+              style={{
+                border: "1px solid #AFB1B6",
+                borderRadius: "15px",
+                textAlign: "left",
+                padding: "1rem",
+                fontSize: "1rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "1rem",
+                cursor: "pointer",
+              }}
+            >
+              {schedule.title}
+              <div>
+                <IoIosArrowForward />
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>등록된 일정이 없습니다.</p>
+        )}
       </div>
     </div>
   );

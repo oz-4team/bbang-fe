@@ -6,13 +6,13 @@ import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
 const ArtistGroupDetailPage = () => {
-  const { id } = useParams();
+  const { id: groupId } = useParams();
 
   const { artist, readArtist, loading, error } = useReadArtistGroupApi();
 
   useEffect(() => {
-    readArtist({ id });
-  }, [id]);
+    readArtist({ id: groupId });
+  }, [groupId]);
 
   if (loading || !artist) {
     return <div>Loading...</div>;
@@ -33,7 +33,7 @@ const ArtistGroupDetailPage = () => {
           style={{ marginBottom: "2rem" }}
           artist={artist}
           // artist_type={artist_type}
-          artist_id={id}
+          artist_id={groupId}
         />
         <div>
           <div
@@ -49,7 +49,7 @@ const ArtistGroupDetailPage = () => {
             <MemberCard artist={artist} />
           </div>
         </div>
-        <ScheduleAreaInArtist />
+        <ScheduleAreaInArtist type="group" id={groupId} />
       </div>
     </div>
   );

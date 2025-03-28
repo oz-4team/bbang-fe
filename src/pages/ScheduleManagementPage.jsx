@@ -2,27 +2,28 @@ import React from "react";
 import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ScheduleList from "../components/ScheduleList";
+import StaffScheduleList from "../components/StaffScheduleList";
+
+const CalendarContainer = styled.div`
+  flex-grow: 1;
+  margin-top: 2rem;
+  min-width: 300px;
+  max-width: 600px;
+
+  button {
+    background-color: white;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+  }
+`;
 
 const ScheduleManagementPage = () => {
   const navigate = useNavigate();
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
   };
-
-  const CalendarContainer = styled.div`
-    flex-grow: 1;
-    margin-top: 2rem;
-    min-width: 300px;
-    max-width: 600px;
-    button {
-      background-color: white;
-    }
-
-    @media (max-width: 900px) {
-      max-width: 100%;
-    }
-  `;
 
   const [view, setView] = React.useState("주간");
 
@@ -98,7 +99,7 @@ const ScheduleManagementPage = () => {
                 <option value="월간">월간</option>
               </select>
               <div>
-                <ScheduleList />
+                <StaffScheduleList />
               </div>
             </div>
           </div>

@@ -8,13 +8,13 @@ import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
-import useReadScheduleApi from "../api/schedule/useReadScheduleApi";
 import useUserStore from "../store/userStore";
+import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
 
 const ScheduleDetailPage = () => {
   const { id } = useParams();
-  // const [date, setDate] = useState("");
-  const { schedule, loading, readSchedule } = useReadScheduleApi();
+  const [schedule, setSchedule] = useState(null);
+  const [loading, setLoading] = useState(true);
   const date = schedule?.start_date?.split("T")[0];
   const start_time = schedule?.start_date?.split("T")[1];
   const end_time = schedule?.end_date?.split("T")[1];
@@ -31,19 +31,31 @@ const ScheduleDetailPage = () => {
     setStarred(is_favorited);
   }, [is_favorited]);
 
-  useEffect(() => {
-    readSchedule({ id });
-  }, [id]);
-
   const navigate = useNavigate();
-
   const { user, logout } = useUserStore();
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
+      return;
     }
-  }, [user, navigate]);
+
+    const fetchData = async () => {
+      try {
+        const data = await fetchScheduleDetail(id);
+        console.log("✅ 가져온 상세 데이터:", data);
+        setSchedule(data);
+      } catch (err) {
+        console.error("❌ 상세 정보 조회 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user, id, navigate]);
+
+  if (loading || !schedule) return <div>로딩 중...</div>;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
@@ -182,7 +194,6 @@ const ScheduleDetailPage = () => {
               display: "flex",
               gap: "1rem",
               alignItems: "center",
-              // backgroundColor: "none",
             }}
             onClick={copyToClipboard}
           >
