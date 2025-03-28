@@ -1,0 +1,119 @@
+.nav-layout {
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    position: fixed;
+    background-color: #ffffff;
+    z-index: 99;
+  }
+  
+  .nav-logo-area {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .nav-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+  }
+  
+  .nav-title {
+    font-size: 26px;
+    font-weight: bold;
+  }
+  
+  .menu-icon {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .nav-menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+  }
+  
+  .nav-item {
+    padding-right: 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: normal;
+  }
+  
+  .nav-item.active {
+    font-weight: bold;
+  }
+  
+  .nav-item.nickname {
+    font-weight: bold;
+  }
+  
+  .icon-button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    padding: 8px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .notification-button {
+    position: relative;
+  }
+  
+  .notification-dot {
+    background-color: red;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+  }
+  
+  .text-button {
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+  }
+  
+  @media (max-width: 768px) {
+    .menu-icon {
+      display: block;
+    }
+  
+    .nav-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      border-top: 1px solid #e9ecef;
+      padding: 1rem 0;
+    }
+  
+    .nav-menu.open {
+      display: flex;
+    }
+  
+    .nav-item {
+      padding: 1rem 0;
+    }
+  }
+  
