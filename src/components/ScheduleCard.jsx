@@ -48,7 +48,7 @@ const ScheduleCard = ({
         // padding: "1rem 0",
         transition: "transform 0.3s",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.01)")}
       onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
     >
       <div
