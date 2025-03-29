@@ -44,9 +44,8 @@ const ScheduleCard = ({
       onClick={user ? handleClickScheduleDetail : onCardClick}
       style={{
         display: "flex",
-        flexDirection: "column",
-        maxWidth: "500px",
-        padding: "1rem 0",
+        // maxWidth: "500px",
+        // padding: "1rem 0",
         transition: "transform 0.3s",
       }}
       onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
@@ -54,8 +53,8 @@ const ScheduleCard = ({
     >
       <div
         style={{
-          minHeight: "150px",
-          width: "100%",
+          maxHeight: "100px",
+          maxWidth: "100px",
           border: "1px solid #AFB1B6",
           borderRadius: "15px",
           overflow: "hidden",
@@ -75,8 +74,10 @@ const ScheduleCard = ({
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          paddingTop: "0.5rem",
+          justifyContent: "flex-start",
+          flexDirection: "column",
+          paddingLeft: "0.5rem",
+          flexGrow: "1",
         }}
       >
         <div
@@ -84,14 +85,14 @@ const ScheduleCard = ({
         >
           {title}
         </div>
-        <div
-          onClick={user ? toggleStar : onCardClick}
-          style={{ cursor: "pointer", fontSize: "2rem" }}
-        >
-          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
-        </div>
+        <div style={{ textAlign: "left" }}>{name}</div>
       </div>
-      <div style={{ textAlign: "left" }}>{name}</div>
+      <div
+        onClick={user ? toggleStar : onCardClick}
+        style={{ cursor: "pointer", fontSize: "2rem" }}
+      >
+        {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
+      </div>
     </div>
   );
 };

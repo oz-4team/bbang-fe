@@ -27,9 +27,10 @@ const ScheduleCardArea = ({ onCardClick }) => {
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
-        gap: "32px",
+        display: "flex",
+        flexDirection: "column",
+        // gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+        gap: "16px",
       }}
     >
       {schedules.map((a) => (
