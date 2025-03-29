@@ -7,19 +7,18 @@ const useReadArtistGroups = () => {
 
     const { accessToken } = useUserStore();
 
-    const [initiated, setInitiated] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); ``
 
-    const [artists, setArtists] = useState([]);
-    const [groups, setGroups] = useState([]);
+    const [artists, setArtists] = useState(null);
+    const [groups, setGroups] = useState(null);
 
     /** 관리자가 등록한 아티스트 그룹 조회 */
     const readArtistGroups = async () => {
         setLoading(true);
         setError(null);
-        setArtists([]);
-        setGroups([]);
+        setArtists(null);
+        setGroups(null);
 
         if (!accessToken) {
             console.error("Access token is not available.");
@@ -39,7 +38,7 @@ const useReadArtistGroups = () => {
             const groups = data.artist_groups;
             setArtists(artists);
             setGroups(groups);
-            setInitiated(true);
+
         }
         catch (error) {
             setError(error);
@@ -49,7 +48,7 @@ const useReadArtistGroups = () => {
         }
     }
 
-    return { error, loading, initiated, artists, groups, readArtistGroups };
+    return { error, loading, artists, groups, readArtistGroups };
 };
 
 
