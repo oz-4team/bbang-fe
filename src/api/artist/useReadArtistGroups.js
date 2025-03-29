@@ -14,7 +14,7 @@ const useReadArtistGroups = () => {
         setLoading(true);
         const readArtistGroups = async () => {
             try {
-                // const response = await axios.get(`${API_BASE_URL}/artist-groups/`, {
+                // 관리자가 등록한 아티스트 그룹 조회
                 const response = await axios.get(`${API_BASE_URL}/staff/artist-and-groups/`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -24,8 +24,6 @@ const useReadArtistGroups = () => {
                 console.log("response.data:", response.data);
                 const data = response.data;
                 setArtistGroups(data);
-                console.log("data:", data);
-                console.log("artistssssss:", artistGroups);
             }
             catch (error) {
                 console.error("Error reading artistssssss:", error);

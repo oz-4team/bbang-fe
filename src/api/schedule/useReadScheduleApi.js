@@ -11,7 +11,7 @@ const useReadScheduleApi = () => {
 
     const readSchedule = async ({ id }) => {
         try {
-            // const scheduleId = typeof id === 'object' ? JSON.stringify(id) : id;
+            // 개별 스케줄 조회
             const response = await axios.get(`${API_BASE_URL}/schedules/${id}/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,

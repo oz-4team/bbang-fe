@@ -15,6 +15,7 @@ const useReadSchedules = () => {
         setLoading(true);
         const readSchedules = async () => {
             try {
+                // 전체 스케줄 조회
                 const response = await axios.get(`${API_BASE_URL}/schedules/`, {
                     headers: {
                         ...headers,

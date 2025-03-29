@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useArtistGroups from "../../api/artist/useArtistGroups";
 import useCreateArtistGroup from "../../api/artist/useCreateArtistGroup";
 import "../../styles/ArtistManagementPage.css";
 
 const ArtistInfoGroup = () => {
-  const { createArtistGroup } = useCreateArtistGroup();
+  const { createArtistGroup, artistGroup } = useCreateArtistGroup();
+  const { createArtistForGroup } = useArtistGroups();
+
   const [groupInfo, setGroupInfo] = useState({
     artist_group: "",
     artist_agency: "",
@@ -13,8 +16,37 @@ const ArtistInfoGroup = () => {
     logo: null,
   });
 
+  const [createdGroupId, setCreatedGroupId] = useState(artistGroup?.id);
+
+  console.log("artistGroup:", artistGroup);
+
+  useEffect(() => {
+    if (artistGroup) {
+      setGroupInfo((prev) => ({
+        ...prev,
+        artist_group: artistGroup.artist_group,
+        artist_agency: artistGroup.artist_agency,
+        debutDate: artistGroup.debut_date,
+        fandom: artistGroup.fandom,
+        photo: artistGroup.photo,
+        logo: artistGroup.logo,
+      }));
+      setCreatedGroupId(artistGroup.id);
+    }
+  }, [artistGroup]);
+
+  console.log("createdGroupId:", createdGroupId);
+
   const [members, setMembers] = useState([
-    { artist_group: "", instagram: "", photo: null },
+    {
+      artist_name: "aa",
+      artist_agency: "",
+      artist_insta: "",
+      artist_fandom: "",
+      debut_date: "2025-11-11",
+      solomembers: "",
+      image_url: null,
+    },
   ]);
 
   const [memberVisible, setMemberVisible] = useState(false);
@@ -74,11 +106,16 @@ const ArtistInfoGroup = () => {
     ) {
       createArtistGroup(groupInfo);
       setMemberVisible(true);
+      setCreatedGroupId(artistGroup?.id);
     }
   };
 
-  const saveMember = (index) => {
-    console.log(`멤버 ${index + 1} 저장:`, members[index]);
+  const saveMember = () => {
+    console.log("createdGroupIdcreatedGroupId:", createdGroupId);
+
+    (members.artist_group = createdGroupId),
+      createArtistForGroup(createdGroupId, members);
+    console.log(`멤버 저장:`, members);
   };
 
   return (
@@ -194,16 +231,18 @@ const ArtistInfoGroup = () => {
                 <input
                   type="text"
                   placeholder="멤버 이름"
-                  value={member.name}
-                  onChange={(e) => updateMember(index, "name", e.target.value)}
+                  value={member.artist_name}
+                  onChange={(e) =>
+                    updateMember(index, "artist_name", e.target.value)
+                  }
                 />
 
                 <input
                   type="text"
                   placeholder={`멤버${index + 1} 인스타그램 링크`}
-                  value={member.instagram}
+                  value={member.artist_insta}
                   onChange={(e) =>
-                    updateMember(index, "instagram", e.target.value)
+                    updateMember(index, "artist_insta", e.target.value)
                   }
                 />
 

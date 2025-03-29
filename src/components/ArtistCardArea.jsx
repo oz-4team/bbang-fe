@@ -11,6 +11,15 @@ const ArtistCardArea = ({ onCardClick }) => {
 
   console.log("artist area 🙂:", artistAndGroups);
 
+  const shuffledArtists = [...artistAndGroups.data].sort(
+    () => Math.random() - 0.5
+  );
+
+  //그룹에 속해있는 아티스트는 제외
+  const filteredArtists = shuffledArtists.filter(
+    (a) => !(a.artist_name && a.artist_group)
+  );
+
   return (
     <div
       style={{
@@ -21,17 +30,16 @@ const ArtistCardArea = ({ onCardClick }) => {
         alignContent: "center", // 수직 중앙 정렬
       }}
     >
-      {artistAndGroups.data.map((a) => (
-        <>
-          <ArtistCard
-            key={a.id}
-            name={a.artist_name || a.artist_group}
-            image={a.image_url}
-            type={a.artist_group ? "group" : "solo"}
-            id={a.id}
-            onCardClick={() => onCardClick()}
-          />
-        </>
+      {filteredArtists.map((a, index) => (
+        <ArtistCard
+          key={index}
+          name={a.artist_name || a.artist_group}
+          image={a.image_url}
+          type={a.artist_name ? "solo" : "group"}
+          id={a.id}
+          onCardClick={() => onCardClick()}
+          is_liked={a.is_liked}
+        />
       ))}
     </div>
   );

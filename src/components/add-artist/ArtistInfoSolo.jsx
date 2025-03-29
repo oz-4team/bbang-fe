@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import useCreateArtist from "../../api/artist/useCreateArist";
+import useArtist from "../../api/artist/useArtist";
 import useUserStore from "../../store/userStore";
 import "../../styles/ArtistManagementPage.css";
 
-const ArtistInfoSolo = () => {
-  const { createArtist } = useCreateArtist();
+const ArtistInfoSolo = ({ setIsAdded }) => {
+  const { createArtistSolo } = useArtist();
   const { user, logout } = useUserStore();
   console.log("user:", user);
   const [artistInfo, setArtistInfo] = useState({
@@ -17,6 +17,8 @@ const ArtistInfoSolo = () => {
     artist_insta: "",
     image_url: "",
   });
+
+  console.log("sssssssss:", setIsAdded);
 
   const [members, setMembers] = useState([
     { name: "", instagram: "", photo: null },
@@ -79,7 +81,9 @@ const ArtistInfoSolo = () => {
       );
       //   const artistInfo = JSON.stringify(artistInfo, null, 2);
       console.log("아티스트 정보 저장2222:", artistInfo);
-      createArtist(artistInfo);
+      createArtistSolo(artistInfo);
+      setIsAdded(true);
+      console.log("아티스트 정보 저장3333:", artistInfo);
     }
 
     console.log("그룹 정보 저장333:", artistInfo);

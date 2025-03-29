@@ -4,11 +4,20 @@ import { useNavigate } from "react-router-dom";
 import useLikes from "../api/artist/useLikes";
 import useUserStore from "../store/userStore";
 
-const ArtistCard = ({ name, image, type, id, onCardClick }) => {
+const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
   const { user } = useUserStore();
   const navigate = useNavigate();
   const [favoriteArtist, setFavoriteArtist] = useState(is_liked);
-  const { addLikeArtist, deleteLike } = useLikes();
+  const {
+    addLikeArtist,
+    addLikeArtistGroup,
+    deleteLikeArtistGroup,
+    deleteLikeArtist,
+  } = useLikes();
+
+  // useEffect(() => {
+  //   readLike();
+  // }, []);
 
   const handleClickArtistDetail = (e) => {
     e.stopPropagation();
@@ -18,14 +27,24 @@ const ArtistCard = ({ name, image, type, id, onCardClick }) => {
   const toggleLike = (e) => {
     e.stopPropagation();
     setFavoriteArtist(!favoriteArtist);
+
     if (favoriteArtist === false) {
-      addLikeArtist(id);
+      if (type === "solo") {
+        addLikeArtist(id);
+      } else if (type === "group") {
+        addLikeArtistGroup(id);
+      }
     }
 
     if (favoriteArtist === true) {
-      deleteLike(id);
+      if (type === "solo") {
+        deleteLikeArtist(id);
+      } else if (type === "group") {
+        deleteLikeArtistGroup(id);
+      }
     }
   };
+
   return (
     <div
       onClick={user ? handleClickArtistDetail : onCardClick}
@@ -70,7 +89,7 @@ const ArtistCard = ({ name, image, type, id, onCardClick }) => {
         <div
           style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
         >
-          {name}
+          {id}:{name} {type === "group" ? "(그룹)" : "(솔로)"}
         </div>
         <div
           onClick={user ? toggleLike : onCardClick}
