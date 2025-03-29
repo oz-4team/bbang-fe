@@ -19,15 +19,23 @@ const ScheduleCard = ({
   const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
     useFavorites();
 
-  const toggleStar = (e) => {
+  const toggleStar = async (e) => {
     e.stopPropagation();
-    setStarred(!starred);
-    if (starred === false) {
-      addFavorite(id);
-    }
 
-    if (starred === true) {
-      deleteFavorite(id);
+    if (!starred) {
+      try {
+        await addFavorite(id);
+        setStarred(true);
+      } catch (err) {
+        console.error("즐겨찾기 추가 실패:", err);
+      }
+    } else {
+      try {
+        await deleteFavorite(id);
+        setStarred(false);
+      } catch (err) {
+        console.error("즐겨찾기 삭제 실패:", err);
+      }
     }
   };
   const handleClickScheduleDetail = (e) => {
@@ -36,7 +44,7 @@ const ScheduleCard = ({
   };
 
   useEffect(() => {
-    readFavorite();
+    // readFavorite();
   }, []);
 
   return (
