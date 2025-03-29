@@ -5,13 +5,13 @@ import ArtistInfo from "../components/ArtistInfo";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
 const ArtistDetailPage = () => {
-  const { id } = useParams();
+  const { id: artistId } = useParams();
 
   const { artist, readArtist, loading, error } = useReadArtistApi();
 
   useEffect(() => {
-    readArtist({ id });
-  }, [id]);
+    readArtist({ id: artistId });
+  }, [artistId]);
 
   if (loading || !artist) {
     return <div>Loading...</div>;
@@ -32,7 +32,7 @@ const ArtistDetailPage = () => {
           style={{ marginBottom: "2rem" }}
           artist={artist}
           // artist_type={artist_type}
-          artist_id={id}
+          artist_id={artistId}
         />
         <div>
           <div
@@ -52,7 +52,7 @@ const ArtistDetailPage = () => {
             )} */}
           </div>
         </div>
-        <ScheduleAreaInArtist />
+        <ScheduleAreaInArtist type="artist" id={artistId} />
       </div>
     </div>
   );

@@ -6,11 +6,11 @@
     border-radius: 10px;
 }
 
-/* .title {
+.title {
     text-align: center;
     font-size: 24px;
     color: #4a4aef;
-} */
+}
 
 .spaced-label {
     margin-top: 20px; /* 제목과 첫 번째 필드 간격 추가 */
@@ -26,11 +26,21 @@ label {
 }
 
 input[type="text"],
-input[type="email"],
 input[type="tel"],
 input[type="file"] {
     width: calc(100% - 20px);
     padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="file"]:focus {
+    outline: none;
+    border: 1px solid #4a4aef;
+    box-shadow: 0 0 3px rgba(74, 74, 239, 0.5);
 }
 
 .file-upload {
@@ -44,17 +54,51 @@ input[type="file"] {
 
 .file-preview img {
     max-width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .notice {
     font-size: small;
+    margin-top: 10px;
 }
 
 .error-message {
     color: red;
     font-size: small;
+    margin-top: 5px;
 }
 
 .submit-button {
     margin-top: 20px;
+    padding: 10px;
+    background-color: #4a4aef;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover:enabled {
+    background-color: #3838d1;
+}
+
+.submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .admin-request-page {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="file"] {
+        width: 100%;
+    }
 }

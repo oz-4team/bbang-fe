@@ -2,69 +2,13 @@ import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import logo from "../assets/images/idolsycn-logo.png";
 import useUserStore from "../store/userStore";
 import { logoutUser } from "../api/authApi";
-
-const NavigationLayout = styled.div`
-  width: 100vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #e9ecef;
-  position: fixed;
-  background-color: #ffffff;
-  z-index: 99;
-`;
-
-const MenuIcon = styled.div`
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-
-  @media (max-width: 768px) {
-    display: block;
-  }
-`;
-
-const NavMenu = styled.ul.attrs(({ $isopen }) => ({
-  "data-open": $isopen,
-}))`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    display: ${({ $isopen }) => ($isopen ? "flex" : "none")};
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    border-top: 1px solid #e9ecef;
-    padding: 1rem 0;
-  }
-`;
-
-const NavItem = styled.li.attrs(({ $isactive }) => ({
-  "data-active": $isactive,
-}))`
-  padding-right: 1rem;
-  font-weight: ${({ $isactive }) => ($isactive ? "bold" : "normal")};
-  cursor: pointer;
-  font-size: 1.2rem;
-  @media (max-width: 768px) {
-    padding: 1rem 0;
-  }
-`;
+import "../styles/Navigation.css";
 
 const Navigation = () => {
-  const { user, logout } = useUserStore();
-  // console.log("✅ 현재 user 정보:", user);
-
+  const { user } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -96,181 +40,113 @@ const Navigation = () => {
 
   return (
     <>
-      <NavigationLayout>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            src={logo}
-            alt="idolsync"
-            style={{
-              width: "40px",
-              height: "40px",
-              marginRight: "1rem",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate("/")}
-          />
-          <div
-            style={{
-              fontSize: "26px",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate("/")}
-          >
-            IdolSync
-          </div>
+      <div className="nav-layout">
+        <div className="nav-logo-area" onClick={() => navigate("/")}>
+          <img src={logo} alt="idolsync" className="nav-logo" />
+          <div className="nav-title">IdolSync</div>
         </div>
 
-        <MenuIcon onClick={toggleMenu}>
+        <div className="menu-icon" onClick={toggleMenu}>
           {menuOpen ? <FaTimes /> : <FaBars />}
-        </MenuIcon>
+        </div>
 
-        <NavMenu $isopen={menuOpen}>
-          <NavItem
-            $isactive={location.pathname === "/"}
+        <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
+          <li
+            className={`nav-item ${
+              location.pathname === "/" ? "active" : ""
+            }`}
             onClick={() => {
               navigate("/");
               setMenuOpen(false);
             }}
           >
             홈
-          </NavItem>
+          </li>
 
           {!user?.is_staff && (
             <>
-              <NavItem
-                $isactive={location.pathname === "/artist"}
+              <li
+                className={`nav-item ${
+                  location.pathname === "/artist" ? "active" : ""
+                }`}
                 onClick={() => {
                   navigate("/artist");
                   setMenuOpen(false);
                 }}
               >
                 아티스트
-              </NavItem>
-              <NavItem
-                $isactive={location.pathname === "/schedule"}
+              </li>
+              <li
+                className={`nav-item ${
+                  location.pathname === "/schedule" ? "active" : ""
+                }`}
                 onClick={() => {
                   navigate("/schedule");
                   setMenuOpen(false);
                 }}
               >
                 스케줄
-              </NavItem>
+              </li>
             </>
           )}
 
           {user?.is_staff && (
             <>
-              <NavItem
-                $isactive={location.pathname === "/artist-management"}
+              <li
+                className={`nav-item ${
+                  location.pathname === "/artist-management" ? "active" : ""
+                }`}
                 onClick={() => {
                   navigate("/artist-management");
                   setMenuOpen(false);
                 }}
               >
                 아티스트 관리
-              </NavItem>
-              <NavItem
-                $isactive={
-                  location.pathname === "/schedule-management"
-                    ? "true"
-                    : "false"
-                }
+              </li>
+              <li
+                className={`nav-item ${
+                  location.pathname === "/schedule-management" ? "active" : ""
+                }`}
                 onClick={() => {
                   navigate("/schedule-management");
                   setMenuOpen(false);
                 }}
               >
                 스케줄 관리
-              </NavItem>
+              </li>
             </>
           )}
 
           {user ? (
             <>
               {user.is_staff ? (
-                <NavItem style={{ fontWeight: "bold" }}>
-                  {user.nickname} 관리자님
-                </NavItem>
+                <li className="nav-item nickname">{user.nickname} 관리자님</li>
               ) : (
                 <>
-                  <NavItem onClick={handleProfileClick}>
-                    <button
-                      style={{
-                        borderRadius: "50%",
-                        width: "50px",
-                        height: "50px",
-                        backgroundColor: "white",
-                        padding: "8px",
-                        fontSize: "1.5rem",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
+                  <li className="nav-item">
+                    <button className="icon-button" onClick={handleProfileClick}>
                       <IoPersonOutline />
                     </button>
-                  </NavItem>
-                  <NavItem>
-                    <button
-                      style={{
-                        borderRadius: "50%",
-                        width: "50px",
-                        height: "50px",
-                        backgroundColor: "white",
-                        padding: "8px",
-                        fontSize: "1.5rem",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        position: "relative",
-                      }}
-                    >
+                  </li>
+                  <li className="nav-item">
+                    <button className="icon-button notification-button">
                       <IoNotificationsOutline />
-                      <span
-                        style={{
-                          backgroundColor: "red",
-                          height: "10px",
-                          width: "10px",
-                          borderRadius: "50%",
-                          position: "absolute",
-                          top: "10px",
-                          right: "5px",
-                        }}
-                      ></span>
+                      <span className="notification-dot"></span>
                     </button>
-                  </NavItem>
+                  </li>
                 </>
               )}
-              <NavItem onClick={handleLogoutClick}>
-                <button
-                  style={{
-                    background: "none",
-                    fontSize: "16px",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                >
-                  로그아웃
-                </button>
-              </NavItem>
+              <li className="nav-item" onClick={handleLogoutClick}>
+                <button className="text-button">로그아웃</button>
+              </li>
             </>
           ) : (
-            <NavItem onClick={handleLoginClick}>
-              <button
-                style={{
-                  background: "none",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                }}
-              >
-                로그인
-              </button>
-            </NavItem>
+            <li className="nav-item" onClick={handleLoginClick}>
+              <button className="text-button">로그인</button>
+            </li>
           )}
-        </NavMenu>
-      </NavigationLayout>
+        </ul>
+      </div>
       <div style={{ height: "5rem" }} />
     </>
   );
