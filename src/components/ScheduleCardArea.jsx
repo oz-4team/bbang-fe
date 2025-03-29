@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ScheduleCard from "./ScheduleCard";
 import { fetchAllSchedules } from "../api/schedule/scheduleApi";
+import ScheduleCard from "./ScheduleCard";
 
 const ScheduleCardArea = ({ onCardClick }) => {
   const [schedules, setSchedules] = useState([]);
@@ -28,7 +28,7 @@ const ScheduleCardArea = ({ onCardClick }) => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
         gap: "32px",
       }}
     >
