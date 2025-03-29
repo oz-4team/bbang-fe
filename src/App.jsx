@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, BrowserRouter as Router, Routes, } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.scss";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -20,6 +20,7 @@ import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 
 import Privacy from "./components/Privacy";
 
+import ArtistAddPage from "./pages/ArtistAddPage";
 import ArtistGroupDetailPage from "./pages/ArtistGroupDetailPage";
 import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
@@ -30,7 +31,11 @@ import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import SignUpQuickTestPage from "./pages/SignUpQuickTestPage";
 import TestSashaPage from "./pages/TestSashaPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
-import { shouldAutoLogout, removeToken, initInactivityLogoutTimer } from "./utils/authUtils";
+import {
+  initInactivityLogoutTimer,
+  removeToken,
+  shouldAutoLogout,
+} from "./utils/authUtils";
 
 function App() {
   //로그인 확인용
@@ -102,6 +107,7 @@ function App() {
               path="/artist-management"
               element={<ArtistManagementPage />}
             />
+            <Route path="/artist-add" element={<ArtistAddPage />} />
             <Route
               path="/schedule-management"
               element={<ScheduleManagementPage />}
@@ -117,7 +123,10 @@ function App() {
             <Route path="/signup-quicktest" element={<SignUpQuickTestPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/password-reset/check-token" element={<ResetPasswordPage />} />
+            <Route
+              path="/password-reset/check-token"
+              element={<ResetPasswordPage />}
+            />
             <Route path="/signup-completed" element={<SignupCompletedPage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
 
