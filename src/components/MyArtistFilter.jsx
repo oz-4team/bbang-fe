@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
+import useLikes from "../api/artist/useLikes";
 import useUserStore from "../store/userStore";
 import Modal from "./Modal";
 
 const MyArtistFilter = () => {
   const { user, logout } = useUserStore();
+  const { readAllLikes, likes } = useLikes();
+
+  useEffect(() => {
+    readAllLikes();
+  }, []);
+
+  console.log("likes:", likes);
+
+  const [isLoading, setIsLoading] = useState(true);
+  // const [likes, setLikes] = useState([]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleclickUserCheck = (e) => {
     setIsModalOpen(true);
@@ -32,8 +44,6 @@ const MyArtistFilter = () => {
     alert("로그인이 필요한 서비스입니다.");
   };
 
-  
-
   return (
     <>
       <div>
@@ -47,11 +57,13 @@ const MyArtistFilter = () => {
                 marginTop: "10px",
               }}
             >
-              <option value="artist1">모든 아티스트</option>
-              <option value="artist1">나의 아티스트들</option>
-              <option value="artist2">에스파 ❤️</option>
-              <option value="artist3">아이유 ❤️</option>
-              <option value="artist3">윤하 ❤️</option>
+              <option value="all">모든 아티스트</option>
+              <option value="myArtists">나의 아티스트들</option>
+              {likes.map((like, index) => (
+                <option key={index} value={like.artistId}>
+                  {like.artist} ❤️
+                </option>
+              ))}
             </select>
           </>
         ) : (
