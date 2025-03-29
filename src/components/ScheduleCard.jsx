@@ -23,14 +23,12 @@ const ScheduleCard = ({
     e.stopPropagation();
     setStarred(!starred);
     if (starred === false) {
-      addFavorite({ id });
+      addFavorite(id);
     }
 
     if (starred === true) {
       deleteFavorite(id);
-      // console.log("deleteFavorite:", deleteFavorite);
     }
-    // useUserStore.setState({ starred: !starred });
   };
   const handleClickScheduleDetail = (e) => {
     e.stopPropagation();

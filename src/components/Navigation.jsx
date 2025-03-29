@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
+import { logoutUser } from "../api/authApi";
 import logo from "../assets/images/idolsycn-logo.png";
 import useUserStore from "../store/userStore";
-import { logoutUser } from "../api/authApi";
 import "../styles/Navigation.css";
 
 const Navigation = () => {
@@ -38,6 +38,8 @@ const Navigation = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const navheight = "6rem";
+
   return (
     <>
       <div className="nav-layout">
@@ -52,9 +54,7 @@ const Navigation = () => {
 
         <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
           <li
-            className={`nav-item ${
-              location.pathname === "/" ? "active" : ""
-            }`}
+            className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
             onClick={() => {
               navigate("/");
               setMenuOpen(false);
@@ -124,7 +124,10 @@ const Navigation = () => {
               ) : (
                 <>
                   <li className="nav-item">
-                    <button className="icon-button" onClick={handleProfileClick}>
+                    <button
+                      className="icon-button"
+                      onClick={handleProfileClick}
+                    >
                       <IoPersonOutline />
                     </button>
                   </li>
@@ -147,7 +150,7 @@ const Navigation = () => {
           )}
         </ul>
       </div>
-      <div style={{ height: "5rem" }} />
+      <div style={{ height: navheight }} />
     </>
   );
 };

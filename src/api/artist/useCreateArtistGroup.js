@@ -12,7 +12,7 @@ export default function useCreateArtistGroup() {
 
 
     const { accessToken } = useUserStore();
-    const [artist, setArtist] = useState(null);
+    const [artistGroup, setArtistGroup] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const createArtistGroup = async (groupInfo) => {
@@ -29,9 +29,9 @@ export default function useCreateArtistGroup() {
             );
 
             const data = response.data;
-            setArtist(data);
-            console.log("artistInfo:", data);
-            console.log("artiartistInfost:", artist);
+            setArtistGroup(data);
+            console.log("artist Group Info:", data);
+            console.log("artiartistInfost:", artistGroup);
 
         }
         catch (error) {
@@ -43,8 +43,9 @@ export default function useCreateArtistGroup() {
 
 
     return {
-        artist,
+
         loading,
-        createArtistGroup
+        createArtistGroup,
+        artistGroup
     }
 }
