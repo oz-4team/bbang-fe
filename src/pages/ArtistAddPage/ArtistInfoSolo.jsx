@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useArtist from "../../api/artist/useArtist";
 import useUserStore from "../../store/userStore";
 import "../../styles/ArtistManagementPage.css";
 
-const ArtistInfoSolo = ({ setIsAdded }) => {
+const ArtistInfoSolo = () => {
   const { createArtistSolo } = useArtist();
   const { user, logout } = useUserStore();
   console.log("user:", user);
@@ -17,8 +18,6 @@ const ArtistInfoSolo = ({ setIsAdded }) => {
     artist_insta: "",
     image_url: "",
   });
-
-  console.log("sssssssss:", setIsAdded);
 
   const [members, setMembers] = useState([
     { name: "", instagram: "", photo: null },
@@ -51,6 +50,8 @@ const ArtistInfoSolo = ({ setIsAdded }) => {
     setMembers(members.filter((_, i) => i !== index));
   };
 
+  const nav = useNavigate();
+
   const saveGroup = () => {
     if (!artistInfo.artist_name) {
       alert("그룹명을 입력해주세요!");
@@ -79,11 +80,16 @@ const ArtistInfoSolo = ({ setIsAdded }) => {
         "아티스트 정보 저장1111:",
         JSON.stringify(artistInfo, null, 2)
       );
-      //   const artistInfo = JSON.stringify(artistInfo, null, 2);
+
       console.log("아티스트 정보 저장2222:", artistInfo);
-      createArtistSolo(artistInfo);
-      setIsAdded(true);
-      console.log("아티스트 정보 저장3333:", artistInfo);
+      createArtistSolo(artistInfo)
+        .then(() => {
+          nav("/artist-management");
+        })
+        .catch((error) => {
+          console.error("Error creating artist:", error);
+          alert("아티스트 정보 저장에 실패했습니다.");
+        });
     }
 
     console.log("그룹 정보 저장333:", artistInfo);

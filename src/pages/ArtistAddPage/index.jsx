@@ -1,7 +1,7 @@
 import React from "react";
-import ArtistInfoGroup from "../../components/add-artist/ArtistInfoGroup";
-import ArtistInfoSolo from "../../components/add-artist/ArtistInfoSolo";
-import SelectArtistType from "../../components/add-artist/SelectArtistType";
+import ArtistInfoGroup from "./ArtistInfoGroup";
+import ArtistInfoSolo from "./ArtistInfoSolo";
+import SelectArtistType from "./SelectArtistType";
 
 const ArtistAddPage = () => {
   const [artistType, setArtistType] = React.useState(null);
