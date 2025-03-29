@@ -1,14 +1,27 @@
 import React from "react";
-import useArtist from "../../api/artist/useArtist";
+import { useNavigate } from "react-router-dom";
+import useArtistGroups from "../../api/artist/useArtistGroups";
+import MembersPaper from "../ArtistAddPage/MembersPaper";
 
 const GroupPaper = ({ group }) => {
-  const { deleteArtist } = useArtist();
+  const [addedGroup, setAddedGroup] = React.useState(group);
+  const { deleteArtistGroup } = useArtistGroups();
+  const nav = useNavigate();
 
-  const handleDeleteGroup = (groupId) => {
-    deleteArtist(groupId)
+  const handleDeleteArtist = (groupId) => {
+    if (
+      !window.confirm(
+        "정말로 아티스트 정보를 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다."
+      )
+    ) {
+      return;
+    }
+
+    // Call the deleteArtist function from useArtistGroups
+    // and handle the response
+    deleteArtistGroup(groupId)
       .then(() => {
-        // Handle successful deletion, e.g., update state or show a message
-        console.log(`Group with ID ${groupId} deleted successfully.`);
+        nav("/artist-add");
       })
       .catch((error) => {
         // Handle error, e.g., show an error message
@@ -17,35 +30,44 @@ const GroupPaper = ({ group }) => {
   };
   return (
     <>
-      <div className="group-paper">
-        <h2>Group List</h2>
+      <div className="outlet-container">
+        <div className="artist-item">
+          <div className="artist-management-page">
+            <div className="title">아티스트 정보</div>
 
-        <div key={group.id} className="group-item">
-          <h3>{group.name}</h3>
-          <p>내용</p>
+            <div className="group-info">
+              <div className="group-photo-container">
+                <div className="group-photo">
+                  <img src={group.image_url} alt="" />
+                </div>
+              </div>
+
+              <div className="group-details">
+                <label>아티스트명</label>
+                <p className="text-view">{group.artist_group}</p>
+                <label>회사명</label>
+                <p className="text-view">{group.artist_agency}</p>
+                <label>데뷔날짜</label>
+                <p className="text-view">{group.debut_date}</p>
+                <label>팬덤명</label>
+                <p className="text-view">{group.group_fandom}</p>
+                <label>인스타그램</label>
+                <p className="text-view">{group.group_insta}</p>
+              </div>
+            </div>
+            <div className="p-24">
+              <MembersPaper addedGroup={addedGroup} />
+            </div>
+            <button
+              className="btn-primary bg-none"
+              onClick={() => handleDeleteArtist(group.id)}
+            >
+              아티스트 정보 삭제하기
+            </button>
+            <div className="p-24"></div>
+          </div>
         </div>
       </div>
-      <button
-        onClick={() => {
-          handleDeleteGroup(group.id);
-        }}
-      >
-        Delete Group
-      </button>
-      <style jsx>{`
-        .group-paper {
-          padding: 20px;
-          background-color: #f9f9f9;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .group-item {
-          margin-bottom: 15px;
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-        }
-      `}</style>
     </>
   );
 };

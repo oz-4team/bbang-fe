@@ -13,10 +13,9 @@ const ArtistInfoSolo = () => {
     artist_agency: "",
     debut_date: "",
     fandom: "",
-    photo: null,
+    image_url: null,
     logo: null,
     artist_insta: "",
-    image_url: "",
   });
 
   const [members, setMembers] = useState([
@@ -53,6 +52,10 @@ const ArtistInfoSolo = () => {
   const nav = useNavigate();
 
   const saveGroup = () => {
+    if (!artistInfo.image_url) {
+      alert("사진을 입력해주세요!");
+      return;
+    }
     if (!artistInfo.artist_name) {
       alert("그룹명을 입력해주세요!");
       return;
@@ -71,6 +74,7 @@ const ArtistInfoSolo = () => {
     }
     alert("아티스트 정보가 저장되었습니다!");
     if (
+      artistInfo.image_url &&
       artistInfo.artist_name &&
       artistInfo.artist_agency &&
       artistInfo.debut_date &&
@@ -104,14 +108,18 @@ const ArtistInfoSolo = () => {
         <div className="group-photo-container">
           <label>아티스트 사진</label>
           <div className="group-photo">
-            {artistInfo.photo && <img src={artistInfo.photo} alt="Group" />}
+            {artistInfo.image_url && (
+              <img src={artistInfo.image_url} alt="Group" />
+            )}
             <label className="upload-button">
               + 사진 업로드
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) =>
-                  handleImageUpload(e, (img) => handleGroupChange("photo", img))
+                  handleImageUpload(e, (img) =>
+                    handleGroupChange("image_url", img)
+                  )
                 }
                 hidden
               />

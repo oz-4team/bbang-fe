@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useArtistGroups from "../../api/artist/useArtistGroups";
 import useCreateArtistGroup from "../../api/artist/useCreateArtistGroup";
 import "../../styles/ArtistManagementPage.css";
@@ -6,14 +7,16 @@ import "../../styles/ArtistManagementPage.css";
 const ArtistInfoGroup = () => {
   const { createArtistGroup, artistGroup } = useCreateArtistGroup();
   const { createArtistForGroup } = useArtistGroups();
+  const nav = useNavigate();
 
   const [groupInfo, setGroupInfo] = useState({
     artist_group: "",
     artist_agency: "",
-    debutDate: "",
-    fandom: "",
-    photo: null,
+    debut_date: "",
+    group_fandom: "",
+    image_url: null,
     logo: null,
+    group_insta: "",
   });
 
   const [createdGroupId, setCreatedGroupId] = useState(artistGroup?.id);
@@ -26,10 +29,11 @@ const ArtistInfoGroup = () => {
         ...prev,
         artist_group: artistGroup.artist_group,
         artist_agency: artistGroup.artist_agency,
-        debutDate: artistGroup.debut_date,
-        fandom: artistGroup.fandom,
-        photo: artistGroup.photo,
+        debut_date: artistGroup.debut_date,
+        group_fandom: artistGroup.group_fandom,
+        image_url: artistGroup.image_url,
         logo: artistGroup.logo,
+        group_insta: artistGroup.group_insta,
       }));
       setCreatedGroupId(artistGroup.id);
     }
@@ -41,15 +45,13 @@ const ArtistInfoGroup = () => {
     {
       artist_name: "aa",
       artist_agency: "",
-      artist_insta: "",
-      artist_fandom: "",
+      group_insta: "",
+      artist_group_fandom: "",
       debut_date: "2025-11-11",
       solomembers: "",
       image_url: null,
     },
   ]);
-
-  const [memberVisible, setMemberVisible] = useState(false);
 
   const handleGroupChange = (field, value) => {
     setGroupInfo((prev) => ({ ...prev, [field]: value }));
@@ -64,22 +66,12 @@ const ArtistInfoGroup = () => {
     }
   };
 
-  const addMember = () => {
-    setMembers([...members, { artist_group: "", instagram: "", photo: null }]);
-  };
-
-  const updateMember = (index, field, value) => {
-    const updatedMembers = [...members];
-    updatedMembers[index][field] = value;
-    setMembers(updatedMembers);
-  };
-
-  const deleteMember = (index) => {
-    setMembers(members.filter((_, i) => i !== index));
-  };
-
   const saveGroup = () => {
     console.log("그룹 정보 저장:", groupInfo);
+    if (!groupInfo.image_url) {
+      alert("사진을 입력해주세요!");
+      return;
+    }
     if (!groupInfo.artist_group) {
       alert("그룹명을 입력해주세요!");
       return;
@@ -88,11 +80,11 @@ const ArtistInfoGroup = () => {
       alert("회사명을 입력해주세요!");
       return;
     }
-    if (!groupInfo.debutDate) {
+    if (!groupInfo.debut_date) {
       alert("데뷔날짜를 입력해주세요!");
       return;
     }
-    if (!groupInfo.fandom) {
+    if (!groupInfo.group_fandom) {
       alert("팬덤명을 입력해주세요!");
       return;
     }
@@ -101,12 +93,17 @@ const ArtistInfoGroup = () => {
     if (
       groupInfo.artist_group &&
       groupInfo.artist_agency &&
-      groupInfo.debutDate &&
-      groupInfo.fandom
+      groupInfo.debut_date &&
+      groupInfo.group_fandom
     ) {
-      createArtistGroup(groupInfo);
-      setMemberVisible(true);
-      setCreatedGroupId(artistGroup?.id);
+      createArtistGroup(groupInfo)
+        .then(() => {
+          nav("/artist-management");
+        })
+        .catch((error) => {
+          console.error("Error creating artist:", error);
+          alert("아티스트 정보 저장에 실패했습니다.");
+        });
     }
   };
 
@@ -130,7 +127,9 @@ const ArtistInfoGroup = () => {
           <div className="group-photo-container">
             <label>그룹 사진</label>
             <div className="group-photo">
-              {groupInfo.photo && <img src={groupInfo.photo} alt="Group" />}
+              {groupInfo.image_url && (
+                <img src={groupInfo.image_url} alt="Group" />
+              )}
               <label className="upload-button">
                 + 사진 업로드
                 <input
@@ -138,7 +137,7 @@ const ArtistInfoGroup = () => {
                   accept="image/*"
                   onChange={(e) =>
                     handleImageUpload(e, (img) =>
-                      handleGroupChange("photo", img)
+                      handleGroupChange("image_url", img)
                     )
                   }
                   hidden
@@ -170,15 +169,24 @@ const ArtistInfoGroup = () => {
             <input
               type="date"
               placeholder="데뷔일"
-              value={groupInfo.debutDate}
-              onChange={(e) => handleGroupChange("debutDate", e.target.value)}
+              value={groupInfo.debut_date}
+              onChange={(e) => handleGroupChange("debut_date", e.target.value)}
             />
             <label>팬덤명</label>
             <input
               type="text"
               placeholder="팬덤명을 입력하세요"
-              value={groupInfo.fandom}
-              onChange={(e) => handleGroupChange("fandom", e.target.value)}
+              value={groupInfo.group_fandom}
+              onChange={(e) =>
+                handleGroupChange("group_fandom", e.target.value)
+              }
+            />
+            <label>인스타그램</label>
+            <input
+              type="text"
+              placeholder="인스타그램 주소를 입력하세요"
+              value={groupInfo.group_insta}
+              onChange={(e) => handleGroupChange("group_insta", e.target.value)}
             />
           </div>
         </div>
@@ -187,76 +195,6 @@ const ArtistInfoGroup = () => {
         입력 완료하고 멤버 추가하기
       </button>
       <div className="p-24"></div>
-
-      {memberVisible && (
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>
-              <div className="title">멤버정보</div>
-              <div className="sub-title">멤버정보를 추가해주세요 🙂</div>
-            </div>
-            <button className="btn-primary bg-none" onClick={addMember}>
-              + 멤버 추가
-            </button>
-          </div>
-
-          <div className="member-container">
-            {members.map((member, index) => (
-              <div key={index} className="member-card">
-                <button
-                  className="delete-button"
-                  onClick={() => deleteMember(index)}
-                  title="삭제하기"
-                >
-                  🗑️
-                </button>
-
-                <div className="member-photo">
-                  {member.photo && <img src={member.photo} alt="멤버 사진" />}
-                  <label className="upload-button">
-                    업로드
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) =>
-                        handleImageUpload(e, (img) =>
-                          updateMember(index, "photo", img)
-                        )
-                      }
-                      hidden
-                    />
-                  </label>
-                </div>
-
-                <input
-                  type="text"
-                  placeholder="멤버 이름"
-                  value={member.artist_name}
-                  onChange={(e) =>
-                    updateMember(index, "artist_name", e.target.value)
-                  }
-                />
-
-                <input
-                  type="text"
-                  placeholder={`멤버${index + 1} 인스타그램 링크`}
-                  value={member.artist_insta}
-                  onChange={(e) =>
-                    updateMember(index, "artist_insta", e.target.value)
-                  }
-                />
-
-                <button
-                  className="btn-primary bg-none"
-                  onClick={() => saveMember(index)}
-                >
-                  추가하기
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -13,6 +13,7 @@ export default function useArtistGroups() {
 
     const { accessToken } = useUserStore();
     const [artistGroup, setArtistGroup] = useState(null);
+    const [groupMembers, setGroupMembers] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const createArtistGroup = async (groupInfo) => {
@@ -47,11 +48,11 @@ export default function useArtistGroups() {
 
 
 
-    const createArtistForGroup = async (groupId, artistInfo) => {
+    const createArtistForGroup = async (selectedId, artistInfo) => {
         try {
             setLoading(true);
 
-            const response = await axios.post(`${API_BASE_URL}/artist-groups/${groupId}/members/create/`,
+            const response = await axios.post(`${API_BASE_URL}/artist-groups/${selectedId}/members/create/`,
                 { members: artistInfo },
                 {
                     headers: {
@@ -62,10 +63,7 @@ export default function useArtistGroups() {
             );
 
             const data = response.data;
-            setArtist(data);
-            console.log("artistInfo:", data);
-            console.log("artiartistInfost:", artist);
-
+            setGroupMembers(data);
         }
         catch (error) {
             console.error("Error reading artistssssss:", error);
@@ -99,13 +97,40 @@ export default function useArtistGroups() {
     };
 
 
+
+    const deleteMember = async (groupid, artistid) => {
+        try {
+            setLoading(true);
+            const response = await axios.delete(`${API_BASE_URL}/artist-groups/${groupid}/members/${artistid}/delete/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            const data = response.data;
+            console.log("delete artist:", data);
+
+        }
+        catch (error) {
+            console.error("Error reading artistssssss:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
     return {
 
         loading,
         createArtistGroup,
         artistGroup,
         createArtistForGroup,
-        deleteArtistGroup
+        deleteArtistGroup,
+        deleteMember
 
     }
 }
