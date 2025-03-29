@@ -31,6 +31,10 @@
 
 }
 
+.title {
+  text-align: left;
+}
+
 .group-photo-container label {
   padding: 8px;
   font-size: 16px;
@@ -96,6 +100,8 @@
   /* max-width: 500px; */
 }
 
+
+
 .group-details input {
   padding: 16px;
   font-size: 16px;
@@ -110,6 +116,15 @@
   text-align: left;
   width: 100%;
   margin-bottom: -16px;
+}
+
+.group-details .text-view {
+  padding: 8px;
+  font-size:24px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: -16px;
+  color: #222222;
 }
 
 .group-logo {
@@ -181,6 +196,7 @@
   font-size: 20px;
   margin-top: 40px;
   margin-bottom: 15px;
+  
 }
 
 /* 멤버 컨테이너 */

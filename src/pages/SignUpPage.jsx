@@ -21,6 +21,9 @@ function SignUpPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
+  const [modalMessage, setModalMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const saved = localStorage.getItem("signupFormData");
     if (saved) {
@@ -46,15 +49,7 @@ function SignUpPage() {
       previewImageUrl,
     };
     localStorage.setItem("signupFormData", JSON.stringify(formData));
-  }, [
-    email,
-    password,
-    confirmPassword,
-    nickname,
-    gender,
-    age,
-    previewImageUrl,
-  ]);
+  }, [email, password, confirmPassword, nickname, gender, age, previewImageUrl]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -78,7 +73,8 @@ function SignUpPage() {
     e.preventDefault();
 
     if (imageFile && imageFile.size > 10 * 1024 * 1024) {
-      alert("10MB 이하의 파일만 업로드할 수 있습니다.");
+      setModalMessage("10MB 이하의 파일만 업로드할 수 있습니다.");
+      setIsModalOpen(true);
       return;
     }
 
@@ -93,16 +89,14 @@ function SignUpPage() {
           nickname,
           gender,
           age,
-          image_url: base64Image, // send as base64
+          image_url: base64Image || null,
         };
-
-        console.log("🚀 회원가입 요청 데이터:", userData);
 
         try {
           const response = await signupUser(userData);
           console.log("✅ 회원가입 응답:", response);
 
-          // Reset fields
+          // Reset
           setEmail("");
           setPassword("");
           setConfirmPassword("");
@@ -112,7 +106,6 @@ function SignUpPage() {
           setImageFile(null);
           setPreviewImageUrl(null);
           setErrors({});
-
           localStorage.removeItem("signupFormData");
 
           navigate("/signup-completed", {
@@ -120,20 +113,23 @@ function SignUpPage() {
           });
         } catch (error) {
           console.error("❌ 회원가입 실패:", error.message);
-          if (error.response) {
-            console.error("백엔드 응답:", error.response.data);
+          if (
+            error.message.includes("이메일") &&
+            error.message.includes("존재")
+          ) {
+            setModalMessage("이미 사용 중인 이메일입니다.");
           } else {
-            console.error("서버 연결 실패:", error);
+            setModalMessage("서버와의 연결에 실패했습니다. 다시 시도해주세요.");
           }
+          setIsModalOpen(true);
         }
       };
 
       if (imageFile) {
         reader.readAsDataURL(imageFile);
       } else {
-        reader.onloadend(); // trigger immediately if no image
+        reader.onloadend();
       }
-      return;
     }
   };
 
@@ -291,21 +287,33 @@ function SignUpPage() {
         </select>
       </div>
 
-      <div>
-        <label>
-          <input type="checkbox" required />{" "}
-          <Link to="/privacy" className="terms-link">
-            이용약관, 개인정보처리방침
-          </Link>
-          에 동의
+      <div className="form-group terms-container">
+        <label className="terms-label">
+          <input type="checkbox" required />
+          <span>
+            <Link to="/privacy" className="terms-link" target="_blank">
+              이용약관, 개인정보처리방침
+            </Link>
+            에 동의
+          </span>
         </label>
       </div>
+
 
       <button type="submit" className="submit-button">
         회원가입
       </button>
 
       <SocialLogin />
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={() => setIsModalOpen(false)}>확인</button>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

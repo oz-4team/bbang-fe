@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, BrowserRouter as Router, Routes, } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.scss";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -20,6 +20,7 @@ import SignupCompletedPage from "./pages/SignupCompletedPage"; // 추가함
 
 import Privacy from "./components/Privacy";
 
+import ArtistAddPage from "./pages/ArtistAddPage";
 import ArtistGroupDetailPage from "./pages/ArtistGroupDetailPage";
 import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
@@ -30,7 +31,11 @@ import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import SignUpQuickTestPage from "./pages/SignUpQuickTestPage";
 import TestSashaPage from "./pages/TestSashaPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
-import { shouldAutoLogout, removeToken, initInactivityLogoutTimer } from "./utils/authUtils";
+import {
+  initInactivityLogoutTimer,
+  removeToken,
+  shouldAutoLogout,
+} from "./utils/authUtils";
 
 function App() {
   //로그인 확인용
@@ -39,13 +44,26 @@ function App() {
   useEffect(() => {
     document.documentElement.classList.remove("dark");
     document.documentElement.classList.add("light");
-    const access = localStorage.getItem("access_token");
-    const refresh = localStorage.getItem("refresh_token");
-    const userInfo = JSON.parse(localStorage.getItem("user_info"));
+
+    const access = localStorage.getItem("accessToken");
+    const refresh = localStorage.getItem("refreshToken");
+    const userInfo = localStorage.getItem("user_info");
+
     if (access && refresh && userInfo) {
-      useUserStore.getState().login(userInfo, access, refresh);
+      try {
+        const parsedUser = JSON.parse(userInfo);
+        useUserStore.getState().login(parsedUser, access, refresh);
+      } catch (e) {
+        console.warn("🧹 유저 정보 파싱 실패. 로컬스토리지 초기화");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user_info");
+      }
+    } else {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user_info");
     }
-    
   }, []);
 
   useEffect(() => {
@@ -89,6 +107,7 @@ function App() {
               path="/artist-management"
               element={<ArtistManagementPage />}
             />
+            <Route path="/artist-add" element={<ArtistAddPage />} />
             <Route
               path="/schedule-management"
               element={<ScheduleManagementPage />}
@@ -104,7 +123,10 @@ function App() {
             <Route path="/signup-quicktest" element={<SignUpQuickTestPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/password-reset/check-token" element={<ResetPasswordPage />} />
+            <Route
+              path="/password-reset/check-token"
+              element={<ResetPasswordPage />}
+            />
             <Route path="/signup-completed" element={<SignupCompletedPage />} />
             <Route path="/adminrequest" element={<AdminRequestPage />} />
 
