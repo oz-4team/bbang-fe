@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useReadArtistGroups from "../../api/artist/useReadArtistGroups";
+import ArtistPaper from "./ArtistPaper";
 import GroupPaper from "./GroupPaper";
 
 const ArtistManagementPage = () => {
@@ -26,7 +27,7 @@ const ArtistManagementPage = () => {
   }, [artists, groups]);
 
   if (groups?.length > 0) return <GroupPaper group={groups[0]} />;
-  if (artists?.length > 0) return <ArtistPaper artists={artists} />;
+  if (artists?.length > 0) return <ArtistPaper artist={artists[0]} />;
 
   return <>hello</>;
 };
