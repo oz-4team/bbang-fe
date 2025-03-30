@@ -43,11 +43,12 @@ const ScheduleCard = ({
     navigate(`/schedule/details/${id}`);
   };
 
-  useEffect(() => {
+
     if (user) {
       readFavorite();
     }
   }, [user]);
+
 
   return (
     <div

@@ -47,7 +47,9 @@ export const fetchScheduleDetail = async (scheduleId) => {
   }
 };
 
-/** 즐겨찾기 일정 조회 */
+
+/** 즐겨찾기 일정 조회 */ 
+
 export const fetchFavoriteSchedules = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/schedules/favorites/`, {});
