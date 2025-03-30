@@ -3,7 +3,7 @@ import { useState } from 'react';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const useFavorites = () => {
-    const accessToken = localStorage.getItem("authToken");
+    const accessToken = localStorage.getItem("accessToken");
 
     const [favorite, setFavorite] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const useFavorites = () => {
 
 
 
-    const addFavorite = async ({ id }) => {
+    const addFavorite = async (id) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/favorite/`,
                 { schedule_id: id },
@@ -40,25 +40,20 @@ const useFavorites = () => {
 
     const deleteFavorite = async (id) => {
         try {
-            const response = await axios.delete(`${API_BASE_URL}/favorite/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                    data: { schedule_id: id }
-                })
+            const response = await axios.delete(`${API_BASE_URL}/favorite/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: {
+                    schedule_id: id,
+                },
+            });
 
             const data = response.data;
-            setFavorite(data)
-            console.log("delete datadelete datadelete data:", data);
-            // setFavorite(data);
-
-
-        }
-        catch (error) {
-            console.error("Error reading schedule:", error);
-
+            setFavorite(data);
+            console.log("✅ 즐겨찾기 삭제 성공:", data);
+        } catch (error) {
+            console.error("❌ 즐겨찾기 삭제 실패:", error);
         } finally {
             setLoading(false);
         }
@@ -92,8 +87,5 @@ const useFavorites = () => {
     return { favorite, loading, addFavorite, readFavorite, deleteFavorite };
 
 };
-
-
-
 
 export default useFavorites;
