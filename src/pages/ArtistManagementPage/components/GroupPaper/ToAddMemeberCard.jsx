@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
 import useArtistManagementStore from "../../useArtistManagementStore";
 
-const initialToAddMember = {
-  artist_name: "",
-  artist_agency: group.artist_agency,
-  group_insta: group.group_insta,
-  artist_group_fandom: group.group_fandom,
-  debut_date: group.debut_date,
-  solomembers: "",
-  image_url: null,
-  artist_insta: "",
-};
-
 const ToAddMemeberCard = () => {
   const { group, setRefresh } = useArtistManagementStore();
+
+  const initialToAddMember = {
+    artist_name: "",
+    artist_agency: group.artist_agency,
+    group_insta: group.group_insta,
+    artist_group_fandom: group.group_fandom,
+    debut_date: group.debut_date,
+    solomembers: "",
+    image_url: null,
+    artist_insta: "",
+  };
 
   const [groupId] = useState(group.id);
 
