@@ -117,6 +117,8 @@ const ScheduleManagementPage = () => {
     }
   }, [groupId]);
 
+  const type = artist ? "solo" : group ? "group" : null;
+
   return (
     <div
       style={{
@@ -188,7 +190,13 @@ const ScheduleManagementPage = () => {
                   padding: "1rem",
                 }}
               >
-                <button onClick={() => navigate("/schedule-management/add")}>
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/schedule-management/${artistId || groupId}/${type}/add`
+                    )
+                  }
+                >
                   +일정등록
                 </button>
               </div>
