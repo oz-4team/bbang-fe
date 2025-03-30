@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
 import "../../../../styles/ArtistManagementPage.css";
+import useArtistManagementStore from "../../useArtistManagementStore";
 import MembersPaper from "./MembersPaper";
 
 const GroupInfoSection = ({ group }) => {
@@ -33,8 +34,8 @@ const GroupInfoSection = ({ group }) => {
   );
 };
 
-const GroupPaper = ({ group }) => {
-  const [members, setMembers] = React.useState(group.members);
+const GroupPaper = () => {
+  const { group } = useArtistManagementStore();
 
   const { deleteArtistGroup } = useArtistGroups();
   const nav = useNavigate();
@@ -65,7 +66,7 @@ const GroupPaper = ({ group }) => {
           <div className="artist-management-page">
             <GroupInfoSection group={group} />
             <div className="p-24">
-              <MembersPaper members={members} />
+              <MembersPaper group={group} />
             </div>
 
             <button

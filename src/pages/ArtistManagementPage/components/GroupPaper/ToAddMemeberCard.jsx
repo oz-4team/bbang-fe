@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
 
 const ToAddMemeberCard = ({ group }) => {
-  console.log("group:", group);
-
-  const [groupId, setgroupId] = useState(group.id);
-
-  useEffect(() => {
-    setgroupId(group.id);
-  }, [group.id]);
-
-  const { createArtistForGroup } = useArtistGroups();
+  const [groupId] = useState(group.id);
 
   const [toAddMember, setToAddMember] = useState({
     artist_name: "",
@@ -22,6 +14,8 @@ const ToAddMemeberCard = ({ group }) => {
     image_url: null,
     artist_insta: "",
   });
+
+  const { createArtistForGroup } = useArtistGroups();
 
   const handleImageUpload = (event, callback) => {
     const file = event.target.files[0];
