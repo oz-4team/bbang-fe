@@ -7,10 +7,13 @@ import SearchBar from "../components/SearchBar";
 
 const ArtistListPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const handleSecondaryClick = () => {
     console.log("Secondary button clicked");
     handleCloseModal();
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -19,7 +22,8 @@ const ArtistListPage = () => {
     window.location.href = "/login";
     console.log("로그인 페이지로 이동");
   };
-  const handleclickUserCheck = (e) => {
+
+  const handleClickUserCheck = () => {
     setIsModalOpen(true);
   };
 
@@ -28,11 +32,15 @@ const ArtistListPage = () => {
       <div className="inner">
         <BannerAd />
         <div className="filter-container">
-          <MyArtistFilter></MyArtistFilter>
-          <SearchBar />
+          <MyArtistFilter />
+          <SearchBar onSearch={setSearchQuery} />
         </div>
 
-        <ArtistCardArea onCardClick={handleclickUserCheck} />
+        <ArtistCardArea
+          onCardClick={handleClickUserCheck}
+          searchQuery={searchQuery}
+        />
+
         {isModalOpen && (
           <Modal
             title="로그인이 필요해요 ☺️"

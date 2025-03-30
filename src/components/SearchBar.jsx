@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (onSearch) {
+      onSearch(query);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div
       style={{
         minWidth: "300px",
-        // width: "100%",
         display: "flex",
-
         position: "relative",
         overflow: "hidden",
         alignItems: "center",
@@ -17,16 +33,25 @@ const SearchBar = () => {
       <input
         type="text"
         placeholder="아티스트 검색"
+        value={query}
+        onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         style={{
           flex: 1,
           padding: "8px 40px 8px 8px",
           outline: "none",
           height: "60px",
-          marginTop: 0,
           borderRadius: "8px",
         }}
       />
-      <FaSearch style={{ position: "absolute", right: "10px" }} />
+      <FaSearch
+        onClick={handleSearch}
+        style={{
+          position: "absolute",
+          right: "10px",
+          cursor: "pointer",
+        }}
+      />
     </div>
   );
 };
