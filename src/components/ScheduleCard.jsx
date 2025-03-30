@@ -36,8 +36,10 @@ const ScheduleCard = ({
   };
 
   useEffect(() => {
-    readFavorite();
-  }, []);
+    if (user) {
+      readFavorite();
+    }
+  }, [user]);
 
   return (
     <div
