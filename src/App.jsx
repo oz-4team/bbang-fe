@@ -25,11 +25,11 @@ import ArtistGroupDetailPage from "./pages/ArtistGroupDetailPage";
 import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
 import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료
-import ScheduleAddPage from "./pages/ScheduleAddPage";
 import ScheduleEditPage from "./pages/ScheduleEditPage";
 import ScheduleManagementPage from "./pages/ScheduleManagementPage";
 import SignUpQuickTestPage from "./pages/SignUpQuickTestPage";
 import TestSashaPage from "./pages/TestSashaPage";
+import ScheduleAddPage from "./pages/admin/schedule/ScheduleAddPage";
 import useUserStore from "./store/userStore"; //로그인 확인용
 import {
   initInactivityLogoutTimer,
