@@ -87,9 +87,15 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
         }}
       >
         <div
-          style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
+          style={{
+            fontSize: "1.4rem",
+            wordBreak: "break-all",
+            fontWeight: "bold",
+            textAlign: "left",
+          }}
         >
-          {id}:{name} {type === "group" ? "(그룹)" : "(솔로)"}
+          {/* {id}:{name} {type === "group" ? "(그룹)" : "(솔로)"} */}
+          {name}
         </div>
         <div
           onClick={user ? toggleLike : onCardClick}

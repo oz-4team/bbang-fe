@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useReadArtistGroups from "../../api/artist/useReadArtistGroups";
-import ArtistPaper from "./ArtistPaper";
-import GroupPaper from "./GroupPaper";
+import GroupPaper from "./components/GroupPaper";
+import useArtistManagementStore from "./useArtistManagementStore";
 
 const ArtistManagementPage = () => {
   const { error, loading, artists, groups, readArtistGroups } =
@@ -11,6 +11,29 @@ const ArtistManagementPage = () => {
   useEffect(() => {
     readArtistGroups();
   }, []);
+
+  const { artist, group, setArtist, setGroup, refresh, setRefresh } =
+    useArtistManagementStore();
+
+  useEffect(() => {
+    if (refresh) {
+      readArtistGroups().finally(() => {
+        setRefresh(false);
+      });
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    if (artists) {
+      setArtist(artists[0]);
+    }
+  }, [artists]);
+
+  useEffect(() => {
+    if (groups) {
+      setGroup(groups[0]);
+    }
+  }, [groups]);
 
   const navigate = useNavigate();
 
@@ -26,10 +49,8 @@ const ArtistManagementPage = () => {
     }
   }, [artists, groups]);
 
-  if (groups?.length > 0) return <GroupPaper group={groups[0]} />;
-  if (artists?.length > 0) return <ArtistPaper artist={artists[0]} />;
-
-  return <>hello</>;
+  if (group) return <GroupPaper />;
+  // if (artist) return <ArtistPaper artist={artists[0]} />;
 };
 
 export default ArtistManagementPage;

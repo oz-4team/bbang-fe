@@ -48,11 +48,11 @@ export default function useArtistGroups() {
 
 
 
-    const createArtistForGroup = async (selectedId, artistInfo) => {
+    const createArtistForGroup = async (id, artistInfo) => {
         try {
             setLoading(true);
 
-            const response = await axios.post(`${API_BASE_URL}/artist-groups/${selectedId}/members/create/`,
+            const response = await axios.post(`${API_BASE_URL}/artist-groups/${id}/members/create/`,
                 { members: artistInfo },
                 {
                     headers: {

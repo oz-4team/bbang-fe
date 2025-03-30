@@ -6,10 +6,11 @@ const useLikes = () => {
     const accessToken = localStorage.getItem("authToken");
     const [loading, setLoading] = useState(true);
     const [like, setLike] = useState([]);
+    const [likes, setLikes] = useState([]);
 
 
-
-    const readLike = async () => {
+    //사용자가 좋아요한 아티스트 목록 조회
+    const readAllLikes = async () => {
         setLoading(true);
 
         try {
@@ -22,9 +23,9 @@ const useLikes = () => {
                 });
 
             const data = response.data;
-            setLike(data);
+            setLikes(data);
             console.log("data:", data);
-            console.log("like:", like);
+            console.log("likes:", likes);
 
         }
         catch (error) {
@@ -38,7 +39,7 @@ const useLikes = () => {
 
 
 
-
+    // 아티스트 솔로 좋아요 누르기
     const addLikeArtist = async (id) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/like/`,
@@ -64,8 +65,9 @@ const useLikes = () => {
         } finally {
             setLoading(false);
         }
-    }
 
+    }
+    // 아티스트 그룹 좋아요 누르기
     const addLikeArtistGroup = async (id) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/like/`,
@@ -88,6 +90,7 @@ const useLikes = () => {
         }
     }
 
+    // 아티스트 솔로 좋아요 취소
     const deleteLikeArtist = async (id) => {
         try {
             const response = await axios.delete(`${API_BASE_URL}/like/`,
@@ -112,6 +115,7 @@ const useLikes = () => {
         }
     }
 
+    // 아티스트 그룹 좋아요 취소
     const deleteLikeArtistGroup = async (id) => {
         try {
             const response = await axios.delete(`${API_BASE_URL}/like/`,
@@ -141,7 +145,7 @@ const useLikes = () => {
 
 
 
-    return { loading, addLikeArtist, addLikeArtistGroup, readLike, like, deleteLikeArtistGroup, deleteLikeArtist }; // ✅ 추가됨
+    return { loading, addLikeArtist, addLikeArtistGroup, readAllLikes, like, deleteLikeArtistGroup, deleteLikeArtist, likes }; // ✅ 추가됨
 
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import useReadArtistAndGroups from "../api/artist/useReadArtistAndGroups";
-
+import defaultImage from "../assets/images/img-defualt.png";
 import ArtistCard from "./ArtistCard";
 
 const ArtistCardArea = ({ onCardClick }) => {
@@ -34,7 +34,7 @@ const ArtistCardArea = ({ onCardClick }) => {
         <ArtistCard
           key={index}
           name={a.artist_name || a.artist_group}
-          image={a.image_url}
+          image={a.image_url || defaultImage}
           type={a.artist_name ? "solo" : "group"}
           id={a.id}
           onCardClick={() => onCardClick()}

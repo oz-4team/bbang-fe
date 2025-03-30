@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ScheduleCard from "./ScheduleCard";
 import { fetchAllSchedules } from "../api/schedule/scheduleApi";
+import defaultImage from "../assets/images/img-defualt.png";
+import ScheduleCard from "./ScheduleCard";
 
 const ScheduleCardArea = ({ onCardClick }) => {
   const [schedules, setSchedules] = useState([]);
@@ -27,29 +28,26 @@ const ScheduleCardArea = ({ onCardClick }) => {
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-        gap: "32px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px",
       }}
     >
       {schedules.map((a) => (
-        <>
-          <ScheduleCard
-            key={a.id}
-            name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
-            image={
-              a.image_url
-                ? a.image_url
-                : a.artist
-                ? a.artist.image_url
-                : a.artist_group.image_url
-            }
-            title={a.title}
-            id={a.id}
-            onCardClick={() => onCardClick()}
-            is_favorited={a.is_favorited}
-          />
-        </>
+        <ScheduleCard
+          key={a.id}
+          name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
+          image={
+            a.image_url ||
+            (a.artist && a.artist.image_url) ||
+            (a.artist_group && a.artist_group.image_url) ||
+            defaultImage
+          }
+          title={a.title}
+          id={a.id}
+          onCardClick={() => onCardClick()}
+          is_favorited={a.is_favorited}
+        />
       ))}
     </div>
   );
