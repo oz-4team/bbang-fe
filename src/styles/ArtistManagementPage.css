@@ -223,6 +223,7 @@
 /* 멤버 카드 */
 .member-card {
   position: relative;
+  max-width: 300px;
   /* width: calc(50% - 10px); */
   background-color: #fff;
   border-radius: 20px;

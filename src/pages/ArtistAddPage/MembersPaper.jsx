@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import AddedMember from "./AddedMember";
-import ToAddMemeber from "./ToAddMemeber";
+import AddedMemberCards from "./AddedMemberCards";
+import ToAddMemeberCard from "./ToAddMemeberCard";
 
-const MembersPaper = (addedGroup) => {
-  const [addedMember, setAddedMember] = useState(addedGroup.addedGroup);
+const MembersPaper = ({ group }) => {
+  console.log("MembersPaper group:", group);
+
+  const [addedMember, setAddedMember] = useState(group.members);
   const [members, setMembers] = useState([
     {
       artist_name: "aa",
@@ -15,10 +17,6 @@ const MembersPaper = (addedGroup) => {
       image_url: null,
     },
   ]);
-  console.log("addedGroup:", addedGroup.addedGroup);
-
-  console.log("Length of addedMember:", addedMember?.length);
-  console.log("Is addedMember undefined:", addedMember === undefined);
 
   const addMember = () => {
     setMembers([
@@ -39,9 +37,9 @@ const MembersPaper = (addedGroup) => {
           + 멤버 추가
         </button>
       </div>
+      <AddedMemberCards members={group.members} groupId={group.id} />
+      {<ToAddMemeberCard group={group} />}
 
-      {<ToAddMemeber addedGroup={addedGroup} />}
-      <AddedMember addedMember={addedMember} />
       {/* <div>{JSON.stringify(addedMember)}</div> */}
     </div>
   );
