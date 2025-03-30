@@ -29,7 +29,7 @@ const ArtistPaper = ({ artist }) => {
   return (
     <>
       <div className="outlet-container">
-        <div className="artist-item">
+        <div className="inner artist-item">
           <div className="artist-management-page">
             <div className="title">아티스트 정보</div>
 

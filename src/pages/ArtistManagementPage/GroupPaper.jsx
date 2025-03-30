@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useArtistGroups from "../../api/artist/useArtistGroups";
+import "../../styles/ArtistManagementPage.css";
 import MembersPaper from "../ArtistAddPage/MembersPaper";
 
 const GroupPaper = ({ group }) => {
@@ -31,7 +32,7 @@ const GroupPaper = ({ group }) => {
   return (
     <>
       <div className="outlet-container">
-        <div className="artist-item">
+        <div className="inner artist-item">
           <div className="artist-management-page">
             <div className="title">아티스트 정보</div>
 
