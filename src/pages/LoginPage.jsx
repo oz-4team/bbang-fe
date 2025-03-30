@@ -120,7 +120,7 @@ function LoginPage() {
       {/* ✅ 이메일 인증 모달 */}
       {showModal && (
         <Modal
-          message="이메일 인증이 필요합니다. 인증 완료 후 로그인 해주세요."
+          message="이메일 인증이 안된 계정입니다. 회원가입을 다시 진행해주세요."
           onClose={() => setShowModal(false)}
         />
       )}
