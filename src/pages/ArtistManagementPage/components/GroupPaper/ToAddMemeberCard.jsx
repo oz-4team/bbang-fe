@@ -2,21 +2,23 @@ import React, { useState } from "react";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
 import useArtistManagementStore from "../../useArtistManagementStore";
 
+const initialToAddMember = {
+  artist_name: "",
+  artist_agency: group.artist_agency,
+  group_insta: group.group_insta,
+  artist_group_fandom: group.group_fandom,
+  debut_date: group.debut_date,
+  solomembers: "",
+  image_url: null,
+  artist_insta: "",
+};
+
 const ToAddMemeberCard = () => {
   const { group, setRefresh } = useArtistManagementStore();
 
   const [groupId] = useState(group.id);
 
-  const [toAddMember, setToAddMember] = useState({
-    artist_name: "",
-    artist_agency: group.artist_agency,
-    group_insta: group.group_insta,
-    artist_group_fandom: group.group_fandom,
-    debut_date: group.debut_date,
-    solomembers: "",
-    image_url: null,
-    artist_insta: "",
-  });
+  const [toAddMember, setToAddMember] = useState(initialToAddMember);
 
   const { createArtistForGroup } = useArtistGroups();
 
@@ -34,9 +36,8 @@ const ToAddMemeberCard = () => {
     console.log("groupId:", groupId);
     createArtistForGroup(groupId, [toAddMember])
       .then(() => {
-        console.log("멤버 추가 성공");
-
-        setRefresh();
+        setRefresh(true);
+        setToAddMember(initialToAddMember);
       })
       .catch((error) => {
         // Handle error, e.g., show an error message
