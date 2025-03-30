@@ -5,8 +5,8 @@ import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import styled from "styled-components";
 // import { addSchedule } from "../api/schedule/useAddSchedule";
-import ScheduleCategoryInput from "../components/ScheduleCategoryInput";
-import ScheduleHashtagInput from "../components/ScheduleHashtagInput";
+import ScheduleCategoryInput from "../../../components/ScheduleCategoryInput";
+import ScheduleHashtagInput from "../../../components/ScheduleHashtagInput";
 
 const Foo1Layout = styled.div`
   display: flex;
@@ -38,12 +38,6 @@ const ScheduleAddPage = () => {
       location,
       "start_date:",
       start_date,
-
-
-
-
-
-
 
       "end_date:",
       end_date,
