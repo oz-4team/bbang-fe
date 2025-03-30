@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
 import "../../../../styles/ArtistManagementPage.css";
-import useArtistManagementStore from "../../useArtistManagementStore";
+import useArtistManagementStore from "../../../admin/useArtistManagementStore";
 import MembersPaper from "./MembersPaper";
 
 const GroupInfoSection = ({ group }) => {

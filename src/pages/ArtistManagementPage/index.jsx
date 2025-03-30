@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useReadArtistGroups from "../../api/artist/useReadArtistGroups";
+import useArtistManagementStore from "../admin/useArtistManagementStore";
 import GroupPaper from "./components/GroupPaper";
-import useArtistManagementStore from "./useArtistManagementStore";
 
 const ArtistManagementPage = () => {
   const { error, loading, artists, groups, readArtistGroups } =

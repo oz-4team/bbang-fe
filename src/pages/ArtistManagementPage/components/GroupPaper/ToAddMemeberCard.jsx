@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
-import useArtistManagementStore from "../../useArtistManagementStore";
+import useArtistManagementStore from "../../../admin/useArtistManagementStore";
 
 const ToAddMemeberCard = () => {
   const { group, setRefresh } = useArtistManagementStore();
