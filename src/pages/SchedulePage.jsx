@@ -67,9 +67,6 @@ const SchedulePage = () => {
           }}
         >
           <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
-          <MyArtistFilterCard />
         </div>
 
         <div

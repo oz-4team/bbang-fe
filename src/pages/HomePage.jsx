@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
   const { readFavorite } = useFavorites();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useState(() => {
     readFavorite();
@@ -60,7 +61,7 @@ const HomePage = () => {
             gap: "1rem",
           }}
         >
-          <MyArtistFilter></MyArtistFilter>
+          <MyArtistFilter onFilterChange={setSearchQuery}></MyArtistFilter>
           <SearchBar></SearchBar>
         </div>
         <div>
@@ -76,7 +77,10 @@ const HomePage = () => {
             오늘의 스케줄
           </h1>
 
-          <ScheduleCardArea onCardClick={handleclickUserCheck} />
+          <ScheduleCardArea
+            onCardClick={handleclickUserCheck}
+            searchQuery={searchQuery}
+          />
           {isModalOpen && (
             <Modal
               title="로그인이 필요해요 ☺️"
