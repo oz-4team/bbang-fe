@@ -32,7 +32,7 @@ const ArtistListPage = () => {
       <div className="inner">
         <BannerAd />
         <div className="filter-container">
-          <MyArtistFilter />
+          <MyArtistFilter onFilterChange={setSearchQuery} />
           <SearchBar onSearch={setSearchQuery} />
         </div>
 
