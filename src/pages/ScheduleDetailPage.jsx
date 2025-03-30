@@ -8,8 +8,8 @@ import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
-import useUserStore from "../store/userStore";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
+import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
   const { id } = useParams();
@@ -32,6 +32,10 @@ const ScheduleDetailPage = () => {
   }, [is_favorited]);
 
   const navigate = useNavigate();
+
+  const goToEditPage = () => {
+    navigate(`/schedule-management/${id}/edit`);
+  };
   const { user, logout } = useUserStore();
 
   useEffect(() => {
@@ -127,7 +131,7 @@ const ScheduleDetailPage = () => {
               </div>
             </div>
             <div>category tag area</div>
-            <div>hashtag area</div>
+            <div>hashtag areaaaa</div>
           </div>
           {user?.isAdmin ? null : (
             <div
@@ -211,7 +215,7 @@ const ScheduleDetailPage = () => {
             URL 복사하기
           </button>
         </div>
-        {!user?.isAdmin ? null : (
+        {!user?.is_staff ? null : (
           <>
             <div
               style={{
@@ -220,9 +224,7 @@ const ScheduleDetailPage = () => {
                 marginBottom: "2rem",
               }}
             ></div>
-            <button onClick={() => navigate("/schedule-management/edit")}>
-              수정하기
-            </button>
+            <button onClick={() => goToEditPage()}>수정하기</button>
           </>
         )}
       </div>

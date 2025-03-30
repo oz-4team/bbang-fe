@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import useArtistGroups from "../../../../api/artist/useArtistGroups";
 import "../../../../styles/ArtistManagementPage.css";
-import useArtistManagementStore from "../../useArtistManagementStore";
+import useArtistManagementStore from "../../../admin/useArtistManagementStore";
 import MembersPaper from "./MembersPaper";
 
 const GroupInfoSection = ({ group }) => {
@@ -35,7 +35,7 @@ const GroupInfoSection = ({ group }) => {
 };
 
 const GroupPaper = () => {
-  const { group } = useArtistManagementStore();
+  const { group, setRefresh } = useArtistManagementStore();
 
   const { deleteArtistGroup } = useArtistGroups();
   const nav = useNavigate();
@@ -51,6 +51,7 @@ const GroupPaper = () => {
 
     deleteArtistGroup(groupId)
       .then(() => {
+        setRefresh(true);
         nav("/artist-add");
       })
       .catch((error) => {

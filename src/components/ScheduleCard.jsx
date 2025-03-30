@@ -49,6 +49,7 @@ const ScheduleCard = ({
     }
   }, [user]);
 
+
   return (
     <div
       onClick={user ? handleClickScheduleDetail : onCardClick}
