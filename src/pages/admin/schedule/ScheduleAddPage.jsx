@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { BsPerson } from "react-icons/bs";
-import { FiLink } from "react-icons/fi";
+import React, { useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import styled from "styled-components";
+import { createArtistSchedule } from "../../../api/StaffSchedule/staffScheduleApi";
 // import { addSchedule } from "../api/schedule/useAddSchedule";
-import ScheduleCategoryInput from "../../../components/ScheduleCategoryInput";
-import ScheduleHashtagInput from "../../../components/ScheduleHashtagInput";
 
 const Foo1Layout = styled.div`
   display: flex;
@@ -28,69 +25,69 @@ const ScheduleAddPage = () => {
   const [end_date, setEnd_date] = useState("");
   const [description, setDescription] = useState("");
   const [image_url, setImage_url] = useState("");
+  const [start_time, setStart_time] = useState("");
+  const [end_time, setEnd_time] = useState("");
 
-  useEffect(() => {
-    console.log(
-      "스케줄 추가 페이지",
-      "title:",
-      title,
-      "location:",
-      location,
-      "start_date:",
-      start_date,
+  // useEffect(() => {
+  //   console.log(
+  //     "스케줄 추가 페이지",
+  //     "title:",
+  //     title,
+  //     "location:",
+  //     location,
+  //     "start_date:",
+  //     start_date,
 
-      "end_date:",
-      end_date,
-      "description:",
-      description,
-      "image_url:",
-      image_url
-    );
-  }, [title, location, start_date, end_date, description, image_url]);
+  //     "end_date:",
+  //     end_date,
+  //     "description:",
+  //     description,
+  //     "image_url:",
+  //     image_url
+  //   );
+  // }, [title, location, start_date, end_date, description, image_url]);
 
-  const validateForm = () => {
-    console.log(
-      "🚀 ~ file: ScheduleAddPage.jsx ~ line 52 ~ validateForm ~ title",
-      title
-    );
+  // const validateForm = () => {
+  //   console.log("🚀 유효성검사");
+  // };
+
+  const scheduleData = {
+    artist_id: 1357,
+    title: title,
+    location: location,
+    start_date: `${start_date}T${start_time}`,
+    end_date: `${start_date}T${end_time}`,
+    description: description,
+    image_url: image_url,
   };
+  console.log("스케줄 데이터:", scheduleData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (files) {
-      setImage_url(files[0]);
+    if (preview) {
+      setImage_url(preview);
+      console.log("🚀 이미지 URL:", preview);
     }
-    if (validateForm()) {
-      const scheduleData = {
-        title,
-        location,
-        start_date,
-        end_date,
-        description,
-        image_url,
-      };
 
-      console.log("🚀 스케줄 추가 데이터:", scheduleData); //  전송 전 데이터 확인
+    // const formData = {
+    //   title,
+    //   location,
+    //   start_date,
+    //   end_date,
+    //   description,
+    //   image_url: preview,
+    // };
 
-      try {
-        // const response = await addSchedule(userData);
-        console.log(" 회원가입 응답 데이터:", response); //  응답 확인
-
-        navigate("/signup-completed", {
-          state: { nickname, email, image_url },
-        });
-      } catch (error) {
-        console.error(" 회원가입 실패:", error.message);
-
-        if (error.response) {
-          console.error(" 백엔드 응답 데이터:", error.response.data); // 상세 원인
-          console.error(" 전체 에러 응답 객체:", error.response); // 상태 코드 등 포함
-        } else {
-          console.error(" 서버 연결 실패 또는 응답 없음:", error);
-        }
-      }
-    }
+    createArtistSchedule(scheduleData)
+      .then((response) => {
+        console.log("✅ 스케줄 생성 성공:", response);
+        alert("스케줄이 등록되었습니다.");
+      })
+      .catch((error) => {
+        console.error("❌ 스케줄 생성 실패:", error);
+        alert("스케줄 등록에 실패했습니다.");
+      });
   };
 
   const handleFileChange = (event) => {
@@ -99,6 +96,7 @@ const ScheduleAddPage = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
+        setImage_url(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -215,6 +213,8 @@ const ScheduleAddPage = () => {
               <div style={{ width: "50%" }}>
                 <label>시작 시간</label>
                 <input
+                  value={start_time}
+                  onChange={(e) => setStart_time(e.target.value)}
                   style={{
                     padding: "1rem",
                     border: "1px solid #ccc",
@@ -229,8 +229,8 @@ const ScheduleAddPage = () => {
               <div style={{ width: "50%" }}>
                 <label>종료 시간 (선택)</label>
                 <input
-                  value={end_date}
-                  onChange={(e) => setEnd_date(e.target.value)}
+                  value={end_time}
+                  onChange={(e) => setEnd_time(e.target.value)}
                   style={{
                     padding: "1rem",
                     border: "1px solid #ccc",
@@ -243,14 +243,14 @@ const ScheduleAddPage = () => {
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <label>카테고리</label>
               <ScheduleCategoryInput />
             </div>
             <div>
               <label>해시태그</label>
               <ScheduleHashtagInput />
-            </div>
+            </div> */}
           </div>
         </Foo1Layout>
 
@@ -262,7 +262,7 @@ const ScheduleAddPage = () => {
           }}
         ></div>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -285,7 +285,7 @@ const ScheduleAddPage = () => {
               }}
               type="text"
             />
-          </div>
+          </div> */}
           <div
             style={{
               display: "flex",
@@ -313,7 +313,7 @@ const ScheduleAddPage = () => {
               rows="5"
             ></textarea>
           </div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -336,7 +336,7 @@ const ScheduleAddPage = () => {
               display: "block",
             }}
             type="text"
-          />
+          /> */}
           <div
             style={{
               display: "flex",

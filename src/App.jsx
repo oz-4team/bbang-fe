@@ -26,7 +26,8 @@ import ArtistManagementPage from "./pages/ArtistManagementPage";
 import AuthCallback from "./pages/AuthCallback";
 import EmailSuccess from "./pages/EmailSuccess"; //이메일 인증 완료
 import ScheduleEditPage from "./pages/ScheduleEditPage";
-import ScheduleManagementPage from "./pages/ScheduleManagementPage";
+import ScheduleManagementPage from "./pages/admin/schedule/Index";
+
 import SignUpQuickTestPage from "./pages/SignUpQuickTestPage";
 import TestSashaPage from "./pages/TestSashaPage";
 import ScheduleAddPage from "./pages/admin/schedule/ScheduleAddPage";
@@ -142,7 +143,7 @@ function App() {
               element={<ScheduleAddPage />}
             />
             <Route
-              path="/schedule-management/edit/:id"
+              path="/schedule-management/:id/edit"
               element={<ScheduleEditPage />}
             />
 

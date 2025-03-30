@@ -1,13 +1,73 @@
-import React from "react";
-import { BsPerson } from "react-icons/bs";
-import { FiLink } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import ScheduleCategoryInput from "../components/ScheduleCategoryInput";
-import ScheduleHashtagInput from "../components/ScheduleHashtagInput";
+import { useParams } from "react-router-dom";
+import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
+import { updateArtistSchedule } from "../api/StaffSchedule/staffScheduleApi";
 
 const ScheduleEditPage = () => {
-  const [preview, setPreview] = React.useState(null);
+  const { id } = useParams();
+  const [schedule, setSchedule] = React.useState(null);
+
+  const [preview, setPreview] = useState(undefined);
+  const [image_url, setImage_url] = useState(null);
+
+  const [title, setTitle] = useState();
+  const [location, setLocation] = useState();
+  const [start_date, setStart_date] = useState();
+  const [end_date, setEnd_date] = useState();
+  const [description, setDescription] = useState();
+
+  const [start_time, setStart_time] = useState();
+  const [end_time, setEnd_time] = useState();
+
+  // 초기화
+  useEffect(() => {
+    fetchScheduleDetail(id)
+      .then((data) => {
+        setSchedule(data);
+        setTitle(data.title);
+        setLocation(data.location);
+
+        // 시작일
+        setStart_date(data.start_date.split("T")[0]);
+        // 시작시간
+        setStart_time(data.start_date.split("T")[1]);
+
+        // 종료일
+        setEnd_date(data.end_date.split("T")[0]);
+        // 종료시간
+        setEnd_time(data.end_date.split("T")[1]);
+
+        setDescription(data.description);
+        setImage_url(data.image_url);
+      })
+      .catch((error) => {
+        console.error("Error fetching schedule detail:", error);
+      });
+  }, [id]);
+
+  const handleClickEdit = () => {
+    const payload = {
+      title: title,
+      location: location,
+      start_date: `${start_date}T${start_time}`,
+      end_date: `${end_date}T${end_time}`,
+      description: description,
+    };
+
+    if (preview) {
+      payload.image_url = preview;
+    }
+
+    updateArtistSchedule(id, payload)
+      .then(() => {
+        console.log("✅ 일정 수정 완료");
+      })
+      .catch((error) => {
+        console.error("❌ 일정 수정 실패:", error);
+      });
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -55,6 +115,42 @@ const ScheduleEditPage = () => {
             }}
           >
             <input type="file" accept="image/*" onChange={handleFileChange} />
+            {image_url && (
+              <>
+                <img
+                  src={image_url}
+                  alt="Preview"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "5px",
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    setImage_url(null);
+                    document.querySelector('input[type="file"]').value = null;
+                  }}
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    padding: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  삭제
+                </button>
+              </>
+            )}
             {preview && (
               <>
                 <img
@@ -73,6 +169,7 @@ const ScheduleEditPage = () => {
                 <button
                   onClick={() => {
                     setPreview(null);
+                    setImage_url(schedule.image_url);
                     document.querySelector('input[type="file"]').value = null;
                   }}
                   style={{
@@ -103,11 +200,18 @@ const ScheduleEditPage = () => {
           >
             <div>
               <label>스케줄명</label>
-              <input style={{ width: "100%" }} type="text" />
+              <input
+                style={{ width: "100%" }}
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
             <div>
               <label>스케줄 날짜</label>
               <input
+                value={start_date}
+                onChange={(e) => setStart_date(e.target.value)}
                 style={{
                   padding: "1rem",
                   border: "1px solid #ccc",
@@ -122,6 +226,8 @@ const ScheduleEditPage = () => {
             <div>
               <label>시작 시간</label>
               <input
+                value={start_time}
+                onChange={(e) => setStart_time(e.target.value)}
                 style={{
                   padding: "1rem",
                   border: "1px solid #ccc",
@@ -134,6 +240,8 @@ const ScheduleEditPage = () => {
               />
               <label>종료 시간 (선택)</label>
               <input
+                value={end_time}
+                onChange={(e) => setEnd_time(e.target.value)}
                 style={{
                   padding: "1rem",
                   border: "1px solid #ccc",
@@ -145,14 +253,14 @@ const ScheduleEditPage = () => {
                 type="time"
               />
             </div>
-            <div>
+            {/* <div>
               <label>카테고리</label>
               <ScheduleCategoryInput />
             </div>
             <div>
               <label>해시태그</label>
               <ScheduleHashtagInput />
-            </div>
+            </div> */}
           </div>
         </div>
         <div
@@ -163,7 +271,7 @@ const ScheduleEditPage = () => {
           }}
         ></div>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -186,7 +294,7 @@ const ScheduleEditPage = () => {
               }}
               type="text"
             />
-          </div>
+          </div> */}
           <div
             style={{
               display: "flex",
@@ -200,6 +308,8 @@ const ScheduleEditPage = () => {
               <div>설명</div>
             </div>
             <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               style={{
                 padding: "1rem",
                 border: "1px solid #ccc",
@@ -212,7 +322,7 @@ const ScheduleEditPage = () => {
               rows="5"
             ></textarea>
           </div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -235,7 +345,7 @@ const ScheduleEditPage = () => {
               display: "block",
             }}
             type="text"
-          />
+          /> */}
           <div
             style={{
               display: "flex",
@@ -249,6 +359,8 @@ const ScheduleEditPage = () => {
               <div>주소</div>
             </div>
             <input
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               style={{
                 padding: "1rem",
                 border: "1px solid #ccc",
@@ -270,7 +382,7 @@ const ScheduleEditPage = () => {
         ></div>
       </div>
 
-      <button>수정하기</button>
+      <button onClick={() => handleClickEdit()}>수정하기</button>
       <button>삭제하기</button>
     </div>
   );

@@ -35,7 +35,7 @@ const GroupInfoSection = ({ group }) => {
 };
 
 const GroupPaper = () => {
-  const { group } = useArtistManagementStore();
+  const { group, setRefresh } = useArtistManagementStore();
 
   const { deleteArtistGroup } = useArtistGroups();
   const nav = useNavigate();
@@ -51,6 +51,7 @@ const GroupPaper = () => {
 
     deleteArtistGroup(groupId)
       .then(() => {
+        setRefresh(true);
         nav("/artist-add");
       })
       .catch((error) => {

@@ -2,18 +2,17 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useReadArtistGroups from "../../api/artist/useReadArtistGroups";
 import useArtistManagementStore from "../admin/useArtistManagementStore";
+import ArtistPaper from "./ArtistPaper";
 import GroupPaper from "./components/GroupPaper";
 
 const ArtistManagementPage = () => {
   const { error, loading, artists, groups, readArtistGroups } =
     useReadArtistGroups();
-
-  useEffect(() => {
-    readArtistGroups();
-  }, []);
-
   const { artist, group, setArtist, setGroup, refresh, setRefresh } =
     useArtistManagementStore();
+  useEffect(() => {
+    readArtistGroups();
+  }, [refresh]);
 
   useEffect(() => {
     if (refresh) {
@@ -24,13 +23,13 @@ const ArtistManagementPage = () => {
   }, [refresh]);
 
   useEffect(() => {
-    if (artists) {
+    if (artists && artists.length > 0) {
       setArtist(artists[0]);
     }
   }, [artists]);
 
   useEffect(() => {
-    if (groups) {
+    if (groups && groups.length > 0) {
       setGroup(groups[0]);
     }
   }, [groups]);
@@ -49,8 +48,8 @@ const ArtistManagementPage = () => {
     }
   }, [artists, groups]);
 
-  if (group) return <GroupPaper />;
-  // if (artist) return <ArtistPaper artist={artists[0]} />;
+  if (group) return <GroupPaper group={group} />;
+  if (artist) return <ArtistPaper artist={artist} />;
 };
 
 export default ArtistManagementPage;
