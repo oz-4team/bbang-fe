@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useReadArtistGroups from "../api/artist/useReadArtistGroups";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
-import { updateArtistSchedule } from "../api/StaffSchedule/staffScheduleApi";
+import {
+  deleteArtistSchedule,
+  deleteGroupSchedule,
+  updateArtistSchedule,
+  updateGroupSchedule,
+} from "../api/StaffSchedule/staffScheduleApi";
 
 const ScheduleEditPage = () => {
   const { id } = useParams();
@@ -20,6 +26,8 @@ const ScheduleEditPage = () => {
 
   const [start_time, setStart_time] = useState();
   const [end_time, setEnd_time] = useState();
+
+  const nav = useNavigate();
 
   // 초기화
   useEffect(() => {
@@ -47,6 +55,16 @@ const ScheduleEditPage = () => {
       });
   }, [id]);
 
+  const { artists, groups, readArtistGroups } = useReadArtistGroups();
+
+  useEffect(() => {
+    readArtistGroups();
+    console.log("👀 아티스트 그룹 조회");
+  }, []);
+  // const [schedule, setSchedule] = React.useState([]);
+  const type = artists ? "solo" : groups ? "group" : null;
+  console.log("👀 아티스트 type 조회", type);
+
   const handleClickEdit = () => {
     const payload = {
       title: title,
@@ -60,13 +78,48 @@ const ScheduleEditPage = () => {
       payload.image_url = preview;
     }
 
-    updateArtistSchedule(id, payload)
-      .then(() => {
-        console.log("✅ 일정 수정 완료");
-      })
-      .catch((error) => {
-        console.error("❌ 일정 수정 실패:", error);
-      });
+    alert("일정이 수정되었습니다☺️");
+
+    if (type === "solo") {
+      updateArtistSchedule(id, payload)
+        .then(() => {
+          nav(-1);
+        })
+        .catch((error) => {
+          console.error("❌ 일정 수정 실패:", error);
+        });
+    } else if (type === "group") {
+      updateGroupSchedule(id, payload)
+        .then(() => {
+          nav(-1);
+        })
+        .catch((error) => {
+          console.error("❌ 일정 수정 실패:", error);
+        });
+    }
+  };
+
+  const handleClickDelete = () => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) {
+      return;
+    }
+    if (type === "solo") {
+      deleteArtistSchedule(id)
+        .then(() => {
+          nav("/schedule-management");
+        })
+        .catch((error) => {
+          console.error("❌ Failed to delete solo schedule:", error);
+        });
+    } else if (type === "group") {
+      deleteGroupSchedule(id)
+        .then(() => {
+          console.log("✅ Group schedule deleted");
+        })
+        .catch((error) => {
+          console.error("❌ Failed to delete group schedule:", error);
+        });
+    }
   };
 
   const handleFileChange = (event) => {
@@ -383,7 +436,7 @@ const ScheduleEditPage = () => {
       </div>
 
       <button onClick={() => handleClickEdit()}>수정하기</button>
-      <button>삭제하기</button>
+      <button onClick={() => handleClickDelete()}>삭제하기</button>
     </div>
   );
 };

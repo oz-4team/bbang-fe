@@ -53,7 +53,7 @@ const ScheduleListItem = ({ schedules }) => {
         <div>{start_time}</div>
         <div style={{ textAlign: "left" }}>{title}</div>
       </div>
-      {user?.isAdmin ? null : (
+      {user?.is_staff ? null : (
         <div
           onClick={(e) => {
             e.stopPropagation();
