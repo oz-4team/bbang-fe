@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { createArtistSchedule } from "../../../api/StaffSchedule/staffScheduleApi";
+import {
+  createArtistSchedule,
+  createGroupSchedule,
+} from "../../../api/StaffSchedule/staffScheduleApi";
 // import { addSchedule } from "../api/schedule/useAddSchedule";
 
 const Foo1Layout = styled.div`
@@ -28,6 +32,10 @@ const ScheduleAddPage = () => {
   const [start_time, setStart_time] = useState("");
   const [end_time, setEnd_time] = useState("");
 
+  const { id, type } = useParams();
+
+  console.log("스케줄 추가 페이지", id, type);
+
   // useEffect(() => {
   //   console.log(
   //     "스케줄 추가 페이지",
@@ -52,7 +60,7 @@ const ScheduleAddPage = () => {
   // };
 
   const scheduleData = {
-    artist_id: 1357,
+    artist_id: id,
     title: title,
     location: location,
     start_date: `${start_date}T${start_time}`,
@@ -78,7 +86,11 @@ const ScheduleAddPage = () => {
     //   description,
     //   image_url: preview,
     // };
-
+    if (type === "solo") {
+      createArtistSchedule(scheduleData);
+    } else if (type === "group") {
+      createGroupSchedule(scheduleData);
+    }
     createArtistSchedule(scheduleData)
       .then((response) => {
         console.log("✅ 스케줄 생성 성공:", response);

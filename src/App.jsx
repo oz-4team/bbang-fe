@@ -139,7 +139,7 @@ function App() {
             <Route path="/privacy" element={<Privacy />} />
 
             <Route
-              path="/schedule-management/add"
+              path="/schedule-management/:id/:type/add"
               element={<ScheduleAddPage />}
             />
             <Route

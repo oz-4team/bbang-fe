@@ -21,6 +21,7 @@ export default function useReadArtistGroupApi() {
 
             const data = response.data;
             setArtist(data);
+            setArtists(data.members);
 
         }
         catch (error) {

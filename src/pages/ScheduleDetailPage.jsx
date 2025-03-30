@@ -27,6 +27,10 @@ const ScheduleDetailPage = () => {
   const is_favorited = schedule?.is_favorited;
   const [starred, setStarred] = useState(is_favorited);
 
+  const type = schedule?.type;
+  const artist = schedule?.artist;
+  const artist_group = schedule?.artist_group;
+
   useEffect(() => {
     setStarred(is_favorited);
   }, [is_favorited]);
@@ -133,7 +137,7 @@ const ScheduleDetailPage = () => {
             <div>category tag area</div>
             <div>hashtag areaaaa</div>
           </div>
-          {user?.isAdmin ? null : (
+          {user?.is_staff ? null : (
             <div
               onClick={toggleStar}
               style={{ cursor: "pointer", fontSize: "2rem" }}
