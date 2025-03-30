@@ -2,9 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import useArtist from "../../api/artist/useArtist";
 import "../../styles/ArtistManagementPage.css";
+import useArtistManagementStore from "../admin/useArtistManagementStore";
 
 const ArtistPaper = ({ artist }) => {
   const { deleteArtist } = useArtist();
+  const { setRefresh } = useArtistManagementStore();
   const nav = useNavigate();
   const handleDeleteArtist = (groupId) => {
     if (
@@ -19,6 +21,7 @@ const ArtistPaper = ({ artist }) => {
     // and handle the response
     deleteArtist(groupId)
       .then(() => {
+        setRefresh(true);
         nav("/artist-add");
       })
       .catch((error) => {

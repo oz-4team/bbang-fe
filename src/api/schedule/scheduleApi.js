@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
+
 /** 전체 일정 조회 */
 export const fetchAllSchedules = async () => {
   try {
@@ -13,7 +14,7 @@ export const fetchAllSchedules = async () => {
   }
 };
 
-/** 아티스트 일정 조회 */ 
+/** 아티스트 일정 조회 */
 export const fetchArtistSchedules = async (artistId) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/schedules/artist/${artistId}/`, {});
@@ -23,8 +24,8 @@ export const fetchArtistSchedules = async (artistId) => {
     throw error;
   }
 };
- 
-/** 그룹 일정 조회 */ 
+
+/** 그룹 일정 조회 */
 export const fetchGroupSchedules = async (groupId) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/schedules/artist-group/${groupId}/`, {});
@@ -46,7 +47,9 @@ export const fetchScheduleDetail = async (scheduleId) => {
   }
 };
 
+
 /** 즐겨찾기 일정 조회 */ 
+
 export const fetchFavoriteSchedules = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/schedules/favorites/`, {});

@@ -2,7 +2,7 @@ import React from "react";
 import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import StaffScheduleList from "../components/StaffScheduleList";
+import StaffScheduleList from "./admin/schedule/StaffScheduleList";
 
 const CalendarContainer = styled.div`
   flex-grow: 1;
@@ -19,7 +19,7 @@ const CalendarContainer = styled.div`
   }
 `;
 
-const ScheduleManagementPage = () => {
+const ScheduleManagementPagecopied = () => {
   const navigate = useNavigate();
   const navigateToDetails = () => {
     window.location.href = "/schedule/details";
@@ -77,7 +77,18 @@ const ScheduleManagementPage = () => {
           }}
         >
           <CalendarContainer>
-            <Calendar />
+            <Calendar
+              calendarType="gregory"
+              locale="ko"
+              view="month"
+              prev2Label={null}
+              next2Label={null}
+              formatDay={(locale, date) =>
+                date.toLocaleString("en", { day: "numeric" })
+              }
+
+              // onClickDay={navigateToDetails}
+            />
           </CalendarContainer>
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>
@@ -109,4 +120,4 @@ const ScheduleManagementPage = () => {
   );
 };
 
-export default ScheduleManagementPage;
+export default ScheduleManagementPagecopied;
