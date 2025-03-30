@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useArtistGroups from "../../api/artist/useArtistGroups";
+import useArtistGroups from "../../../../api/artist/useArtistGroups";
 
 const ToAddMemeberCard = ({ group }) => {
   console.log("group:", group);

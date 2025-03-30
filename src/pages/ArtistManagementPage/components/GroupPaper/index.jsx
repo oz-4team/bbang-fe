@@ -1,11 +1,41 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useArtistGroups from "../../api/artist/useArtistGroups";
-import "../../styles/ArtistManagementPage.css";
-import MembersPaper from "../ArtistAddPage/MembersPaper";
+import useArtistGroups from "../../../../api/artist/useArtistGroups";
+import "../../../../styles/ArtistManagementPage.css";
+import MembersPaper from "./MembersPaper";
+
+const GroupInfoSection = ({ group }) => {
+  return (
+    <>
+      <div className="title">아티스트 정보</div>
+
+      <div className="group-info">
+        <div className="group-photo-container">
+          <div className="group-photo">
+            <img src={group.image_url} alt="" />
+          </div>
+        </div>
+
+        <div className="group-details">
+          <label>아티스트명</label>
+          <p className="text-view">{group.artist_group}</p>
+          <label>회사명</label>
+          <p className="text-view">{group.artist_agency}</p>
+          <label>데뷔날짜</label>
+          <p className="text-view">{group.debut_date}</p>
+          <label>팬덤명</label>
+          <p className="text-view">{group.group_fandom}</p>
+          <label>인스타그램</label>
+          <p className="text-view">{group.group_insta}</p>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const GroupPaper = ({ group }) => {
-  const [addedGroup, setAddedGroup] = React.useState(group);
+  const [members, setMembers] = React.useState(group.members);
+
   const { deleteArtistGroup } = useArtistGroups();
   const nav = useNavigate();
 
@@ -33,37 +63,18 @@ const GroupPaper = ({ group }) => {
       <div className="outlet-container">
         <div className="inner artist-item">
           <div className="artist-management-page">
-            <div className="title">아티스트 정보</div>
-
-            <div className="group-info">
-              <div className="group-photo-container">
-                <div className="group-photo">
-                  <img src={group.image_url} alt="" />
-                </div>
-              </div>
-
-              <div className="group-details">
-                <label>아티스트명</label>
-                <p className="text-view">{group.artist_group}</p>
-                <label>회사명</label>
-                <p className="text-view">{group.artist_agency}</p>
-                <label>데뷔날짜</label>
-                <p className="text-view">{group.debut_date}</p>
-                <label>팬덤명</label>
-                <p className="text-view">{group.group_fandom}</p>
-                <label>인스타그램</label>
-                <p className="text-view">{group.group_insta}</p>
-              </div>
-            </div>
+            <GroupInfoSection group={group} />
             <div className="p-24">
-              <MembersPaper group={addedGroup} />
+              <MembersPaper members={members} />
             </div>
+
             <button
               className="btn-primary bg-none"
               onClick={() => handleDeleteArtistGroup(group.id)}
             >
               아티스트 정보 삭제하기
             </button>
+
             <div className="p-24"></div>
           </div>
         </div>

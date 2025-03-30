@@ -1,11 +1,10 @@
 import React from "react";
-import useArtistGroups from "../../api/artist/useArtistGroups";
 
-const AddedMemberCards = ({ groupId, members }) => {
-  const { deleteMember } = useArtistGroups();
+const AddedMemberCards = ({ members }) => {
+  // const { deleteMember } = useArtistGroups();
 
   const handleDeleteMember = (memberid) => {
-    deleteMember(groupId, memberid);
+    // deleteMember(groupId, memberid);
     setDeleted(true);
   };
 
