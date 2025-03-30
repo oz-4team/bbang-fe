@@ -2,6 +2,7 @@ import React from "react";
 import useReadArtistAndGroups from "../api/artist/useReadArtistAndGroups";
 import defaultImage from "../assets/images/img-defualt.png";
 import ArtistCard from "./ArtistCard";
+import "../styles/ArtistCardArea.css"; // 스타일 분리
 
 const ArtistCardArea = ({ onCardClick, searchQuery }) => {
   const { artistAndGroups } = useReadArtistAndGroups();
@@ -30,15 +31,7 @@ const ArtistCardArea = ({ onCardClick, searchQuery }) => {
   }
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(150px, 2fr))",
-        gap: "16px",
-        justifyContent: "center",
-        alignContent: "center",
-      }}
-    >
+    <div className="artist-card-area">
       {filteredArtists.length > 0 ? (
         filteredArtists.map((a, index) => (
           <ArtistCard
@@ -52,9 +45,7 @@ const ArtistCardArea = ({ onCardClick, searchQuery }) => {
           />
         ))
       ) : (
-        <div style={{ gridColumn: "1 / -1", textAlign: "center" }}>
-          검색 결과가 없습니다.
-        </div>
+        <div className="no-results">검색 결과가 없습니다.</div>
       )}
     </div>
   );
