@@ -12,29 +12,28 @@ const ArtistPaper = ({ artist }) => {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ ...artist });
   const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // 삭제 모달 상태 추가
 
-  // ✅ 날짜를 '2024년 3월 31일' 형식으로 포맷하는 함수
   const formatKoreanDate = (dateString) => {
     const date = new Date(dateString);
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
   };
 
-  const handleDeleteArtist = (groupId) => {
-    if (
-      !window.confirm(
-        "정말로 아티스트 정보를 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다."
-      )
-    ) {
-      return;
-    }
+  const handleDeleteArtist = () => {
+    setShowDeleteModal(true); // 삭제 모달 표시
+  };
 
-    deleteArtist(groupId)
+  const confirmDelete = () => {
+    deleteArtist(artist.id)
       .then(() => {
         setRefresh(true);
         nav("/artist-add");
       })
       .catch((error) => {
-        console.error(`Error deleting group with ID ${groupId}:`, error);
+        console.error(`Error deleting group with ID ${artist.id}:`, error);
+      })
+      .finally(() => {
+        setShowDeleteModal(false);
       });
   };
 
@@ -58,7 +57,7 @@ const ArtistPaper = ({ artist }) => {
       .then(() => {
         setRefresh(true);
         setEditMode(false);
-        setShowSaveModal(true); // 모달 표시
+        setShowSaveModal(true);
       })
       .catch((error) => {
         console.error("Error updating artist:", error.response?.data || error);
@@ -90,9 +89,7 @@ const ArtistPaper = ({ artist }) => {
                 <input
                   type="text"
                   value={formData.artist_name}
-                  onChange={(e) =>
-                    handleChange("artist_name", e.target.value)
-                  }
+                  onChange={(e) => handleChange("artist_name", e.target.value)}
                 />
               ) : (
                 <p className="text-view">{artist.artist_name}</p>
@@ -116,9 +113,7 @@ const ArtistPaper = ({ artist }) => {
                 <input
                   type="date"
                   value={formData.debut_date}
-                  onChange={(e) =>
-                    handleChange("debut_date", e.target.value)
-                  }
+                  onChange={(e) => handleChange("debut_date", e.target.value)}
                 />
               ) : (
                 <p className="text-view">
@@ -161,7 +156,7 @@ const ArtistPaper = ({ artist }) => {
               </button>
               <button
                 className="btn-primary bg-none"
-                onClick={() => handleDeleteArtist(artist.id)}
+                onClick={handleDeleteArtist}
               >
                 아티스트 정보 삭제하기
               </button>
@@ -191,6 +186,31 @@ const ArtistPaper = ({ artist }) => {
                 >
                   확인
                 </button>
+              </div>
+            </div>
+          )}
+
+          {/* ⚠️ 삭제 확인 모달 */}
+          {showDeleteModal && (
+            <div className="modal-backdrop">
+              <div className="modal modal-delete">
+                <div className="modal-icon">⚠️</div>
+                <p className="modal-message">
+                  정말로 아티스트 정보를<br />
+                  삭제하시겠습니까?<br />
+                  삭제된 정보는 복구할 수 없습니다.
+                </p>
+                <div className="button-group modal-buttons">
+                  <button className="btn-danger" onClick={confirmDelete}>
+                    삭제하기
+                  </button>
+                  <button
+                    className="btn-secondary"
+                    onClick={() => setShowDeleteModal(false)}
+                  >
+                    취소
+                  </button>
+                </div>
               </div>
             </div>
           )}
