@@ -12,7 +12,7 @@ const AddMemberButton = ({ onClick, mode }) => {
         color: mode ? "#555555" : "#888888",
       }}
     >
-      {mode ? "+ 멤버 추가하기" : "멤버 추가 종료"}
+      {mode ? "멤버 추가 종료" : "+ 멤버 추가하기"}
     </button>
   );
 };
