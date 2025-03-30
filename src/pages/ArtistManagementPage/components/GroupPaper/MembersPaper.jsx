@@ -28,10 +28,13 @@ const MembersPaper = ({ group }) => {
           <div className="title">멤버정보</div>
           <div className="sub-title">멤버정보를 추가해주세요 🙂</div>
         </div>
+
         <AddMemberButton onClick={() => setAddMode(!addMode)} mode={addMode} />
       </div>
-      <AddedMemberCards members={members} />
-      {addMode && <ToAddMemeberCard group={group} />}
+      <div className="member-container">
+        <AddedMemberCards members={members} />
+        {addMode && <ToAddMemeberCard group={group} />}
+      </div>
     </div>
   );
 };

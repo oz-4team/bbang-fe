@@ -291,16 +291,16 @@
 }
 
 /* 인풋 필드 */
-/* .member-card input[type="text"] {
+.member-card input[type="text"] {
   padding: 8px 10px;
   font-size: 14px;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 6px;
-} */
+}
 
 /* 멤버 추가 버튼 */
-/* .add-member-button {
+.add-member-button {
   display: block;
   margin: 20px auto 0;
   padding: 10px 20px;
@@ -312,7 +312,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease;
-} */
+}
 
 .add-member-button:hover {
   background-color: #0288d1;
