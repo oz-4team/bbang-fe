@@ -9,7 +9,7 @@ const GroupPaper = ({ group }) => {
   const { deleteArtistGroup } = useArtistGroups();
   const nav = useNavigate();
 
-  const handleDeleteArtist = (groupId) => {
+  const handleDeleteArtistGroup = (groupId) => {
     if (
       !window.confirm(
         "정말로 아티스트 정보를 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다."
@@ -18,8 +18,6 @@ const GroupPaper = ({ group }) => {
       return;
     }
 
-    // Call the deleteArtist function from useArtistGroups
-    // and handle the response
     deleteArtistGroup(groupId)
       .then(() => {
         nav("/artist-add");
@@ -29,6 +27,7 @@ const GroupPaper = ({ group }) => {
         console.error(`Error deleting group with ID ${groupId}:`, error);
       });
   };
+
   return (
     <>
       <div className="outlet-container">
@@ -57,11 +56,11 @@ const GroupPaper = ({ group }) => {
               </div>
             </div>
             <div className="p-24">
-              <MembersPaper addedGroup={addedGroup} />
+              <MembersPaper group={addedGroup} />
             </div>
             <button
               className="btn-primary bg-none"
-              onClick={() => handleDeleteArtist(group.id)}
+              onClick={() => handleDeleteArtistGroup(group.id)}
             >
               아티스트 정보 삭제하기
             </button>
