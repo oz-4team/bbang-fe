@@ -12,7 +12,16 @@ const ArtistManagementPage = () => {
     readArtistGroups();
   }, []);
 
-  const { artist, group, setArtist, setGroup } = useArtistManagementStore();
+  const { artist, group, setArtist, setGroup, refresh, setRefresh } =
+    useArtistManagementStore();
+
+  useEffect(() => {
+    if (refresh) {
+      readArtistGroups().finally(() => {
+        setRefresh(false);
+      });
+    }
+  }, [refresh]);
 
   useEffect(() => {
     if (artists) {

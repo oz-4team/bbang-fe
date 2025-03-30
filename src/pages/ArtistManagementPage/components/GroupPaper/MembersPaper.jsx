@@ -31,7 +31,7 @@ const MembersPaper = ({ group }) => {
         <AddMemberButton onClick={() => setAddMode(!addMode)} mode={addMode} />
       </div>
       <AddedMemberCards members={members} />
-      <ToAddMemeberCard group={group} />
+      {addMode && <ToAddMemeberCard group={group} />}
     </div>
   );
 };

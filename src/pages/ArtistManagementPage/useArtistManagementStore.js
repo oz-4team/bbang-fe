@@ -5,6 +5,8 @@ const useArtistManagementStore = create((set) => ({
     group: null,
     setArtist: (artist) => set(() => ({ artist })),
     setGroup: (group) => set(() => ({ group })),
+    refresh: false,
+    setRefresh: (refresh) => set(() => ({ refresh })),
 }))
 
 export default useArtistManagementStore

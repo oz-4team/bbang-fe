@@ -1,11 +1,16 @@
 import React from "react";
+import useArtistGroups from "../../../../api/artist/useArtistGroups";
+import useArtistManagementStore from "../../useArtistManagementStore";
 
-const AddedMemberCards = ({ members }) => {
-  // const { deleteMember } = useArtistGroups();
+const AddedMemberCards = () => {
+  const { group, setRefresh } = useArtistManagementStore();
+  const members = group.members;
+  const { deleteMember } = useArtistGroups();
 
   const handleDeleteMember = (memberid) => {
-    // deleteMember(groupId, memberid);
-    setDeleted(true);
+    deleteMember(group.id, memberid).finally(() => {
+      setRefresh(true);
+    });
   };
 
   return (
