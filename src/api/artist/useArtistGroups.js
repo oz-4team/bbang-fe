@@ -15,6 +15,8 @@ export default function useArtistGroups() {
     const [artistGroup, setArtistGroup] = useState(null);
     const [groupMembers, setGroupMembers] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [artists, setArtists] = useState(null);
+    const [artist, setArtist] = useState(null);
 
     const createArtistGroup = async (groupInfo) => {
         try {
@@ -120,7 +122,25 @@ export default function useArtistGroups() {
             setLoading(false);
         }
     };
+    const readArtists = async (id) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`${API_BASE_URL}/artist-groups/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
+            const data = response.data;
+            setArtist(data);
+            setArtists(data.members);
+        }
+        catch (error) {
+            console.error("Error reading artistssssss:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     return {
@@ -130,7 +150,10 @@ export default function useArtistGroups() {
         artistGroup,
         createArtistForGroup,
         deleteArtistGroup,
-        deleteMember
+        deleteMember,
+        readArtists,
+        artists,
+        artist
 
     }
 }

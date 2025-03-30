@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useReadArtistGroupApi from "../api/artist/useReadArtistGroupApi";
+import useArtistGroups from "../api/artist/useArtistGroups";
 import ArtistInfo from "../components/ArtistInfo";
 import MemberCard from "../components/MemberCard";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
 const ArtistGroupDetailPage = () => {
-  const { id: groupId } = useParams();
+  // const { id: groupId } = useParams();
+  const { id } = useParams();
+  const groupId = id; // URL에서 그룹 ID 추출
 
-  const { artist, readArtist, loading, error } = useReadArtistGroupApi();
+  const { readArtists, loading, artists, artist } = useArtistGroups();
+  // useEffect(() => {
+  //   readArtists(id);
+  // }, [groupId]);
 
   useEffect(() => {
-    readArtist({ id: groupId });
+    readArtists(groupId);
   }, [groupId]);
 
   if (loading || !artist) {
@@ -46,7 +51,11 @@ const ArtistGroupDetailPage = () => {
               margin: "2rem auto",
             }}
           >
-            <MemberCard artist={artist} />
+            {/* <MemberCard artist={artist} />
+            {artists && artists.length === 0 && <div>No members found.</div>} */}
+            {artists?.map((member) => (
+              <MemberCard key={member.id} artist={member} />
+            ))}
           </div>
         </div>
         <ScheduleAreaInArtist type="group" id={groupId} />

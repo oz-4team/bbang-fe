@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
-import bigbangImage from "../assets/images/bigbang.png";
-import ygImage from "../assets/images/yg.png";
 
 const ArtistInfo = ({ artist }) => {
   const [favoriteArtist, setFavoriteArtist] = useState(false);
-  const { artist_group, artist_name, image_url } = artist;
+  const {
+    artist_agency,
+    debut_date,
+    group_fandom,
+    group_insta,
+    artist_group,
+    artist_name,
+    image_url,
+  } = artist;
 
   const toggleStar = () => {
     setFavoriteArtist(!favoriteArtist);
@@ -51,17 +57,8 @@ const ArtistInfo = ({ artist }) => {
         <div style={{ fontSize: "1.5rem" }}>
           {artist_name ? artist_name : artist_group}
         </div>
-        <div>
-          <img
-            src={ygImage}
-            alt="Artist"
-            style={{
-              maxWidth: "200px",
-              borderRadius: "15px",
-            }}
-          />
-        </div>
-        <div>
+        <div>{artist_agency}</div>
+        {/* <div>
           <img
             src={bigbangImage}
             alt="Artist"
@@ -71,9 +68,13 @@ const ArtistInfo = ({ artist }) => {
               borderRadius: "15px",
             }}
           />
+        </div> */}
+        <div>{debut_date}</div>
+        <div>{group_fandom}</div>
+        <div>
+          {" "}
+          <a href={group_insta}>{group_insta}</a>
         </div>
-        <div>데뷔일</div>
-        <div>팬덤명</div>
       </div>
       <div onClick={toggleStar} style={{ cursor: "pointer", fontSize: "2rem" }}>
         {favoriteArtist ? <GoHeartFill color="#fe0000" /> : <GoHeart />}

@@ -20,9 +20,10 @@ const MemberCard = ({ artist }) => {
           width: "100%",
           border: "1px solid #AFB1B6",
           borderRadius: "15px",
+          overflow: "hidden",
         }}
       >
-        image
+        <img src={image_url} alt="" />
       </div>
       <div
         style={{
