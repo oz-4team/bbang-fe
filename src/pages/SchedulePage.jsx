@@ -7,7 +7,7 @@ import "../styles/SchedulePage.css";
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
 const SchedulePage = () => {
-  const [view, setView] = useState("주간");
+  const [view, setView] = useState("전체일정");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
 
