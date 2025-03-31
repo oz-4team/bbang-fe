@@ -1,17 +1,18 @@
 import React from "react";
+import bannerAd1 from "../assets/images/banner-ad-1.png";
 
 const BannerAd = () => {
   return (
     <div
       style={{
         backgroundColor: "lightgray",
-        height: "150px",
+        height: "200px",
         padding: "auto 0",
         overflow: "hidden",
       }}
     >
       <img
-        src="https://images.khan.co.kr/article/2025/02/04/news-p.v1.20250204.b790c1ad929e40eb9775126c3828f56b_P1.jpg"
+        src={bannerAd1}
         alt=""
         style={{
           width: "100%",
