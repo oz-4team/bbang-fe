@@ -153,7 +153,7 @@ const ScheduleDetailPage = () => {
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <MdOutlineWatchLater color="#AFB1B6" />{" "}
               <div>
-                {start_time} ~ {end_time}
+                {start_time?.slice(0, 5)} ~ {end_time?.slice(0, 5)}
               </div>
             </div>
             {/* <div>category tag area</div> */}

@@ -70,7 +70,8 @@ const ScheduleListItem = ({ schedules }) => {
         }}
       >
         <div> {date} </div>
-        <div>{start_time}</div>
+        <div>{start_time?.slice(0, 5)} </div>
+
         <div style={{ textAlign: "left" }}>{title}</div>
       </div>
       {user?.is_staff ? null : (

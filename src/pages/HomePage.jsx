@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFavorites from "../api/schedule/useFavorites";
 import BannerAd from "../components/BannerAd";
 import Modal from "../components/Modal";
 import MyArtistFilter from "../components/MyArtistFilter";
 import ScheduleCardArea from "../components/ScheduleCardArea";
 import SearchBar from "../components/SearchBar";
+import useUserStore from "../store/userStore";
 
 const HomePage = () => {
   const { readFavorite } = useFavorites();
   const [searchQuery, setSearchQuery] = useState("");
+  const { user } = useUserStore();
 
-  useState(() => {
-    readFavorite();
-    console.log("readFavorite");
+  useEffect(() => {
+    if (user) {
+      readFavorite();
+    }
   }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSecondaryClick = () => {
     console.log("Secondary button clicked");

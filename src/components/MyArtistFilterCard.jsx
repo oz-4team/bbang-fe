@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useLikes from "../api/artist/useLikes";
 import defualtImage from "../assets/images/img-defualt.png"; // 기본 이미지 경로
+import useUserStore from "../store/userStore";
 
 const MyArtistFilterCard = () => {
   const { readAllLikes, likes } = useLikes();
+  const { user } = useUserStore();
 
   useEffect(() => {
-    readAllLikes();
+    if (user) {
+      readAllLikes();
+    }
   }, []);
 
   const [myArtists, setMyArtists] = useState([]);
