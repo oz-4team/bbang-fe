@@ -134,8 +134,8 @@ const ScheduleDetailPage = () => {
                 {start_time} ~ {end_time}
               </div>
             </div>
-            <div>category tag area</div>
-            <div>hashtag areaaaa</div>
+            {/* <div>category tag area</div> */}
+            {/* <div>hashtag areaaaa</div> */}
           </div>
           {user?.is_staff ? null : (
             <div
@@ -165,9 +165,9 @@ const ScheduleDetailPage = () => {
             <IoDocumentTextOutline color="#AFB1B6" />{" "}
             <div>{schedule.description}</div>
           </div>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          {/* <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <FiLink color="#AFB1B6" /> <div>링크</div>
-          </div>
+          </div> */}
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
             <div>{schedule.location} </div>
