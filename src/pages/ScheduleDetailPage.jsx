@@ -8,6 +8,7 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
+import useFavorites from "../api/schedule/useFavorites";
 import KakaoMap from "../api/useKakaoMap";
 import useUserStore from "../store/userStore";
 
@@ -26,6 +27,8 @@ const ScheduleDetailPage = () => {
     schedule?.artist_group?.image_url;
   const is_favorited = schedule?.is_favorited;
   const [starred, setStarred] = useState(is_favorited);
+  const { favorite, addFavorite, readFavorite, deleteFavorite } =
+    useFavorites();
 
   const type = schedule?.type;
   const artist = schedule?.artist;
@@ -76,8 +79,22 @@ const ScheduleDetailPage = () => {
     lng: schedule.longitude, // 백엔드에서 제공하는 경도 값
   };
 
-  const toggleStar = () => {
-    setStarred(!starred);
+  const toggleStar = async () => {
+    if (!starred) {
+      try {
+        await addFavorite(id);
+        setStarred(true);
+      } catch (err) {
+        console.error("즐겨찾기 추가 실패:", err);
+      }
+    } else {
+      try {
+        await deleteFavorite(id);
+        setStarred(false);
+      } catch (err) {
+        console.error("즐겨찾기 삭제 실패:", err);
+      }
+    }
   };
   return (
     <div
@@ -178,7 +195,7 @@ const ScheduleDetailPage = () => {
             <div>{schedule.location} </div>
           </div>
           <div>
-            <KakaoMap location={pinLocation}  />
+            <KakaoMap location={pinLocation} />
           </div>
         </div>
         <div
