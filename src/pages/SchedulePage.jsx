@@ -10,7 +10,7 @@ const SchedulePage = () => {
     window.location.href = "/schedule/details";
   };
 
-  const [view, setView] = React.useState("주간");
+  const [view, setView] = React.useState("전체일정");
 
   const CalendarContainer = styled.div`
     flex-grow: 1;
