@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useLikes from "../api/artist/useLikes";
-import easpa from "../assets/images/easpa.jpeg";
+import defualtImage from "../assets/images/img-defualt.png"; // 기본 이미지 경로
 
 const MyArtistFilterCard = () => {
   const { readAllLikes, likes } = useLikes();
@@ -38,7 +38,7 @@ const MyArtistFilterCard = () => {
             }}
           >
             <img
-              src={like.image || easpa}
+              src={like.artist_image || like.artist_group_image || defualtImage}
               alt={like.name}
               style={{
                 width: "4rem",
