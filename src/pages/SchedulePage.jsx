@@ -1,88 +1,125 @@
-import React, { useState } from "react";
+import React from "react";
+import Calendar from "react-calendar";
+
+import styled from "styled-components";
+import MyArtistFilterCard from "../components/MyArtistFilterCard";
+import ScheduleList from "../components/ScheduleList";
 import "../styles/calendar.css";
-
-const days = ["일", "월", "화", "수", "목", "금", "토"];
-
-const dummyScheduleData = {
-  "2025-03-31": 2,
-  "2025-04-01": 1,
-  "2025-04-04": 3,
-  "2025-04-10": 1,
-};
-
-const CustomCalendar = () => {
-  const today = new Date();
-const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-  const handlePrevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear((prev) => prev - 1);
-    } else {
-      setCurrentMonth((prev) => prev - 1);
-    }
+const SchedulePage = () => {
+  const navigateToDetails = () => {
+    window.location.href = "/schedule/details";
   };
 
-  const handleNextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear((prev) => prev + 1);
-    } else {
-      setCurrentMonth((prev) => prev + 1);
-    }
-  };
+  const [view, setView] = React.useState("주간");
 
-  const renderCalendarCells = () => {
-    const cells = [];
-
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      cells.push(<div key={`empty-${i}`} className="calendar-cell empty" />);
+  const CalendarContainer = styled.div`
+    flex-grow: 1;
+    margin-top: 2rem;
+    min-width: 300px;
+    max-width: 600px;
+    button {
+      background-color: white;
     }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(currentYear, currentMonth, day);
-      const dateStr = date.toISOString().split("T")[0];
-      const isToday = dateStr === todayStr;
-      const scheduleCount = dummyScheduleData[dateStr] || 0;
-
-      cells.push(
-        <div key={day} className={`calendar-cell ${isToday ? "today" : ""}`}>
-          <div>{day}</div>
-          {scheduleCount > 0 && (
-            <div className="schedule-count">🎵 {scheduleCount}건</div>
-          )}
-        </div>
-      );
+    @media (max-width: 900px) {
+      max-width: 100%;
     }
+  `;
 
-    return cells;
+  const handleViewChange = (event) => {
+    setView(event.target.value);
   };
 
   return (
-    <div className="calendar-container">
-      <div className="calendar-header">
-        <button onClick={handlePrevMonth}>◀</button>
-        <h3>{currentYear}년 {currentMonth + 1}월</h3>
-        <button onClick={handleNextMonth}>▶</button>
-      </div>
-
-      <div className="calendar-days">
-        {days.map((day, index) => (
-          <div key={index} className="calendar-day">
-            {day}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100vw",
+        padding: "2rem 1rem",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1200px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "2rem",
+            alignItems: "center",
+            paddingBottom: "2rem",
+          }}
+        >
+          <div style={{ fontSize: "24px", fontWeight: "bold" }}>
+            마이아티스트
           </div>
-        ))}
-      </div>
+        </div>
+        <div
+          style={{
+            display: "-webkit-inline-box",
+            gap: "1rem",
+            overflow: "scroll",
+            width: "100%",
+          }}
+        >
+          <MyArtistFilterCard />
+        </div>
 
-      <div className="calendar-grid">{renderCalendarCells()}</div>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
+        >
+          <CalendarContainer>
+            <Calendar
+              calendarType="gregory"
+              locale="ko"
+              view="month"
+              prev2Label={null}
+              next2Label={null}
+              formatDay={(locale, date) =>
+                date.toLocaleString("en", { day: "numeric" })
+              }
+
+              // onClickDay={navigateToDetails}
+            />
+          </CalendarContainer>
+
+          <div style={{ minWidth: "300px", flexGrow: 1 }}>
+            <div>
+              <select
+                style={{
+                  minWidth: "300px",
+                  width: "100%",
+                  height: "60px",
+                  marginTop: "10px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #ccc",
+                }}
+                id="view-select"
+                value={view}
+                onChange={handleViewChange}
+              >
+                <option value="주간">주간</option>
+                <option value="일간">일간</option>
+                <option value="월간">월간</option>
+              </select>
+              <div>
+                <ScheduleList />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default CustomCalendar;
+export default SchedulePage;
