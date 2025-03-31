@@ -1,6 +1,7 @@
 import { default as React, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useFavorites from "../api/schedule/useFavorites";
 import useUserStore from "../store/userStore";
 
 const ScheduleListItem = ({ schedules }) => {
@@ -17,13 +18,32 @@ const ScheduleListItem = ({ schedules }) => {
   const is_favorited = schedules?.is_favorited;
   const [starred, setStarred] = useState(is_favorited);
 
+  console.log("is_favorited:", is_favorited);
+
   console.log("date🙂:", date);
   console.log("start_time🙂:", start_time);
   console.log("end_time🙂:", end_time);
   console.log("schedule🙂:", schedules);
 
-  const toggleStar = () => {
-    setStarred(!starred);
+  const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
+    useFavorites();
+
+  const toggleStar = async () => {
+    if (!starred) {
+      try {
+        await addFavorite(id);
+        setStarred(true);
+      } catch (err) {
+        console.error("즐겨찾기 추가 실패:", err);
+      }
+    } else {
+      try {
+        await deleteFavorite(id);
+        setStarred(false);
+      } catch (err) {
+        console.error("즐겨찾기 삭제 실패:", err);
+      }
+    }
   };
   return (
     <div
