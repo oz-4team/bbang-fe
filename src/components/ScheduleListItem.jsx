@@ -25,8 +25,7 @@ const ScheduleListItem = ({ schedules }) => {
   console.log("end_time🙂:", end_time);
   console.log("schedule🙂:", schedules);
 
-  const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
-    useFavorites();
+  const { addFavorite, deleteFavorite } = useFavorites();
 
   const toggleStar = async () => {
     if (!starred) {
