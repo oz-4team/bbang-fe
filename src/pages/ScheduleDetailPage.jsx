@@ -96,6 +96,15 @@ const ScheduleDetailPage = () => {
       }
     }
   };
+
+  const handleGoToArtistDatailPage = () => {
+    if (artist) {
+      navigate(`/artist/solo/${artist.id}`);
+    } else if (artist_group) {
+      navigate(`/artist/group/${artist_group.id}`);
+    }
+  };
+
   return (
     <div
       style={{
@@ -113,17 +122,19 @@ const ScheduleDetailPage = () => {
             justifyContent: "space-between",
             width: "100%",
             gap: "2rem",
+            flexWrap: "wrap",
           }}
         >
           <div
             style={{
               maxWidth: "300px",
-              minWidth: "200px",
+              minWidth: "300px",
               maxHeight: "300px",
               minHeight: "200px",
               border: "1px solid #AFB1B6",
               borderRadius: "15px",
               overflow: "hidden",
+              flex: "1 1 50%",
             }}
           >
             <img
@@ -144,6 +155,7 @@ const ScheduleDetailPage = () => {
               textAlign: "left",
               flexGrow: "1",
               gap: "1rem",
+              flex: "1 1 50%",
             }}
           >
             <div style={{ fontSize: "1.5rem" }}>{schedule.title}</div>
@@ -156,7 +168,15 @@ const ScheduleDetailPage = () => {
                 {start_time?.slice(0, 5)} ~ {end_time?.slice(0, 5)}
               </div>
             </div>
-            {/* <div>category tag area</div> */}
+            <div
+              onClick={handleGoToArtistDatailPage}
+              style={{ display: "flex", gap: "1rem", alignItems: "center" }}
+            >
+              <BsPerson color="#AFB1B6" />
+              <span style={{ cursor: "pointer", color: "#6200ea" }}>
+                {artist?.artist_name || artist_group?.artist_group}
+              </span>
+            </div>
             {/* <div>hashtag areaaaa</div> */}
           </div>
           {user?.is_staff ? null : (
@@ -181,15 +201,10 @@ const ScheduleDetailPage = () => {
         ></div>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <BsPerson color="#AFB1B6" /> <div>출연진</div>
-          </div>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <IoDocumentTextOutline color="#AFB1B6" />{" "}
             <div>{schedule.description}</div>
           </div>
-          {/* <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <FiLink color="#AFB1B6" /> <div>링크</div>
-          </div> */}
+
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
             <div>{schedule.location} </div>
