@@ -20,6 +20,8 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
+
+
   return (
     <div
       style={{
