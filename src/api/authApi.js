@@ -147,7 +147,7 @@ export const updateUserProfile = async (userData) => {
         if (userData.image_url) formData.append("image_url", userData.image_url);
         if (userData.password) formData.append("password", userData.password);
         if (userData.nickname) formData.append("nickname", userData.nickname);
-
+        if (userData.current_password) formData.append("current_password", userData.current_password);
         response = await axios.patch(`${API_BASE_URL}/profile/`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
