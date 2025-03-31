@@ -1,8 +1,8 @@
 import React from "react";
 import useReadArtistAndGroups from "../api/artist/useReadArtistAndGroups";
 import defaultImage from "../assets/images/img-defualt.png";
-import ArtistCard from "./ArtistCard";
 import "../styles/ArtistCardArea.css"; // 스타일 분리
+import ArtistCard from "./ArtistCard";
 
 const ArtistCardArea = ({ onCardClick, searchQuery }) => {
   const { artistAndGroups } = useReadArtistAndGroups();
@@ -10,8 +10,6 @@ const ArtistCardArea = ({ onCardClick, searchQuery }) => {
   if (!artistAndGroups || artistAndGroups.length === 0) {
     return <div>loading...</div>;
   }
-
-  console.log("artist area 🙂:", artistAndGroups);
 
   const shuffledArtists = [...artistAndGroups.data].sort(
     () => Math.random() - 0.5

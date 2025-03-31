@@ -24,8 +24,6 @@ const MyArtistFilterCard = () => {
     }
   }, [likes]);
 
-  console.log("likes:", likes);
-
   return (
     <>
       {likes.map((like, index) => (

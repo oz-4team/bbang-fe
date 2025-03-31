@@ -24,9 +24,6 @@ const useLikes = () => {
 
             const data = response.data;
             setLikes(data);
-            console.log("data:", data);
-            console.log("likes:", likes);
-
         }
         catch (error) {
             console.error("Error reading readLike:", error);

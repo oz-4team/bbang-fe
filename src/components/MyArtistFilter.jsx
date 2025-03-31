@@ -14,8 +14,6 @@ const MyArtistFilter = ({ onFilterChange }) => {
     }
   }, []);
 
-  console.log("likes:", likes);
-
   const [isLoading, setIsLoading] = useState(true);
   // const [likes, setLikes] = useState([]);
 
