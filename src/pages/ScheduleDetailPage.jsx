@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { FaRegStar, FaStar } from "react-icons/fa";
-import { FiLink } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline, IoShareSocialOutline } from "react-icons/io5";
 import { LuCalendarDays } from "react-icons/lu";
@@ -9,6 +8,7 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
+import KakaoMap from "../api/useKakaoMap";
 import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
@@ -69,6 +69,11 @@ const ScheduleDetailPage = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       alert("URL이 클립보드에 복사되었습니다.");
     });
+  };
+
+  const pinLocation = {
+    lat: schedule.latitude, // 백엔드에서 제공하는 위도 값
+    lng: schedule.longitude, // 백엔드에서 제공하는 경도 값
   };
 
   const toggleStar = () => {
@@ -134,8 +139,8 @@ const ScheduleDetailPage = () => {
                 {start_time} ~ {end_time}
               </div>
             </div>
-            <div>category tag area</div>
-            <div>hashtag areaaaa</div>
+            {/* <div>category tag area</div> */}
+            {/* <div>hashtag areaaaa</div> */}
           </div>
           {user?.is_staff ? null : (
             <div
@@ -165,12 +170,15 @@ const ScheduleDetailPage = () => {
             <IoDocumentTextOutline color="#AFB1B6" />{" "}
             <div>{schedule.description}</div>
           </div>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          {/* <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <FiLink color="#AFB1B6" /> <div>링크</div>
-          </div>
+          </div> */}
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
             <div>{schedule.location} </div>
+          </div>
+          <div>
+            <KakaoMap location={pinLocation}  />
           </div>
         </div>
         <div
