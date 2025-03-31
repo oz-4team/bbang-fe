@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
   createArtistSchedule,
@@ -34,30 +34,9 @@ const ScheduleAddPage = () => {
 
   const { id, type } = useParams();
 
+  const nav = useNavigate();
+
   console.log("스케줄 추가 페이지", id, type);
-
-  // useEffect(() => {
-  //   console.log(
-  //     "스케줄 추가 페이지",
-  //     "title:",
-  //     title,
-  //     "location:",
-  //     location,
-  //     "start_date:",
-  //     start_date,
-
-  //     "end_date:",
-  //     end_date,
-  //     "description:",
-  //     description,
-  //     "image_url:",
-  //     image_url
-  //   );
-  // }, [title, location, start_date, end_date, description, image_url]);
-
-  // const validateForm = () => {
-  //   console.log("🚀 유효성검사");
-  // };
 
   const scheduleData = {
     artist_id: id,
@@ -78,28 +57,29 @@ const ScheduleAddPage = () => {
       console.log("🚀 이미지 URL:", preview);
     }
 
-    // const formData = {
-    //   title,
-    //   location,
-    //   start_date,
-    //   end_date,
-    //   description,
-    //   image_url: preview,
-    // };
     if (type === "solo") {
-      createArtistSchedule(scheduleData);
+      createArtistSchedule(scheduleData)
+        .then((response) => {
+          console.log("✅ 스케줄 생성 성공:", response);
+          alert("스케줄이 등록되었습니다.");
+          nav(-1);
+        })
+        .catch((error) => {
+          console.error("❌ 스케줄 생성 실패:", error);
+          alert("스케줄 등록에 실패했습니다.");
+        });
     } else if (type === "group") {
-      createGroupSchedule(scheduleData);
+      createGroupSchedule(scheduleData)
+        .then((response) => {
+          console.log("✅ 스케줄 생성 성공:", response);
+          alert("스케줄이 등록되었습니다.");
+          nav(-1);
+        })
+        .catch((error) => {
+          console.error("❌ 스케줄 생성 실패:", error);
+          alert("스케줄 등록에 실패했습니다.");
+        });
     }
-    createArtistSchedule(scheduleData)
-      .then((response) => {
-        console.log("✅ 스케줄 생성 성공:", response);
-        alert("스케줄이 등록되었습니다.");
-      })
-      .catch((error) => {
-        console.error("❌ 스케줄 생성 실패:", error);
-        alert("스케줄 등록에 실패했습니다.");
-      });
   };
 
   const handleFileChange = (event) => {
