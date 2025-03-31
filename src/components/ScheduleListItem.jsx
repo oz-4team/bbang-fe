@@ -18,12 +18,9 @@ const ScheduleListItem = ({ schedules }) => {
   const is_favorited = schedules?.is_favorited;
   const [starred, setStarred] = useState(is_favorited);
 
-  console.log("is_favorited:", is_favorited);
 
-  console.log("date🙂:", date);
-  console.log("start_time🙂:", start_time);
-  console.log("end_time🙂:", end_time);
-  console.log("schedule🙂:", schedules);
+
+  
 
   const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
     useFavorites();

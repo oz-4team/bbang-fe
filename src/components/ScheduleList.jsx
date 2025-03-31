@@ -9,6 +9,7 @@ const ScheduleList = ({ view, selectedDay }) => {
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
+    console.log("📅 ScheduleList useEffect - selectedDay:", selectedDay);
     const loadSchedules = async () => {
       try {
         let data = [];
@@ -22,7 +23,8 @@ const ScheduleList = ({ view, selectedDay }) => {
         // 필터: selectedDay가 있을 경우 해당 날짜만 필터링
         if (selectedDay) {
           data = data.filter((item) => {
-            const itemDate = new Date(item.start_date).toISOString().split("T")[0];
+            const itemDateObj = new Date(item.start_date);
+            const itemDate = `${itemDateObj.getFullYear()}-${String(itemDateObj.getMonth() + 1).padStart(2, '0')}-${String(itemDateObj.getDate()).padStart(2, '0')}`;
             return itemDate === selectedDay;
           });
         }
