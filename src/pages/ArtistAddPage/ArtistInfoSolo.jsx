@@ -6,8 +6,9 @@ import "../../styles/ArtistManagementPage.css";
 
 const ArtistInfoSolo = () => {
   const { createArtistSolo } = useArtist();
-  const { user, logout } = useUserStore();
-  console.log("user:", user);
+  const { user } = useUserStore();
+  const nav = useNavigate();
+
   const [artistInfo, setArtistInfo] = useState({
     artist_name: "",
     artist_agency: "",
@@ -18,9 +19,19 @@ const ArtistInfoSolo = () => {
     artist_insta: "",
   });
 
-  const [members, setMembers] = useState([
-    { name: "", instagram: "", photo: null },
-  ]);
+  const [modal, setModal] = useState({
+    type: "", // success, warning, error
+    message: "",
+    visible: false,
+  });
+
+  const openModal = (type, message) => {
+    setModal({ type, message, visible: true });
+  };
+
+  const closeModal = () => {
+    setModal({ ...modal, visible: false });
+  };
 
   const handleGroupChange = (field, value) => {
     setArtistInfo((prev) => ({ ...prev, [field]: value }));
@@ -35,68 +46,24 @@ const ArtistInfoSolo = () => {
     }
   };
 
-  const addMember = () => {
-    setMembers([...members, { name: "", instagram: "", photo: null }]);
-  };
-
-  const updateMember = (index, field, value) => {
-    const updatedMembers = [...members];
-    updatedMembers[index][field] = value;
-    setMembers(updatedMembers);
-  };
-
-  const deleteMember = (index) => {
-    setMembers(members.filter((_, i) => i !== index));
-  };
-
-  const nav = useNavigate();
-
   const saveGroup = () => {
-    if (!artistInfo.image_url) {
-      alert("사진을 입력해주세요!");
-      return;
-    }
-    if (!artistInfo.artist_name) {
-      alert("그룹명을 입력해주세요!");
-      return;
-    }
-    if (!artistInfo.artist_agency) {
-      alert("회사명을 입력해주세요!");
-      return;
-    }
-    if (!artistInfo.debut_date) {
-      alert("데뷔날짜를 입력해주세요!");
-      return;
-    }
-    if (!artistInfo.fandom) {
-      alert("팬덤명을 입력해주세요!");
-      return;
-    }
-    alert("아티스트 정보가 저장되었습니다!");
-    if (
-      artistInfo.image_url &&
-      artistInfo.artist_name &&
-      artistInfo.artist_agency &&
-      artistInfo.debut_date &&
-      artistInfo.fandom
-    ) {
-      console.log(
-        "아티스트 정보 저장1111:",
-        JSON.stringify(artistInfo, null, 2)
-      );
+    if (!artistInfo.image_url) return openModal("warning", "사진을 추가해주세요!");
+    if (!artistInfo.artist_name) return openModal("warning", "아티스트명을 입력해주세요!");
+    if (!artistInfo.artist_agency) return openModal("warning", "회사명을 입력해주세요!");
+    if (!artistInfo.debut_date) return openModal("warning", "데뷔날짜를 입력해주세요!");
+    if (!artistInfo.fandom) return openModal("warning", "팬덤명을 입력해주세요!");
 
-      console.log("아티스트 정보 저장2222:", artistInfo);
-      createArtistSolo(artistInfo)
-        .then(() => {
+    createArtistSolo(artistInfo)
+      .then(() => {
+        openModal("success", "아티스트 정보가\n 성공적으로 저장되었습니다!");
+        setTimeout(() => {
           nav("/artist-management");
-        })
-        .catch((error) => {
-          console.error("Error creating artist:", error);
-          alert("아티스트 정보 저장에 실패했습니다.");
-        });
-    }
-
-    console.log("그룹 정보 저장333:", artistInfo);
+        }, 1500);
+      })
+      .catch((error) => {
+        console.error("Error creating artist:", error);
+        openModal("error", "아티스트 정보 저장에 실패했습니다.");
+      });
   };
 
   return (
@@ -108,18 +75,14 @@ const ArtistInfoSolo = () => {
         <div className="group-photo-container">
           <label>아티스트 사진</label>
           <div className="group-photo">
-            {artistInfo.image_url && (
-              <img src={artistInfo.image_url} alt="Group" />
-            )}
+            {artistInfo.image_url && <img src={artistInfo.image_url} alt="Group" />}
             <label className="upload-button">
               + 사진 업로드
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) =>
-                  handleImageUpload(e, (img) =>
-                    handleGroupChange("image_url", img)
-                  )
+                  handleImageUpload(e, (img) => handleGroupChange("image_url", img))
                 }
                 hidden
               />
@@ -142,25 +105,9 @@ const ArtistInfoSolo = () => {
             value={artistInfo.artist_agency}
             onChange={(e) => handleGroupChange("artist_agency", e.target.value)}
           />
-
-          {/* <div className="group-logo">
-            {artistInfo.logo && <img src={artistInfo.logo} alt="Logo" />}
-            <label className="upload-button">
-              로고 업로드
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  handleImageUpload(e, (img) => handleGroupChange("logo", img))
-                }
-                hidden
-              />
-            </label>
-          </div> */}
           <label>데뷔날짜</label>
           <input
             type="date"
-            placeholder="데뷔일"
             value={artistInfo.debut_date}
             onChange={(e) => handleGroupChange("debut_date", e.target.value)}
           />
@@ -180,9 +127,38 @@ const ArtistInfoSolo = () => {
           />
         </div>
       </div>
+
       <button className="btn-primary bg-primary full-width" onClick={saveGroup}>
         입력 완료하기
       </button>
+
+      {/* 알림 모달 */}
+      {modal.visible && (
+        <div className="modal-backdrop">
+          <div
+            className={`modal ${
+              modal.type === "success"
+                ? "modal-success"
+                : modal.type === "error"
+                ? "modal-error"
+                : "modal-warning"
+            }`}
+          >
+            <div className="modal-icon">
+              {modal.type === "success"
+                ? "❤️"
+                : modal.type === "error"
+                ? "❌"
+                : "⚠️"}
+            </div>
+            <p className="modal-message">{modal.message}</p>
+            <button className="btn-primary modal-button" onClick={closeModal}>
+              확인
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="p-24"></div>
     </div>
   );

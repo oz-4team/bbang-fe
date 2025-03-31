@@ -2,15 +2,12 @@
 .artist-management-page {
   font-family: "Arial", sans-serif;
   margin-top: 36px;
-  /* max-width: 900px; */
-  /* margin: 0 auto; */
 }
 
 /* 그룹 정보 섹션 */
 .group-info {
   display: flex;
   align-items: flex-start;
-  /* background-color: #f3f3f3; */
   padding: 20px 0;
   border-radius: 10px;
   gap: 30px;
@@ -27,8 +24,6 @@
   width: 100%;
   height: 100%;
   flex: 1;
-
-
 }
 
 .title {
@@ -42,6 +37,7 @@
   width: 100%;
   margin-bottom: -16px;
 }
+
 .group-photo {
   position: relative;
   flex: 1;
@@ -59,9 +55,7 @@
 .group-photo img {
   width: 100%;
   height: 100%;
- 
   object-fit: cover;
-  aspect-ratio: 1 / 1;
   transition: transform 0.3s ease;
 }
 
@@ -79,7 +73,7 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.5);
-  color: #222222;
+  color: #222;
   font-weight: bold;
   opacity: 0.5;
   transition: opacity 0.3s ease;
@@ -95,12 +89,9 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap:16px;
+  gap: 16px;
   width: 100%;
-  /* max-width: 500px; */
 }
-
-
 
 .group-details input {
   padding: 16px;
@@ -108,6 +99,12 @@
   border-radius: 6px;
   border: 1px solid #ccc;
   width: 100%;
+}
+
+.group-details input:focus {
+  border-color: #6200ea;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.2);
 }
 
 .group-details label {
@@ -120,11 +117,11 @@
 
 .group-details .text-view {
   padding: 8px;
-  font-size:24px;
+  font-size: 24px;
   text-align: left;
   width: 100%;
   margin-bottom: -16px;
-  color: #222222;
+  color: #222;
 }
 
 .group-logo {
@@ -176,6 +173,7 @@
   align-items: center;
 }
 
+/* 저장 버튼 */
 .save-button {
   padding: 6px 12px;
   background-color: #6200ea;
@@ -196,7 +194,6 @@
   font-size: 20px;
   margin-top: 40px;
   margin-bottom: 15px;
-  
 }
 
 /* 멤버 컨테이너 */
@@ -204,33 +201,35 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  flex-wrap: wrap;
+}
 
-  @media (max-width: 1200px) {
+/* 반응형 */
+@media (max-width: 1200px) {
+  .member-container {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  @media (max-width: 768px) {
+}
+@media (max-width: 768px) {
+  .member-container {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  @media (max-width: 480px) {
+}
+@media (max-width: 480px) {
+  .member-container {
     grid-template-columns: repeat(1, 1fr);
   }
-  flex-wrap: wrap;
-  gap: 20px;
 }
 
 /* 멤버 카드 */
 .member-card {
   position: relative;
   max-width: 300px;
-  /* width: calc(50% - 10px); */
   background-color: #fff;
   border-radius: 20px;
   padding: 20px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,7 +289,6 @@
   opacity: 1;
 }
 
-/* 인풋 필드 */
 .member-card input[type="text"] {
   padding: 8px 10px;
   font-size: 14px;
@@ -318,11 +316,108 @@
   background-color: #0288d1;
 }
 
+/* 모달 공통 */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 
+.modal {
+  background: #ffffff;
+  padding: 32px 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 90%;
+  max-width: 360px;
+  animation: fadeIn 0.3s ease-in-out;
+}
 
-/* 파일 입력 숨김 */
-/* .upload-button input {
-  display: none;
-} */
+.modal-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
 
+.modal-message {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  color: #333;
+  white-space: pre-line;
+}
 
+.modal-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* 모달 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ 저장 성공 모달 */
+.modal-success .modal-icon {
+  color: #52c41a;
+}
+
+/* ⚠️ 입력 누락 경고 모달 */
+.modal-warning .modal-icon {
+  color: #faad14;
+}
+
+/* ❌ 에러 모달 */
+.modal-error .modal-icon {
+  color: #ff4d4f;
+}
+
+/* 🗑️ 삭제 확인 모달 */
+.modal-delete {
+  background: #fff0f0;
+  border: 1px solid #ff4d4f;
+}
+.modal-delete .modal-icon {
+  color: #ff4d4f;
+}
+
+/* 삭제 확인용 버튼 */
+.btn-danger {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #d9363e;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
