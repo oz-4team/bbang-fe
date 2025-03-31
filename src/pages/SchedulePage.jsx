@@ -1,99 +1,114 @@
-import React from "react";
-import Calendar from "react-calendar";
-
-import styled from "styled-components";
+import React, { useState } from "react";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
-import "../styles/calendar.css";
+import { FaMusic } from "react-icons/fa";
+import "../styles/SchedulePage.css";
+
+const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+
 const SchedulePage = () => {
-  const navigateToDetails = () => {
-    window.location.href = "/schedule/details";
+  const [view, setView] = useState("주간");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
+
+  const scheduleData = {
+    2: 1,
+    5: 3,
+    10: 2,
+    17: 1,
+    23: 2,
   };
 
-  const [view, setView] = React.useState("주간");
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
 
-  const CalendarContainer = styled.div`
-    flex-grow: 1;
-    margin-top: 2rem;
-    min-width: 300px;
-    max-width: 600px;
-    button {
-      background-color: white;
-    }
-
-    @media (max-width: 900px) {
-      max-width: 100%;
-    }
-  `;
+  const firstDayOfMonth = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0);
+  const startDay = firstDayOfMonth.getDay();
+  const totalDays = lastDayOfMonth.getDate();
+  const today = new Date();
 
   const handleViewChange = (event) => {
     setView(event.target.value);
   };
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100vw",
-        padding: "2rem 1rem",
-      }}
-    >
+  const weekdayHeaders = daysOfWeek.map((day, idx) => (
+    <div className="day-header" key={idx}>{day}</div>
+  ));
+
+  const calendarCells = [];
+  for (let i = 0; i < startDay; i++) {
+    calendarCells.push(<div className="day-cell" key={`empty-${i}`} />);
+  }
+
+  for (let day = 1; day <= totalDays; day++) {
+    const isToday =
+      today.getDate() === day &&
+      today.getMonth() === month &&
+      today.getFullYear() === year;
+
+    const isSelected = selectedDay === day;
+    const scheduleCount = scheduleData[day] || 0;
+
+    let className = "day-cell";
+    if (isToday) className += " today";
+    if (isSelected) className += " selected";
+
+    calendarCells.push(
       <div
-        style={{
-          width: "100%",
-          maxWidth: "1200px",
-        }}
+        key={day}
+        className={className}
+        onClick={() => setSelectedDay(day)}
       >
-        <div
-          style={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-            paddingBottom: "2rem",
-          }}
-        >
-          <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-            마이아티스트
+        <div className="date-number">{day}</div>
+        {scheduleCount > 0 && (
+          <div className="content">
+            <FaMusic style={{ color: "#a174ff" }} />
+            {scheduleCount}건
           </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="schedule-page">
+      <div className="schedule-container">
+        <div className="artist-header">
+          <div className="title">마이아티스트</div>
         </div>
-        <div
-          style={{
-            display: "-webkit-inline-box",
-            gap: "1rem",
-            overflow: "scroll",
-            width: "100%",
-          }}
-        >
+
+        <div className="artist-filter">
           <MyArtistFilterCard />
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-          }}
-        >
-          <CalendarContainer>
-            <Calendar
-              calendarType="gregory"
-              locale="ko"
-              view="month"
-              prev2Label={null}
-              next2Label={null}
-              formatDay={(locale, date) =>
-                date.toLocaleString("en", { day: "numeric" })
-              }
+        <div className="calendar-section">
+          <div className="calendar-wrapper">
+            <div className="calendar-header">
+              <button onClick={() => setCurrentDate(new Date(year, month - 1, 1))}>◀</button>
+              <h2>{year}년 {month + 1}월</h2>
+              <button onClick={() => setCurrentDate(new Date(year, month + 1, 1))}>▶</button>
+            </div>
 
-              // onClickDay={navigateToDetails}
-            />
-          </CalendarContainer>
+            <div className="calendar-grid">
+              {weekdayHeaders}
+              {calendarCells}
+            </div>
+          </div>
 
-          <div style={{ minWidth: "300px", flexGrow: 1 }}>
+          <div className="schedule-view">
+            <select
+              id="view-select"
+              value={view}
+              onChange={handleViewChange}
+              className="view-select"
+            >
+              <option value="주간">주간</option>
+              <option value="일간">일간</option>
+              <option value="월간">월간</option>
+            </select>
             <div>
+
               <select
                 style={{
                   minWidth: "300px",
@@ -113,6 +128,7 @@ const SchedulePage = () => {
               <div>
                 <ScheduleList view={view} />
               </div>
+
             </div>
           </div>
         </div>
