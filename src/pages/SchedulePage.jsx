@@ -108,7 +108,27 @@ const SchedulePage = () => {
               <option value="월간">월간</option>
             </select>
             <div>
-              <ScheduleList />
+
+              <select
+                style={{
+                  minWidth: "300px",
+                  width: "100%",
+                  height: "60px",
+                  marginTop: "10px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #ccc",
+                }}
+                id="view-select"
+                value={view}
+                onChange={handleViewChange}
+              >
+                <option value="전체일정">전체일정</option>
+                <option value="즐겨찾기">즐겨찾기 한 일정</option>
+              </select>
+              <div>
+                <ScheduleList view={view} />
+              </div>
+
             </div>
           </div>
         </div>
