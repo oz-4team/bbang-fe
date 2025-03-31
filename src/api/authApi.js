@@ -155,6 +155,7 @@ export const updateUserProfile = async (userData) => {
         const jsonData = {
           nickname: userData.nickname,
           password: userData.password || undefined,
+          current_password: userData.current_password || undefined,
         };
 
         response = await axios.patch(`${API_BASE_URL}/profile/`, jsonData, {
