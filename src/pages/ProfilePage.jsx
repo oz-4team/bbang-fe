@@ -121,7 +121,7 @@ const ProfilePage = () => {
       nickname: userNickname || "", // nickname이 항상 포함되도록 수정
       image_url: selectedImageFile instanceof File ? selectedImageFile : null,
       password: newPassword || undefined,
-      current_Password: currentPassword || undefined,
+      current_password: currentPassword || undefined,
     };
 
     try {
