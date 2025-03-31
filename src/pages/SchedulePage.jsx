@@ -107,12 +107,11 @@ const SchedulePage = () => {
                 value={view}
                 onChange={handleViewChange}
               >
-                <option value="주간">주간</option>
-                <option value="일간">일간</option>
-                <option value="월간">월간</option>
+                <option value="전체일정">전체일정</option>
+                <option value="즐겨찾기">즐겨찾기 한 일정</option>
               </select>
               <div>
-                <ScheduleList />
+                <ScheduleList view={view} />
               </div>
             </div>
           </div>

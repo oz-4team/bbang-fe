@@ -4,21 +4,24 @@ import { fetchFavoriteSchedules } from "../api/schedule/scheduleApi";
 import ScheduleListItem from "./ScheduleListItem";
 import { fetchAllSchedules } from "../api/schedule/scheduleApi";
 
-const ScheduleList = () => {
+const ScheduleList = ({ view }) => {
   const { user } = useUserStore();
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
     const loadSchedules = async () => {
       try {
-        const data = user ? await fetchFavoriteSchedules() : await fetchAllSchedules();
+        const data =
+          view === "전체일정"
+            ? await fetchAllSchedules()
+            : await fetchFavoriteSchedules();
         setSchedules(data);
       } catch (error) {
         console.error("❌ 일정 불러오기 실패:", error);
       }
     };
     loadSchedules();
-  }, [user]);
+  }, [view]);
 
   if (schedules.length === 0) return <div>일정이 없습니다.</div>;
 
@@ -56,5 +59,8 @@ const ScheduleList = () => {
     </div>
   );
 };
+
+
+
 
 export default ScheduleList;
