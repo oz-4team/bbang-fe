@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useLikes from "../api/artist/useLikes";
 import ArtistCardArea from "../components/ArtistCardArea";
 import BannerAd from "../components/BannerAd";
 import Modal from "../components/Modal";
 import MyArtistFilter from "../components/MyArtistFilter";
 import SearchBar from "../components/SearchBar";
+import useUserStore from "../store/userStore";
 
 const ArtistListPage = () => {
+  const { user } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const { readAllLikes, likes } = useLikes();
+  console.log("searchQuery:", searchQuery);
+
+  useEffect(() => {
+    if (user) {
+      readAllLikes();
+    }
+  }, []);
+
+  console.log("아티스트 페이지 likes:", likes);
 
   const handleSecondaryClick = () => {
     console.log("Secondary button clicked");
@@ -35,6 +48,17 @@ const ArtistListPage = () => {
           <MyArtistFilter onFilterChange={setSearchQuery} />
           <SearchBar onSearch={setSearchQuery} />
         </div>
+        <button
+          onClick={() =>
+            setSearchQuery(
+              likes
+                .map((like) => like.artist_id || like.artist_group_id)
+                .join(",")
+            )
+          }
+        >
+          좋아요 가수들
+        </button>
 
         <ArtistCardArea
           onCardClick={handleClickUserCheck}
