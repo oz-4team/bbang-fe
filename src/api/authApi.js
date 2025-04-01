@@ -22,7 +22,6 @@ export const loginUser = async (email, password) => {
           image_url: response.data.image_url,
           id: response.data.id,
         };
-        localStorage.setItem("user_info", JSON.stringify(userInfo));
         useUserStore.getState().login(userInfo, response.data.access, response.data.refresh);
 
         return {
@@ -54,7 +53,6 @@ export const logoutUser = async () => {
   useUserStore.getState().logout();
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
-  localStorage.removeItem("user_info");
   localStorage.removeItem("signupFormData");
   localStorage.removeItem("lastActivity");
 };
