@@ -82,15 +82,15 @@ const Footer = () => {
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleArtistClick}
                 >
-                  {user?.isAdmin ? "아티스트 관리" : "아티스트"}
+                  {user?.is_staff ? "아티스트 관리" : "아티스트"}
                 </li>
                 <li
                   style={{ paddingBottom: "1rem", cursor: "pointer" }}
                   onClick={handleScheduleClick}
                 >
-                  {user?.isAdmin ? "스케줄 관리" : "스케줄"}
+                  {user?.is_staff ? "스케줄 관리" : "스케줄"}
                 </li>
-                {!user?.isAdmin && (
+                {!user?.is_staff && (
                   <li
                     style={{ paddingBottom: "1rem", cursor: "pointer" }}
                     onClick={handleAdminRequestClick}
