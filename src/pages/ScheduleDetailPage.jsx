@@ -256,45 +256,66 @@ const ScheduleDetailPage = () => {
             marginBottom: "2rem",
           }}
         ></div>
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <IoShareSocialOutline color="#AFB1B6" />
-          <div>공유하기</div>
-          <button
-            style={{ display: "flex", gap: "1rem", alignItems: "center" }}
-            onClick={shareToKakao}
-          >
-            <div
-              style={{
-                backgroundColor: "#FFEB00",
-                borderRadius: "50%",
-                padding: "0.5rem",
-              }}
-            >
-              <RiKakaoTalkFill />
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+            <IoShareSocialOutline color="#AFB1B6" />
+            <div>공유하기</div>
+          </div>
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <div>
+              <button
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                  padding: 0,
+                }}
+                onClick={shareToKakao}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#FFEB00",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
+                  }}
+                >
+                  <RiKakaoTalkFill />
+                </div>
+                카카오로 공유하기
+              </button>
             </div>
-            카카오로 공유하기
-          </button>
-          <button
-            style={{
-              display: "flex",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-            onClick={copyToClipboard}
-          >
-            <div
-              style={{
-                backgroundColor: "#4285F4",
-                borderRadius: "50%",
-                padding: "0.5rem",
-                color: "white",
-                fontSize: "0.5rem",
-              }}
-            >
-              url
+            <div>
+              <button
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                  padding: 0,
+                }}
+                onClick={copyToClipboard}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#4285F4",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
+                    color: "white",
+                    fontSize: "0.5rem",
+                  }}
+                >
+                  url
+                </div>
+                URL 복사하기
+              </button>
             </div>
-            URL 복사하기
-          </button>
+          </div>
         </div>
         {!user?.is_staff ? null : (
           <>
