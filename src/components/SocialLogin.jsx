@@ -7,16 +7,13 @@ import kakaoLogo from "../assets/images/kakaologo.png";
 import naverLogo from "../assets/images/naverlogo.png";
 
 const SocialLogin = () => {
-  console.log("✅ SocialLogin 컴포넌트 로드됨!");
 
   // ✅ 로그인 버튼 클릭 시 해당 소셜 로그인 페이지로 리다이렉트
   const handleKakaoLogin = () => {
-    console.log("🔗 카카오 로그인 페이지로 이동:", KAKAO_AUTH_URL);
     window.location.href = KAKAO_AUTH_URL;
   };
 
   const handleNaverLogin = () => {
-    console.log("🔗 네이버 로그인 페이지로 이동:", NAVER_AUTH_URL);
   
     const logoutWindow = window.open("https://nid.naver.com/nidlogin.logout", "_blank", "width=500,height=600");
   
@@ -31,7 +28,6 @@ const SocialLogin = () => {
   };
 
   const handleGoogleLogin = () => {
-    console.log("🔗 구글 로그인 페이지로 이동:", GOOGLE_AUTH_URL);
     window.location.href = GOOGLE_AUTH_URL;
   };
 

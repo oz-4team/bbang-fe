@@ -17,7 +17,6 @@ const useUserStore = create((set, get) => ({
   isAuthenticated: !!storedAccessToken,
 
   login: (userData, accessToken, refreshToken) => {
-    console.log("로그인 시도: ", userData);
 
     if (!accessToken || !refreshToken) {
       console.error("🚨 액세스 토큰 또는 리프레시 토큰이 없습니다. 로그인 실패!");

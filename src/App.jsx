@@ -67,7 +67,6 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      console.log(`현재 로그인한 닉네임: ${user.nickname}`); //  로그인 상태 유지 중 닉네임 출력
     }
   }, [user]);
 

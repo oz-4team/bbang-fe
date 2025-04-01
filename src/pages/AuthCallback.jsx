@@ -22,8 +22,6 @@ const AuthCallback = () => {
     else if (path.includes("naver")) provider = "naver";
     else if (path.includes("google")) provider = "google";
 
-    console.log("🔍 인가 코드:", authCode);
-    console.log("🔍 provider 확인:", provider);
 
     if (!authCode || !provider) {
       console.error("🚨 인가 코드 또는 provider 없음!");
@@ -47,8 +45,6 @@ const AuthCallback = () => {
         } else {
           throw new Error("알 수 없는 provider");
         }
-
-        console.log("🎉 로그인 성공!", response);
 
         // ✅ 필요한 값만 뽑아서 상태 저장
         const userInfo = {

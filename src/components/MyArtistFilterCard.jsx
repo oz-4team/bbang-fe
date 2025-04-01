@@ -20,7 +20,6 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
         (like) => like.artist || like.artist_group
       );
       setMyArtists(updatedMyArtists);
-      console.log("myArtists:", updatedMyArtists);
     }
   }, [likes]);
 
@@ -32,6 +31,44 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
             <div className="title">마이아티스트</div>
           </div>
           <div className="artist-filter">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => onArtistClick(null)}
+            >
+              <div
+                style={{
+                  width: "4rem",
+                  height: "4rem",
+                  borderRadius: "50%",
+                  backgroundColor: "#e0e0e0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "0.8rem",
+                  fontWeight: "bold",
+                }}
+              >
+                전체
+              </div>
+              <div>전체일정</div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => onArtistClick(null)}
+            >
+            </div>
             {likes.map((like, index) => {
               const artistId = like.artist_id;
               const artistGroupId = like.artist_group_id;
