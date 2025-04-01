@@ -22,6 +22,13 @@ const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
 
   const { addFavorite, deleteFavorite } = useFavorites();
 
+  const now = new Date();
+  const startDate = new Date(schedules?.start_date);
+  const endDate = new Date(schedules?.end_date);
+
+  const isExpired = endDate < now;
+  const isOngoing = startDate <= now && endDate >= now;
+
   const toggleStar = async () => {
     if (!starred) {
       try {
@@ -55,8 +62,42 @@ const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
         border: "1px solid #ebebeb",
         borderRadius: "15px",
         cursor: "pointer",
+        opacity: isExpired ? 0.5 : 1,
+        position: "relative",
       }}
     >
+      {isExpired && (
+        <div
+          style={{
+            position: "absolute",
+            top: "0.5rem",
+            right: "0.8rem",
+            backgroundColor: "#ccc",
+            color: "#fff",
+            padding: "0.2rem 0.5rem",
+            borderRadius: "4px",
+            fontSize: "0.7rem",
+          }}
+        >
+          종료됨
+        </div>
+      )}
+      {isOngoing && (
+        <div
+          style={{
+            position: "absolute",
+            top: "0.5rem",
+            right: "0.8rem",
+            backgroundColor: "#4caf50",
+            color: "#fff",
+            padding: "0.2rem 0.5rem",
+            borderRadius: "4px",
+            fontSize: "0.7rem",
+          }}
+        >
+          진행중
+        </div>
+      )}
       <div
         style={{
           flexGrow: "1",
