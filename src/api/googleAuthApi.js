@@ -24,7 +24,7 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
 
 
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
-        const { access_token: accessToken, refresh_token: refreshToken, email:email } = response.data;
+        const { access_token: accessToken, refresh_token: refreshToken, email, is_staff } = response.data;
 
         if (!email || !accessToken || !refreshToken) {
             console.error("🚨 Google 로그인 응답 누락: email/token 정보 없음");
@@ -35,7 +35,8 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
 
         // 토큰 저장 및 로그인 처리
         saveToken(accessToken, refreshToken);
-        useUserStore.getState().login(email, accessToken, refreshToken);
+        useUserStore.getState().login({ email, is_staff }, accessToken, refreshToken);
+        localStorage.setItem("is_staff", is_staff ? "true" : "false");
         console.log("🎉 Google 로그인 성공! 사용자 정보 저장됨:", email);
 
         if (navigate) {

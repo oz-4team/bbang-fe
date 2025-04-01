@@ -51,11 +51,29 @@ function App() {
     const refresh = localStorage.getItem("refreshToken");
 
     if (access && refresh) {
+      const storedUser = localStorage.getItem("user_info");
+      let parsedUser = null;
+
+      try {
+        parsedUser = storedUser ? JSON.parse(storedUser) : null;
+      } catch (e) {
+        console.warn("🚨 user_info 파싱 실패:", e);
+        localStorage.clear();
+        window.location.href = "/login";
+        return;
+      }
+
+      if (!parsedUser || !parsedUser.email) {
+        console.warn("🚨 user_info 유효하지 않음");
+        localStorage.clear();
+        window.location.href = "/login";
+        return;
+      }
+
       fetchUserProfile(access)
         .then((userData) => {
-          if (!userData || !userData.email) throw new Error("Invalid user data");
-          useUserStore.getState().login(userData, access, refresh);
-          
+          useUserStore.getState().login({ ...userData, ...parsedUser }, access, refresh);
+
           const cleared = !localStorage.getItem("accessToken");
           if (!cleared) {
             localStorage.setItem("lastActivity", new Date().getTime().toString());
@@ -64,7 +82,7 @@ function App() {
         .catch((err) => {
           console.warn("❌ 유저 정보 불러오기 실패:", err);
           localStorage.clear();
-          window.location.reload(); 
+          window.location.href = "/login";
         });
     } else {
       localStorage.clear();

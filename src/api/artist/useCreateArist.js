@@ -22,7 +22,6 @@ export default function useCreateArist() {
                 { ...artistInfo, created_by },
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                 }

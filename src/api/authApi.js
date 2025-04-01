@@ -14,7 +14,7 @@ export const loginUser = async (email, password) => {
 
       if (response.data.access && response.data.refresh) {
         saveToken(response.data.access, response.data.refresh);
-
+        console.log("✅ 로그인 성공:", response.data);
         const userInfo = {
           email: response.data.email,
           nickname: response.data.nickname,
@@ -126,6 +126,10 @@ export const fetchUserProfile = async () => {
       const response = await axios.get(`${API_BASE_URL}/profile/`);
       if (!response.data || !response.data.email) {
         throw new Error("❌ 응답에 유저 정보가 없습니다.");
+      }
+      const { accessToken, refreshToken } = useUserStore.getState();
+      if (accessToken && refreshToken) {
+        useUserStore.getState().login(response.data, accessToken, refreshToken);
       }
       return response.data;
     } catch (error) {

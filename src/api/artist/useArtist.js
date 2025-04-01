@@ -27,7 +27,6 @@ export default function useArtist() {
         payload,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }
@@ -51,7 +50,6 @@ export default function useArtist() {
         { ...artistInfo, created_by },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }
@@ -73,7 +71,6 @@ export default function useArtist() {
         `${API_BASE_URL}/artists/${id}/`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }
@@ -95,7 +92,6 @@ export default function useArtist() {
         updatedData,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }
