@@ -4,7 +4,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const useLikes = () => {
     const accessToken = localStorage.getItem("authToken");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [like, setLike] = useState([]);
     const [likes, setLikes] = useState([]);
 
@@ -27,7 +27,7 @@ const useLikes = () => {
         }
         catch (error) {
             console.error("Error reading readLike:", error);
-
+            // console.log("accessToken:", accessToken);
 
         } finally {
             setLoading(false);
@@ -50,7 +50,9 @@ const useLikes = () => {
 
             const data = response.data;
             setLike(data);
-
+            console.log("add favorite!!!!");
+            console.log("data:", data);
+            console.log("favorite:", favorite);
 
         }
         catch (error) {
