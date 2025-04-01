@@ -50,21 +50,19 @@ function App() {
     const refresh = localStorage.getItem("refreshToken");
     const userInfo = localStorage.getItem("user_info");
 
-    if (access && refresh && userInfo) {
-      try {
+    try {
+      if (access && refresh && userInfo) {
         const parsedUser = JSON.parse(userInfo);
+        if (!parsedUser || typeof parsedUser !== "object") throw new Error("Invalid parsedUser");
+
         useUserStore.getState().login(parsedUser, access, refresh);
         localStorage.setItem("lastActivity", new Date().getTime().toString());
-      } catch (e) {
-        console.warn("🧹 유저 정보 파싱 실패. 로컬스토리지 초기화");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("user_info");
+      } else {
+        throw new Error("Missing token or userInfo");
       }
-    } else {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("user_info");
+    } catch (e) {
+      console.warn("🧹 유저 정보 파싱 실패 또는 토큰 없음. 로컬스토리지 초기화");
+      localStorage.clear();
     }
   }, []);
 
