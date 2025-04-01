@@ -13,9 +13,9 @@
   
   .artist-header {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     align-items: center;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
   }
   
   .title {

@@ -190,13 +190,8 @@ const SchedulePage = () => {
   return (
     <div className="schedule-page">
       <div className="schedule-container">
-        <div className="artist-header">
-          <div className="title">마이아티스트</div>
-        </div>
-
-        <div className="artist-filter">
-          <MyArtistFilterCard />
-        </div>
+        <MyArtistFilterCard />
+        {/* </div> */}
 
         <div className="calendar-section">
           <div className="calendar-wrapper">

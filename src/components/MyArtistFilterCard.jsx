@@ -26,33 +26,41 @@ const MyArtistFilterCard = () => {
 
   return (
     <>
-      {likes.map((like, index) => (
-        <div
-          key={index}
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
+      <div className="artist-header">
+        <div className="title">마이아티스트</div>
+      </div>
+
+      <div className="artist-filter">
+        {likes.map((like, index) => (
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1rem",
-            }}
+            key={index}
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           >
-            <img
-              src={like.artist_image || like.artist_group_image || defualtImage}
-              alt={like.name}
+            <div
               style={{
-                width: "4rem",
-                height: "4rem",
-                borderRadius: "50%",
-                objectFit: "cover",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1rem",
               }}
-            />
-            <div>{like.artist || like.artist_group}</div>
+            >
+              <img
+                src={
+                  like.artist_image || like.artist_group_image || defualtImage
+                }
+                alt={like.name}
+                style={{
+                  width: "4rem",
+                  height: "4rem",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              <div>{like.artist || like.artist_group}</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 };

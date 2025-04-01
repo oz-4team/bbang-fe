@@ -68,7 +68,11 @@ const ScheduleListItem = ({ schedules }) => {
         <div>
           <div style={{ textAlign: "left", fontWeight: "bold" }}>{title}</div>
           <div
-            style={{ textAlign: "left", color: "#6200ea", fontSize: "0.7rem" }}
+            style={{
+              textAlign: "left",
+              color: "#6200ead5",
+              fontSize: "0.7rem",
+            }}
           >
             {artist?.artist_name || artist_group?.artist_group}
           </div>
