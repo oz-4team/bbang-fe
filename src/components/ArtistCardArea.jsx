@@ -13,12 +13,8 @@ const ArtistCardArea = ({ onCardClick, searchQuery }) => {
 
   console.log("artist area 🙂:", artistAndGroups);
 
-  const shuffledArtists = [...artistAndGroups.data].sort(
-    () => Math.random() - 0.5
-  );
-
   // 그룹에 속해있는 아티스트는 제외
-  let filteredArtists = shuffledArtists.filter(
+  let filteredArtists = artistAndGroups.data.filter(
     (a) => !(a.artist_name && a.artist_group)
   );
 
