@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useFavorites from "../api/schedule/useFavorites";
 import useUserStore from "../store/userStore";
 
-const ScheduleListItem = ({ schedules }) => {
+const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
 
@@ -44,9 +44,7 @@ const ScheduleListItem = ({ schedules }) => {
       onClick={(e) => {
         e.stopPropagation();
         {
-          user
-            ? navigate(`/schedule/details/${id}`)
-            : alert("로그인 후 이용 가능합니다.");
+          user ? navigate(`/schedule/details/${id}`) : handleclickUserCheck();
         }
       }}
       style={{
@@ -87,7 +85,7 @@ const ScheduleListItem = ({ schedules }) => {
           onClick={(e) => {
             e.stopPropagation();
             {
-              user ? toggleStar() : alert("로그인 후 이용 가능합니다.");
+              user ? toggleStar() : handleclickUserCheck();
             }
           }}
           style={{ cursor: "pointer", fontSize: "2rem" }}

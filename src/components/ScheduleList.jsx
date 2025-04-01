@@ -8,7 +8,12 @@ import {
 import useUserStore from "../store/userStore";
 import ScheduleListItem from "./ScheduleListItem";
 
-const ScheduleList = ({ view, selectedDay, artistInfo }) => {
+const ScheduleList = ({
+  view,
+  selectedDay,
+  artistInfo,
+  handleclickUserCheck,
+}) => {
   const { user } = useUserStore();
   const [schedules, setSchedules] = useState([]);
 
@@ -72,6 +77,7 @@ const ScheduleList = ({ view, selectedDay, artistInfo }) => {
     >
       {schedules.map((a) => (
         <ScheduleListItem
+          handleclickUserCheck={() => handleclickUserCheck()}
           key={a.id}
           name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
           image={
