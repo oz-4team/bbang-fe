@@ -33,7 +33,7 @@ const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
           </div>
 
           <div className="artist-filter">
-            <div
+            <button
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -58,22 +58,13 @@ const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
                 }}
               />
               <div>전체보기</div>
-              {/* <button
-                onClick={() => {
-                  // onArtistClick(null);
-                  likes.forEach((item) => (item.isSelected = false)); // Deselect all
-                  setFilterType("전체일정"); // Set filter type to "전체일정"
-                }}
-              >
-                전체보기
-              </button> */}
-            </div>
+            </button>
 
             {likes.map((like, index) => {
               const artistId = like.artist_id;
               const artistGroupId = like.artist_group_id;
               return (
-                <div
+                <button
                   key={index}
                   style={{
                     display: "flex",
@@ -113,7 +104,7 @@ const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
                     />
                     <div>{like.artist || like.artist_group}</div>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
