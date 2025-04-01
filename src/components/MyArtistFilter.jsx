@@ -9,10 +9,10 @@ const MyArtistFilter = ({ onFilterChange }) => {
   const { readAllLikes, likes } = useLikes();
 
   useEffect(() => {
-    readAllLikes();
+    if (user) {
+      readAllLikes();
+    }
   }, []);
-
-  console.log("likes:", likes);
 
   const [isLoading, setIsLoading] = useState(true);
   // const [likes, setLikes] = useState([]);

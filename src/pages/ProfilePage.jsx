@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import {
+  deleteUserProfile,
+  fetchUserProfile,
+  updateUserProfile,
+} from "../api/authApi";
 import Footer from "../components/Footer";
 import useUserStore from "../store/userStore";
-import { updateUserProfile, deleteUserProfile, fetchUserProfile } from "../api/authApi";
 import "../styles/Profile.css";
 
 // PasswordInput 컴포넌트
@@ -61,10 +65,9 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("✅ user.image_url 확인:", user.image_url);
       setUserEmail(user.email || "user@example.com");
       setUserNickname(user.nickname || "");
-      setImage(user.image_url || ""); 
+      setImage(user.image_url || "");
       // TODO: 필요하면 사용자 프로필 정보 더 불러오기
     }
   }, [user]);
@@ -83,7 +86,7 @@ const ProfilePage = () => {
     if (!currentPassword) {
       newErrors.currentPassword = "현재 비밀번호를 입력해주세요.";
       isValid = false;
-    } 
+    }
 
     if (newPassword || confirmPassword) {
       if (newPassword.length < 8) {
@@ -146,15 +149,15 @@ const ProfilePage = () => {
       try {
         // 로컬 스토리지에서 토큰 가져오기
         const token = localStorage.getItem("access_token");
-  
+
         // 토큰이 없으면 로그인되지 않은 상태일 수 있음
         if (!token) {
           alert("로그인 상태가 아닙니다.");
           return;
         }
-  
+
         // 프로필 삭제 호출
-        await deleteUserProfile(token);  // 토큰을 전달
+        await deleteUserProfile(token); // 토큰을 전달
         logout();
         alert("회원탈퇴가 완료되었습니다.");
         navigate("/");
@@ -175,7 +178,9 @@ const ProfilePage = () => {
           >
             <div className="image-preview">
               <img
-                src={image || user.image_url || "/icons/profile-placeholder.png"}
+                src={
+                  image || user.image_url || "/icons/profile-placeholder.png"
+                }
                 alt="프로필 사진"
                 className="profile-image-edit"
               />

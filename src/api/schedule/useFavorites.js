@@ -70,9 +70,6 @@ const useFavorites = () => {
 
             const data = response.data;
             setFavoriteIds(data);
-            console.log("AlllikeAlllikeAlllikeAlllike:", data);
-            console.log("favouserfavoriteuserfavoriteuserfavoriteuserfavoriterite:", favoriteIds);
-
         }
         catch (error) {
             console.error("Error reading schedule:", error);

@@ -23,7 +23,15 @@ export const refreshAccessToken = async () => {
             return null;
         }
 
-        const response = await axios.post(`${API_BASE_URL}/auth/token/refresh/`, { refresh: refreshToken });
+        const response = await axios.post(
+            `${API_BASE_URL}/api/token/refresh/`,
+            { refresh: refreshToken },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
         if (response.data.access) {
             saveToken(response.data.access, refreshToken);

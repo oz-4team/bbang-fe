@@ -54,6 +54,7 @@ function App() {
       try {
         const parsedUser = JSON.parse(userInfo);
         useUserStore.getState().login(parsedUser, access, refresh);
+        localStorage.setItem("lastActivity", new Date().getTime().toString());
       } catch (e) {
         console.warn("🧹 유저 정보 파싱 실패. 로컬스토리지 초기화");
         localStorage.removeItem("accessToken");

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/authApi";
 import logo from "../assets/images/idolsycn-logo.png";
@@ -131,12 +131,12 @@ const Navigation = () => {
                       <IoPersonOutline />
                     </button>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <button className="icon-button notification-button">
                       <IoNotificationsOutline />
                       <span className="notification-dot"></span>
                     </button>
-                  </li>
+                  </li> */}
                 </>
               )}
               <li className="nav-item" onClick={handleLogoutClick}>

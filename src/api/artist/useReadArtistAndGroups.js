@@ -12,12 +12,8 @@ const useReadArtistAndGroups = () => {
         const readAartistAndGroups = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/artists-and-groups/`);
-                console.log("artistAndGroups response:", response);
-                console.log("artistAndGroups response.data:", response.data);
                 const data = response.data;
                 setArtistAndGroups(data);
-                console.log("data:", data);
-                console.log("artistAndGroups:", artistAndGroups);
             }
             catch (error) {
                 console.error("Error reading artistAndGroups:", error);

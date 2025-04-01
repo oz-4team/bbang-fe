@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { FaRegStar, FaStar } from "react-icons/fa";
-import { FiLink } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline, IoShareSocialOutline } from "react-icons/io5";
 import { LuCalendarDays } from "react-icons/lu";
@@ -9,6 +8,8 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
+import useFavorites from "../api/schedule/useFavorites";
+import KakaoMap from "../api/useKakaoMap";
 import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
@@ -26,6 +27,8 @@ const ScheduleDetailPage = () => {
     schedule?.artist_group?.image_url;
   const is_favorited = schedule?.is_favorited;
   const [starred, setStarred] = useState(is_favorited);
+  const { favorite, addFavorite, readFavorite, deleteFavorite } =
+    useFavorites();
 
   const type = schedule?.type;
   const artist = schedule?.artist;
@@ -71,9 +74,37 @@ const ScheduleDetailPage = () => {
     });
   };
 
-  const toggleStar = () => {
-    setStarred(!starred);
+  const pinLocation = {
+    lat: schedule.latitude, // 백엔드에서 제공하는 위도 값
+    lng: schedule.longitude, // 백엔드에서 제공하는 경도 값
   };
+
+  const toggleStar = async () => {
+    if (!starred) {
+      try {
+        await addFavorite(id);
+        setStarred(true);
+      } catch (err) {
+        console.error("즐겨찾기 추가 실패:", err);
+      }
+    } else {
+      try {
+        await deleteFavorite(id);
+        setStarred(false);
+      } catch (err) {
+        console.error("즐겨찾기 삭제 실패:", err);
+      }
+    }
+  };
+
+  const handleGoToArtistDatailPage = () => {
+    if (artist) {
+      navigate(`/artist/solo/${artist.id}`);
+    } else if (artist_group) {
+      navigate(`/artist/group/${artist_group.id}`);
+    }
+  };
+
   return (
     <div
       style={{
@@ -91,17 +122,19 @@ const ScheduleDetailPage = () => {
             justifyContent: "space-between",
             width: "100%",
             gap: "2rem",
+            flexWrap: "wrap",
           }}
         >
           <div
             style={{
               maxWidth: "300px",
-              minWidth: "200px",
+              minWidth: "300px",
               maxHeight: "300px",
               minHeight: "200px",
               border: "1px solid #AFB1B6",
               borderRadius: "15px",
               overflow: "hidden",
+              flex: "1 1 50%",
             }}
           >
             <img
@@ -122,6 +155,7 @@ const ScheduleDetailPage = () => {
               textAlign: "left",
               flexGrow: "1",
               gap: "1rem",
+              flex: "1 1 50%",
             }}
           >
             <div style={{ fontSize: "1.5rem" }}>{schedule.title}</div>
@@ -131,11 +165,19 @@ const ScheduleDetailPage = () => {
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <MdOutlineWatchLater color="#AFB1B6" />{" "}
               <div>
-                {start_time} ~ {end_time}
+                {start_time?.slice(0, 5)} ~ {end_time?.slice(0, 5)}
               </div>
             </div>
-            <div>category tag area</div>
-            <div>hashtag areaaaa</div>
+            <div
+              onClick={handleGoToArtistDatailPage}
+              style={{ display: "flex", gap: "1rem", alignItems: "center" }}
+            >
+              <BsPerson color="#AFB1B6" />
+              <span style={{ cursor: "pointer", color: "#6200ea" }}>
+                {artist?.artist_name || artist_group?.artist_group}
+              </span>
+            </div>
+            {/* <div>hashtag areaaaa</div> */}
           </div>
           {user?.is_staff ? null : (
             <div
@@ -159,18 +201,16 @@ const ScheduleDetailPage = () => {
         ></div>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <BsPerson color="#AFB1B6" /> <div>출연진</div>
-          </div>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <IoDocumentTextOutline color="#AFB1B6" />{" "}
             <div>{schedule.description}</div>
           </div>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <FiLink color="#AFB1B6" /> <div>링크</div>
-          </div>
+
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
             <div>{schedule.location} </div>
+          </div>
+          <div>
+            <KakaoMap location={pinLocation} />
           </div>
         </div>
         <div
