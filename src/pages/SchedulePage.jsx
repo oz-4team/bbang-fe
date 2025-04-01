@@ -224,6 +224,7 @@ const SchedulePage = () => {
               setFilterType("아티스트");
             }
           }}
+          setFilterType={setFilterType}
         />
 
         <div className="calendar-section">
