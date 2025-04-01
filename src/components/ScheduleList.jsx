@@ -2,24 +2,31 @@ import React, { useEffect, useState } from "react";
 import {
   fetchAllSchedules,
   fetchFavoriteSchedules,
+  fetchArtistSchedules,
+  fetchGroupSchedules,
 } from "../api/schedule/scheduleApi";
 import useUserStore from "../store/userStore";
 import ScheduleListItem from "./ScheduleListItem";
 
-const ScheduleList = ({ view, selectedDay }) => {
+const ScheduleList = ({ view, selectedDay, artistInfo }) => {
   const { user } = useUserStore();
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
-    console.log("📅 ScheduleList useEffect - selectedDay:", selectedDay);
     const loadSchedules = async () => {
       try {
         let data = [];
 
         if (view === "전체일정") {
           data = await fetchAllSchedules();
-        } else {
+        } else if (view === "즐겨찾기") {
           data = await fetchFavoriteSchedules();
+        } else if (view === "아티스트" && artistInfo) {
+          if (artistInfo.artistId) {
+            data = await fetchArtistSchedules(artistInfo.artistId);
+          } else if (artistInfo.artistGroupId) {
+            data = await fetchGroupSchedules(artistInfo.artistGroupId);
+          }
         }
 
         // 필터: selectedDay가 있을 경우 해당 날짜만 필터링
@@ -42,7 +49,7 @@ const ScheduleList = ({ view, selectedDay }) => {
       }
     };
     loadSchedules();
-  }, [view, selectedDay]);
+  }, [view, selectedDay, artistInfo]);
 
   if (schedules.length === 0)
     return (
