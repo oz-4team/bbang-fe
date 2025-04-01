@@ -1,16 +1,22 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useReadArtistApi from "../api/artist/useReadArtistApi";
+import useReadArtistGroupApi from "../api/artist/useReadArtistGroupApi";
 import ArtistInfo from "../components/ArtistInfo";
 import ScheduleAreaInArtist from "../components/ScheduleAreaInArtist";
 
 const ArtistDetailPage = () => {
   const { id: artistId } = useParams();
 
-  const { artist, readArtist, loading, error } = useReadArtistApi();
+  const { artist, readArtist, loading } = useReadArtistApi();
+  const { artistGroups, readArtistGroup } = useReadArtistGroupApi();
 
   useEffect(() => {
     readArtist({ id: artistId });
+  }, [artistId]);
+
+  useEffect(() => {
+    readArtistGroup({ id: artistId });
   }, [artistId]);
 
   if (loading || !artist) {
@@ -31,8 +37,8 @@ const ArtistDetailPage = () => {
         <ArtistInfo
           style={{ marginBottom: "2rem" }}
           artist={artist}
-          // artist_type={artist_type}
           artist_id={artistId}
+          artistGroups={artistGroups}
         />
         <div>
           <div
@@ -44,13 +50,7 @@ const ArtistDetailPage = () => {
               alignItems: "center",
               margin: "2rem auto",
             }}
-          >
-            {/* {artist_type === "solo" ? (
-              <MemberCard artist={artists} />
-            ) : (
-              <GroupMemberCard artistGroups={artistGroups} />
-            )} */}
-          </div>
+          ></div>
         </div>
         <ScheduleAreaInArtist type="artist" id={artistId} />
       </div>

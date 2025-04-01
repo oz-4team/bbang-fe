@@ -7,10 +7,10 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8
 export default function useReadArtistGroupApi() {
 
     const { accessToken } = useUserStore();
-    const [artist, setArtist] = useState(null);
+    const [artistGroups, setArtistGroups] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const readArtist = async ({ id }) => {
+    const readArtistGroup = async ({ id }) => {
         try {
             setLoading(true);
             const response = await axios.get(`${API_BASE_URL}/artist-groups/${id}`, {
@@ -20,8 +20,8 @@ export default function useReadArtistGroupApi() {
             });
 
             const data = response.data;
-            setArtist(data);
-            setArtists(data.members);
+            setArtistGroups(data);
+
 
         }
         catch (error) {
@@ -33,8 +33,9 @@ export default function useReadArtistGroupApi() {
 
 
     return {
-        artist,
+
         loading,
-        readArtist
+        readArtistGroup,
+        artistGroups
     }
 }

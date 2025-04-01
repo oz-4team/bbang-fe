@@ -37,7 +37,6 @@ const ArtistGroupDetailPage = () => {
         <ArtistInfo
           style={{ marginBottom: "2rem" }}
           artist={artist}
-          // artist_type={artist_type}
           artist_id={groupId}
         />
         <div>
@@ -51,8 +50,6 @@ const ArtistGroupDetailPage = () => {
               margin: "2rem auto",
             }}
           >
-            {/* <MemberCard artist={artist} />
-            {artists && artists.length === 0 && <div>No members found.</div>} */}
             {artists?.map((member) => (
               <MemberCard key={member.id} artist={member} />
             ))}

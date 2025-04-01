@@ -50,9 +50,7 @@ const useLikes = () => {
 
             const data = response.data;
             setLike(data);
-            console.log("add favorite!!!!");
-            console.log("data:", data);
-            console.log("favorite:", favorite);
+
 
         }
         catch (error) {
