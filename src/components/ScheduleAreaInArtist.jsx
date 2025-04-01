@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { fetchArtistSchedules, fetchGroupSchedules } from "../api/schedule/scheduleApi";
 import { useNavigate } from "react-router-dom";
+import {
+  fetchArtistSchedules,
+  fetchGroupSchedules,
+} from "../api/schedule/scheduleApi";
 
 const ScheduleAreaInArtist = ({ type, id }) => {
-  
   const [schedules, setSchedules] = useState([]);
   const navigate = useNavigate();
 
@@ -42,9 +44,9 @@ const ScheduleAreaInArtist = ({ type, id }) => {
         }}
       >
         스케줄
-        <div style={{ fontSize: "1rem" }}>
+        {/* <div style={{ fontSize: "1rem" }}>
           <button>더보기</button>
-        </div>
+        </div> */}
       </div>
       <div
         style={{
@@ -81,7 +83,9 @@ const ScheduleAreaInArtist = ({ type, id }) => {
             </div>
           ))
         ) : (
-          <p>등록된 일정이 없습니다.</p>
+          <p style={{ textAlign: "left", color: "grey" }}>
+            등록된 일정이 없어요 🥹
+          </p>
         )}
       </div>
     </div>

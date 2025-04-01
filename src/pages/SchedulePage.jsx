@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { FaMusic } from "react-icons/fa";
+import {
+  fetchAllSchedules,
+  fetchFavoriteSchedules,
+} from "../api/schedule/scheduleApi";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
-import { FaMusic } from "react-icons/fa";
 import "../styles/SchedulePage.css";
-import { fetchAllSchedules, fetchFavoriteSchedules } from "../api/schedule/scheduleApi";
 
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -50,7 +53,7 @@ const SchedulePage = () => {
     const start = new Date(schedule.start_date);
     if (start.getFullYear() === year && start.getMonth() === month) {
       const day = start.getDate();
-      acc[day] = (acc[day] || { total: 0, favorite: 0 });
+      acc[day] = acc[day] || { total: 0, favorite: 0 };
       acc[day].total += 1;
     }
     return acc;
@@ -66,7 +69,9 @@ const SchedulePage = () => {
   });
 
   const weekdayHeaders = daysOfWeek.map((day, idx) => (
-    <div className="day-header" key={idx}>{day}</div>
+    <div className="day-header" key={idx}>
+      {day}
+    </div>
   ));
 
   const calendarCells = [];
@@ -114,6 +119,35 @@ const SchedulePage = () => {
         }}
       >
         <div className="date-number">{day}</div>
+        {isToday && (
+          <div
+            className="today-indicator"
+            style={{
+              position: "absolute",
+              top: "5px",
+              left: "5px",
+              width: "10px",
+              height: "10px",
+              borderRadius: "50%",
+              backgroundColor: "#FF8C00",
+              boxShadow: "0 0 5px rgba(255, 140, 0, 0.5)",
+              color: "#FF8C00",
+            }}
+          ></div>
+        )}
+        {isToday && (
+          <span
+            style={{
+              position: "absolute",
+              top: "20px",
+              left: "5px",
+              fontSize: "0.7rem",
+              color: "#FF8C00",
+            }}
+          >
+            today
+          </span>
+        )}
         {(scheduleCount > 0 || favoriteCount > 0) && (
           <div
             className="content"
@@ -156,20 +190,25 @@ const SchedulePage = () => {
   return (
     <div className="schedule-page">
       <div className="schedule-container">
-        <div className="artist-header">
-          <div className="title">마이아티스트</div>
-        </div>
-
-        <div className="artist-filter">
-          <MyArtistFilterCard />
-        </div>
+        <MyArtistFilterCard />
+        {/* </div> */}
 
         <div className="calendar-section">
           <div className="calendar-wrapper">
             <div className="calendar-header">
-              <button onClick={() => setCurrentDate(new Date(year, month - 1, 1))}>◀</button>
-              <h2>{year}년 {month + 1}월</h2>
-              <button onClick={() => setCurrentDate(new Date(year, month + 1, 1))}>▶</button>
+              <button
+                onClick={() => setCurrentDate(new Date(year, month - 1, 1))}
+              >
+                ◀
+              </button>
+              <h2>
+                {year}년 {month + 1}월
+              </h2>
+              <button
+                onClick={() => setCurrentDate(new Date(year, month + 1, 1))}
+              >
+                ▶
+              </button>
             </div>
 
             <div className="calendar-grid">
@@ -180,26 +219,46 @@ const SchedulePage = () => {
 
           <div className="schedule-view">
             <div>
-              <select
-                style={{
-                  minWidth: "300px",
-                  width: "100%",
-                  height: "60px",
-                  marginTop: "10px",
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #ccc",
-                }}
-                id="filter-select"
-                value={filterType}
-                onChange={handleFilterChange}
-              >
-                <option value="전체일정">전체일정</option>
-                <option value="즐겨찾기">즐겨찾기 한 일정</option>
-              </select>
+              <div className="schedule-view-selectbtn">
+                <label
+                  style={{
+                    fontSize: "1.2rem",
+                    display: "flex",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="filter"
+                    value="전체일정"
+                    checked={filterType === "전체일정"}
+                    onChange={handleFilterChange}
+                  />
+                  전체일정보기
+                </label>
+                <label
+                  style={{
+                    fontSize: "1.2rem",
+                    display: "flex",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="filter"
+                    value="즐겨찾기"
+                    checked={filterType === "즐겨찾기"}
+                    onChange={handleFilterChange}
+                  />
+                  ⭐️ 즐겨찾기 한 일정보기
+                </label>
+              </div>
+
               <div>
                 <ScheduleList view={filterType} selectedDay={selectedDate} />
               </div>
-
             </div>
           </div>
         </div>
