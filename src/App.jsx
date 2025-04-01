@@ -51,7 +51,10 @@ function App() {
     const refresh = localStorage.getItem("refreshToken");
 
     if (access && refresh) {
+      console.log("🔑 access token found:", access);
+      console.log("🔐 refresh token found:", refresh);
       const storedUser = localStorage.getItem("user_info");
+      console.log("📦 raw stored user_info:", storedUser);
       let parsedUser = null;
 
       try {
@@ -63,6 +66,8 @@ function App() {
         return;
       }
 
+      console.log("✅ parsed user_info:", parsedUser);
+
       if (!parsedUser || !parsedUser.email) {
         console.warn("🚨 user_info 유효하지 않음");
         localStorage.clear();
@@ -72,7 +77,9 @@ function App() {
 
       fetchUserProfile(access)
         .then((userData) => {
+          console.log("🎯 fetched userData from API:", userData);
           useUserStore.getState().login({ ...userData, ...parsedUser }, access, refresh);
+          console.log("✅ Zustand login executed with:", { ...userData, ...parsedUser });
 
           const cleared = !localStorage.getItem("accessToken");
           if (!cleared) {
