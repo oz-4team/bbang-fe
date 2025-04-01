@@ -7,20 +7,25 @@ import ArtistCard from "./ArtistCard";
 const ArtistCardArea = ({ onCardClick, searchQuery }) => {
   const { artistAndGroups } = useReadArtistAndGroups();
 
-  console.log("artistAndGroups:", artistAndGroups);
-
   if (!artistAndGroups || artistAndGroups.length === 0) {
     return <div>loading...</div>;
   }
 
-  let filteredArtists = artistAndGroups.data.filter(
+  console.log("artist area 🙂:", artistAndGroups);
+
+  const shuffledArtists = [...artistAndGroups.data].sort(
+    () => Math.random() - 0.5
+  );
+
+  // 그룹에 속해있는 아티스트는 제외
+  let filteredArtists = shuffledArtists.filter(
     (a) => !(a.artist_name && a.artist_group)
   );
 
   // 검색어로 필터링
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
-    artistAndGroups.data = artistAndGroups.data.filter((a) =>
+    filteredArtists = filteredArtists.filter((a) =>
       (a.artist_name || a.artist_group).toLowerCase().includes(q)
     );
   }
