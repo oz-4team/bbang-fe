@@ -18,6 +18,7 @@ const SchedulePage = () => {
   const [allSchedules, setAllSchedules] = useState([]);
   const [favoriteSchedules, setFavoriteSchedules] = useState([]);
   const [filterType, setFilterType] = useState("전체일정");
+  const [selectedArtistInfo, setSelectedArtistInfo] = useState(null);
 
   const fetchSchedules = async () => {
     try {
@@ -190,7 +191,21 @@ const SchedulePage = () => {
   return (
     <div className="schedule-page">
       <div className="schedule-container">
-        <MyArtistFilterCard />
+        <MyArtistFilterCard
+          onArtistClick={(info) => {
+            if (
+              selectedArtistInfo &&
+              selectedArtistInfo.artistId === info.artistId &&
+              selectedArtistInfo.artistGroupId === info.artistGroupId
+            ) {
+              setSelectedArtistInfo(null);
+              setFilterType("전체일정");
+            } else {
+              setSelectedArtistInfo(info);
+              setFilterType("아티스트");
+            }
+          }}
+        />
         {/* </div> */}
 
         <div className="calendar-section">
@@ -257,7 +272,7 @@ const SchedulePage = () => {
               </div>
 
               <div>
-                <ScheduleList view={filterType} selectedDay={selectedDate} />
+                <ScheduleList view={filterType} selectedDay={selectedDate} artistInfo={selectedArtistInfo} />
               </div>
             </div>
           </div>
