@@ -32,10 +32,16 @@ const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
 
   const filteredSchedules = schedules.filter((a) => {
     const scheduleDate = new Date(a.start_date);
-    const isCurrentMonth = scheduleDate.getMonth() === currentMonth && scheduleDate.getFullYear() === currentYear;
+    const isCurrentMonth =
+      scheduleDate.getMonth() === currentMonth &&
+      scheduleDate.getFullYear() === currentYear;
 
     if (searchQuery) {
-      const name = (a.artist?.artist_name || a.artist_group?.artist_group || "").toLowerCase();
+      const name = (
+        a.artist?.artist_name ||
+        a.artist_group?.artist_group ||
+        ""
+      ).toLowerCase();
       return name.includes(searchQuery.toLowerCase()) && isCurrentMonth;
     }
 
@@ -64,6 +70,7 @@ const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
           id={a.id}
           onCardClick={() => onCardClick()}
           is_favorited={a.is_favorited}
+          start_date={a.start_date}
         />
       ))}
     </div>

@@ -12,6 +12,7 @@ const ScheduleCard = ({
   id,
   onCardClick,
   is_favorited,
+  start_date,
 }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
@@ -48,7 +49,6 @@ const ScheduleCard = ({
       readFavorite();
     }
   }, [user]);
-
 
   return (
     <div
@@ -97,6 +97,14 @@ const ScheduleCard = ({
           {title}
         </div>
         <div style={{ textAlign: "left" }}>{name}</div>
+        <div style={{ textAlign: "left", color: "#AFB1B6" }}>
+          {new Date(start_date)
+            .toLocaleDateString("en-US", {
+              month: "2-digit",
+              day: "2-digit",
+            })
+            .replace(/\//g, "-")}
+        </div>
       </div>
       <div
         onClick={user ? toggleStar : onCardClick}
