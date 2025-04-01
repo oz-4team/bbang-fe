@@ -16,7 +16,8 @@ const ScheduleDetailPage = () => {
   const { id } = useParams();
   const [schedule, setSchedule] = useState(null);
   const [loading, setLoading] = useState(true);
-  const date = schedule?.start_date?.split("T")[0];
+  const start_date = schedule?.start_date?.split("T")[0];
+  const end_date = schedule?.end_date?.split("T")[0];
   const start_time = schedule?.start_date?.split("T")[1];
   const end_time = schedule?.end_date?.split("T")[1];
   const location = schedule?.location;
@@ -198,7 +199,12 @@ const ScheduleDetailPage = () => {
           >
             <div style={{ fontSize: "1.5rem" }}>{schedule.title}</div>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-              <LuCalendarDays color="#AFB1B6" /> <div>{date}</div>
+              <LuCalendarDays color="#AFB1B6" />{" "}
+              <div>
+                {start_date === end_date
+                  ? start_date
+                  : `${start_date} ~ ${end_date}`}
+              </div>
             </div>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <MdOutlineWatchLater color="#AFB1B6" />{" "}
