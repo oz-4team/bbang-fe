@@ -64,6 +64,8 @@ const ScheduleList = ({
       </div>
     );
 
+  const now = new Date();
+
   return (
     <div
       style={{
@@ -75,23 +77,30 @@ const ScheduleList = ({
         overflow: "scroll",
       }}
     >
-      {schedules.map((a) => (
-        <ScheduleListItem
-          handleclickUserCheck={() => handleclickUserCheck()}
-          key={a.id}
-          name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
-          image={
-            a.image_url
-              ? a.image_url
-              : a.artist
-              ? a.artist.image_url
-              : a.artist_group.image_url
-          }
-          schedules={a}
-          title={a.title}
-          id={a.id}
-        />
-      ))}
+      {schedules.map((a) => {
+        const endDate = new Date(a.end_date);
+        const today = new Date();
+        const isExpired = endDate.toDateString() < today.toDateString();
+
+        return (
+          <ScheduleListItem
+            handleclickUserCheck={() => handleclickUserCheck()}
+            key={a.id}
+            name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
+            image={
+              a.image_url
+                ? a.image_url
+                : a.artist
+                ? a.artist.image_url
+                : a.artist_group.image_url
+            }
+            schedules={a}
+            title={a.title}
+            id={a.id}
+            isExpired={isExpired}
+          />
+        );
+      })}
     </div>
   );
 };
