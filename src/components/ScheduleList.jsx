@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import {
+  fetchAllSchedules,
+  fetchFavoriteSchedules,
+} from "../api/schedule/scheduleApi";
 import useUserStore from "../store/userStore";
-import { fetchFavoriteSchedules } from "../api/schedule/scheduleApi";
 import ScheduleListItem from "./ScheduleListItem";
-import { fetchAllSchedules } from "../api/schedule/scheduleApi";
 
 const ScheduleList = ({ view, selectedDay }) => {
   const { user } = useUserStore();
@@ -24,7 +26,12 @@ const ScheduleList = ({ view, selectedDay }) => {
         if (selectedDay) {
           data = data.filter((item) => {
             const itemDateObj = new Date(item.start_date);
-            const itemDate = `${itemDateObj.getFullYear()}-${String(itemDateObj.getMonth() + 1).padStart(2, '0')}-${String(itemDateObj.getDate()).padStart(2, '0')}`;
+            const itemDate = `${itemDateObj.getFullYear()}-${String(
+              itemDateObj.getMonth() + 1
+            ).padStart(2, "0")}-${String(itemDateObj.getDate()).padStart(
+              2,
+              "0"
+            )}`;
             return itemDate === selectedDay;
           });
         }
@@ -37,7 +44,13 @@ const ScheduleList = ({ view, selectedDay }) => {
     loadSchedules();
   }, [view, selectedDay]);
 
-  if (schedules.length === 0) return <div>일정이 없습니다.</div>;
+  if (schedules.length === 0)
+    return (
+      <div style={{ marginTop: "1rem", color: "#AFB1B6" }}>
+        앗, 일정이 없어요 🫠<br></br> 다른 날짜를 눌러서 다른 스케줄을
+        확인해보세요!
+      </div>
+    );
 
   return (
     <div

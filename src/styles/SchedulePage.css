@@ -32,7 +32,7 @@
   
   .calendar-section {
     display: flex;
-    gap: 1rem;
+    gap: 3rem;
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 2rem;
@@ -83,10 +83,10 @@
   
   .day-cell {
     border: none;
-    min-height: 90px;
+    min-height: 80px;
     padding: 0.7rem;
     background: #fff;
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     position: relative;
     cursor: pointer;

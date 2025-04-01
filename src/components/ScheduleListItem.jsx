@@ -17,10 +17,8 @@ const ScheduleListItem = ({ schedules }) => {
   const end_time = schedules?.end_date?.split("T")[1];
   const is_favorited = schedules?.is_favorited;
   const [starred, setStarred] = useState(is_favorited);
-
-
-
-  
+  const artist = schedules?.artist;
+  const artist_group = schedules?.artist_group;
 
   const { addFavorite, deleteFavorite } = useFavorites();
 
@@ -49,10 +47,10 @@ const ScheduleListItem = ({ schedules }) => {
       }}
       style={{
         display: "flex",
-        alignItems: "top",
+        alignItems: "center",
         padding: "1rem",
         gap: "1rem",
-        border: "1px solid #AFB1B6",
+        border: "1px solid #ebebeb",
         borderRadius: "15px",
         cursor: "pointer",
       }}
@@ -65,10 +63,16 @@ const ScheduleListItem = ({ schedules }) => {
           alignItems: "top",
         }}
       >
-        <div> {date} </div>
-        <div>{start_time?.slice(0, 5)} </div>
-
-        <div style={{ textAlign: "left" }}>{title}</div>
+        <div style={{ color: "#c1c1c1" }}> {date} </div>
+        <div style={{ color: "#c1c1c1" }}>{start_time?.slice(0, 5)} </div>
+        <div>
+          <div style={{ textAlign: "left", fontWeight: "bold" }}>{title}</div>
+          <div
+            style={{ textAlign: "left", color: "#6200ea", fontSize: "0.7rem" }}
+          >
+            {artist?.artist_name || artist_group?.artist_group}
+          </div>
+        </div>
       </div>
       {user?.is_staff ? null : (
         <div
@@ -78,7 +82,7 @@ const ScheduleListItem = ({ schedules }) => {
           }}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
-          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
+          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#ebebeb" />}
         </div>
       )}
     </div>
