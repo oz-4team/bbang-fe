@@ -27,13 +27,11 @@ export const exchangeNaverToken = async (authCode, navigate) => {
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
         const { access_token: accessToken, refresh_token: refreshToken, nickname } = response.data;
 
-        if (!nickname) {
-            console.error("🚨 백엔드에서 사용자 정보가 전달되지 않았습니다.");
-            throw new Error("사용자 정보가 없습니다.");
-        }
-        if (!accessToken || !refreshToken) {
-            console.error("🚨 백엔드에서 토큰이 반환되지 않음!");
-            throw new Error("토큰이 정상적으로 발급되지 않았습니다.");
+        if (!nickname || !accessToken || !refreshToken) {
+            console.error("🚨 Naver 로그인 응답 누락: 사용자 정보 또는 토큰 없음");
+            localStorage.clear();
+            window.location.reload();
+            throw new Error("Naver 로그인 실패: 필수 정보 누락");
         }
 
         // 토큰 저장 및 로그인 처리
@@ -51,5 +49,7 @@ export const exchangeNaverToken = async (authCode, navigate) => {
     } catch (error) {
         const errorMessage = error.response?.data?.message || "🚨 Naver 소셜 로그인 중 오류 발생";
         console.error("🚨 Naver 소셜 로그인 실패:", errorMessage);
+        localStorage.clear();
+        window.location.reload();
     }
 };
