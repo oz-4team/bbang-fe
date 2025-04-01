@@ -51,6 +51,7 @@ const useUserStore = create((set, get) => ({
     console.log("🚪 로그아웃 실행");
 
     removeToken();
+    localStorage.removeItem("lastActivity");
     set({
       user: null,
       accessToken: null,

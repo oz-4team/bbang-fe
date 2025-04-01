@@ -19,6 +19,7 @@ export const refreshAccessToken = async () => {
         const refreshToken = getRefreshToken();
         if (!refreshToken) {
             console.error("리프레시 토큰 없음, 자동 로그아웃");
+            localStorage.clear();
             useUserStore.getState().logout();
             return null;
         }
@@ -38,11 +39,13 @@ export const refreshAccessToken = async () => {
             return response.data.access;
         } else {
             console.error("리프레시 토큰 만료됨, 자동 로그아웃");
+            localStorage.clear();
             useUserStore.getState().logout();
             return null;
         }
     } catch (error) {
         console.error("토큰 갱신 실패:", error);
+        localStorage.clear();
         useUserStore.getState().logout();
         return null;
     }
@@ -50,8 +53,9 @@ export const refreshAccessToken = async () => {
 
 /** 토큰 삭제 */
 export const removeToken = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    ["accessToken", "refreshToken", "lastActivity"].forEach((key) =>
+        localStorage.removeItem(key)
+    );
 
     if (axios.defaults.headers.common["Authorization"]) {
         delete axios.defaults.headers.common["Authorization"];
@@ -87,7 +91,9 @@ export const initInactivityLogoutTimer = () => {
 
     const handleActivity = () => {
         clearTimeout(timeout);
-        localStorage.setItem("lastActivity", Date.now());
+        if (getToken()) {
+            localStorage.setItem("lastActivity", Date.now());
+        }
         timeout = setTimeout(() => {
             useUserStore.getState().logout();
             removeToken();

@@ -15,7 +15,7 @@ function AdBanner() {
 
   return (
 
-    <div style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' }}>
+    <div style={{ border: '1px solid #ccc', padding: '0', marginBottom: '1rem' }}>
       {/* 광고 이미지와 링크를 표시 */}
       {firstAd.image_url && (
         <a href={firstAd.link_url} target="_blank" rel="noopener noreferrer">

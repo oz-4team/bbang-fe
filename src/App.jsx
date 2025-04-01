@@ -51,14 +51,20 @@ function App() {
     const refresh = localStorage.getItem("refreshToken");
 
     if (access && refresh) {
-      fetchUserProfile()
+      fetchUserProfile(access)
         .then((userData) => {
+          if (!userData || !userData.email) throw new Error("Invalid user data");
           useUserStore.getState().login(userData, access, refresh);
-          localStorage.setItem("lastActivity", new Date().getTime().toString());
+          
+          const cleared = !localStorage.getItem("accessToken");
+          if (!cleared) {
+            localStorage.setItem("lastActivity", new Date().getTime().toString());
+          }
         })
         .catch((err) => {
           console.warn("❌ 유저 정보 불러오기 실패:", err);
           localStorage.clear();
+          window.location.reload(); 
         });
     } else {
       localStorage.clear();
