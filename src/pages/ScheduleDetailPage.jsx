@@ -115,6 +115,8 @@ const ScheduleDetailPage = () => {
     lng: schedule.longitude, // 백엔드에서 제공하는 경도 값
   };
 
+  const urlLocation = `https://map.kakao.com/link/map/${schedule.location},${schedule.latitude},${schedule.longitude}`;
+
   const toggleStar = async () => {
     if (!starred) {
       try {
@@ -244,6 +246,9 @@ const ScheduleDetailPage = () => {
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
             <div>{schedule.location} </div>
+            <div>
+              <a href={urlLocation}>지도보기</a>
+            </div>
           </div>
           <div>
             <KakaoMap location={pinLocation} />
