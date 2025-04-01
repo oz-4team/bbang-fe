@@ -3,8 +3,9 @@ import useReadArtistAndGroups from "../api/artist/useReadArtistAndGroups";
 import defaultImage from "../assets/images/img-defualt.png";
 import "../styles/ArtistCardArea.css";
 import ArtistCard from "./ArtistCard";
+import SearchBar from "./SearchBar";
 
-const ArtistCardArea = ({ onCardClick, searchQuery }) => {
+const ArtistCardArea = ({ onCardClick, searchQuery, setSearchQuery }) => {
   const { artistAndGroups } = useReadArtistAndGroups();
   const [showLikedOnly, setShowLikedOnly] = useState(false);
   const [artists, setArtists] = useState([]);
@@ -54,16 +55,23 @@ const ArtistCardArea = ({ onCardClick, searchQuery }) => {
       <div className="toggle-buttons">
         <button
           className={!showLikedOnly ? "active" : ""}
-          onClick={() => setShowLikedOnly(false)}
+          onClick={() => {
+            setShowLikedOnly(false);
+            setSearchQuery(""); // Reset search query
+          }}
         >
           전체 가수 보기
         </button>
         <button
           className={showLikedOnly ? "active" : ""}
-          onClick={() => setShowLikedOnly(true)}
+          onClick={() => {
+            setShowLikedOnly(true);
+            setSearchQuery(""); // Reset search query
+          }}
         >
           좋아요한 가수들
         </button>
+        <SearchBar onSearch={setSearchQuery} />
       </div>
       <div className="artist-card-area">
         {filteredArtists.length > 0 ? (

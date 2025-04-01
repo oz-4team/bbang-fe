@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
-import useLikes from "../api/artist/useLikes";
+import React, { useState } from "react";
 import ArtistCardArea from "../components/ArtistCardArea";
 import BannerAd from "../components/BannerAd";
 import Modal from "../components/Modal";
-import SearchBar from "../components/SearchBar";
-import useUserStore from "../store/userStore";
 
 const ArtistListPage = () => {
-  const { user } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  
-
 
   const handleSecondaryClick = () => {
     console.log("Secondary button clicked");
@@ -35,14 +29,15 @@ const ArtistListPage = () => {
     <div className="outlet-container">
       <div className="inner">
         <BannerAd />
-        <div className="filter-container">
-          {/* <MyArtistFilter onFilterChange={setSearchQuery} /> */}
-          <SearchBar onSearch={setSearchQuery} />
-        </div>
+        {/* <div className="filter-container">
+          <MyArtistFilter onFilterChange={setSearchQuery} />
+          <SearchBar setSearchQuery={setSearchQuery} />
+        </div> */}
 
         <ArtistCardArea
           onCardClick={handleClickUserCheck}
           searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
         />
 
         {isModalOpen && (
