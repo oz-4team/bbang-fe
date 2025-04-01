@@ -63,8 +63,8 @@ const ScheduleListItem = ({ schedules }) => {
           alignItems: "top",
         }}
       >
-        <div style={{ color: "#c1c1c1" }}> {date} </div>
-        <div style={{ color: "#c1c1c1" }}>{start_time?.slice(0, 5)} </div>
+        <div style={{ color: "#000000a4" }}> {date} </div>
+        <div style={{ color: "#000000a4" }}>{start_time?.slice(0, 5)} </div>
         <div>
           <div style={{ textAlign: "left", fontWeight: "bold" }}>{title}</div>
           <div
