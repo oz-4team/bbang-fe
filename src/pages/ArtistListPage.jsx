@@ -10,16 +10,8 @@ const ArtistListPage = () => {
   const { user } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { readAllLikes, likes } = useLikes();
-  console.log("searchQuery:", searchQuery);
+  
 
-  useEffect(() => {
-    if (user) {
-      readAllLikes();
-    }
-  }, []);
-
-  console.log("아티스트 페이지 likes:", likes);
 
   const handleSecondaryClick = () => {
     console.log("Secondary button clicked");
