@@ -35,6 +35,42 @@ const ScheduleDetailPage = () => {
   const artist_group = schedule?.artist_group;
 
   useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init("49b557e28c631109dd3932b6740cc72c"); // 발급받은 JavaScript 키로 초기화
+      console.log("Kakao SDK initialized:", window.Kakao.isInitialized());
+    }
+  }, []);
+
+  const shareToKakao = () => {
+    if (!window.Kakao.isInitialized()) {
+      alert("Kakao SDK가 초기화되지 않았습니다.");
+      return;
+    }
+
+    window.Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: schedule.title, // 공유할 제목
+        description: schedule.description, // 공유할 설명
+        imageUrl: image, // 공유할 이미지 URL
+        link: {
+          mobileWebUrl: window.location.href, // 모바일 웹 링크
+          webUrl: window.location.href, // PC 웹 링크
+        },
+      },
+      buttons: [
+        {
+          title: "웹으로 보기",
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
     setStarred(is_favorited);
   }, [is_favorited]);
 
@@ -225,6 +261,7 @@ const ScheduleDetailPage = () => {
           <div>공유하기</div>
           <button
             style={{ display: "flex", gap: "1rem", alignItems: "center" }}
+            onClick={shareToKakao}
           >
             <div
               style={{
