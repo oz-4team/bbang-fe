@@ -171,13 +171,13 @@ const SchedulePage = () => {
                 {scheduleCount > 0 && (
                   <>
                     <FaMusic style={{ color: "#a174ff" }} />
-                    <span>{scheduleCount}</span>
+                    
                   </>
                 )}
                 {favoriteCount > 0 && scheduleCount !== favoriteCount && (
                   <>
                     <FaMusic style={{ color: "#ff6b81" }} />
-                    <span>{favoriteCount}</span>
+                    
                   </>
                 )}
               </>
@@ -193,7 +193,10 @@ const SchedulePage = () => {
       <div className="schedule-container">
         <MyArtistFilterCard
           onArtistClick={(info) => {
-            if (
+            if (info === null) {
+              setSelectedArtistInfo(null);
+              setFilterType("전체일정");
+            } else if (
               selectedArtistInfo &&
               selectedArtistInfo.artistId === info.artistId &&
               selectedArtistInfo.artistGroupId === info.artistGroupId

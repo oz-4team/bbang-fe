@@ -16,16 +16,12 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
     }
 
     try {
-        console.log("✅ Google 로그인 코드 확인:", authCode);
-        console.log(`🔗 POST 요청 전송: ${API_BASE_URL}/auth/google/callback/`);
-        console.log("📨 전송 데이터:", { code: authCode });
-
+  
         // 백엔드에 인가 코드 전달 (POST 요청)
         const response = await axios.post(`${API_BASE_URL}/auth/google/callback/`, {
             code: authCode,
         });
 
-        console.log("📩 백엔드 응답:", response.data);
 
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
         const { access_token: accessToken, refresh_token: refreshToken, email:email } = response.data;
@@ -43,10 +39,8 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
         saveToken(accessToken, refreshToken);
         useUserStore.getState().login(email, accessToken, refreshToken);
         console.log("🎉 Google 로그인 성공! 사용자 정보 저장됨:", email);
-        console.log("🔑 저장된 액세스 토큰:", getToken());
 
         if (navigate) {
-            console.log("🔄 메인 페이지로 이동!");
             navigate("/");
         } else {
             console.warn("⚠️ navigate 함수가 제공되지 않음. 페이지 이동 실패");
