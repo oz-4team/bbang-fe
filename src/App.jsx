@@ -37,6 +37,7 @@ import {
   removeToken,
   shouldAutoLogout,
 } from "./utils/authUtils";
+import { fetchUserProfile } from "./api/authApi";
 
 function App() {
   //로그인 확인용
@@ -48,20 +49,18 @@ function App() {
 
     const access = localStorage.getItem("accessToken");
     const refresh = localStorage.getItem("refreshToken");
-    const userInfo = localStorage.getItem("user_info");
 
-    try {
-      if (access && refresh && userInfo) {
-        const parsedUser = JSON.parse(userInfo);
-        if (!parsedUser || typeof parsedUser !== "object") throw new Error("Invalid parsedUser");
-
-        useUserStore.getState().login(parsedUser, access, refresh);
-        localStorage.setItem("lastActivity", new Date().getTime().toString());
-      } else {
-        throw new Error("Missing token or userInfo");
-      }
-    } catch (e) {
-      console.warn("🧹 유저 정보 파싱 실패 또는 토큰 없음. 로컬스토리지 초기화");
+    if (access && refresh) {
+      fetchUserProfile()
+        .then((userData) => {
+          useUserStore.getState().login(userData, access, refresh);
+          localStorage.setItem("lastActivity", new Date().getTime().toString());
+        })
+        .catch((err) => {
+          console.warn("❌ 유저 정보 불러오기 실패:", err);
+          localStorage.clear();
+        });
+    } else {
       localStorage.clear();
     }
   }, []);

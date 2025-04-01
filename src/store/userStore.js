@@ -7,28 +7,14 @@ import {
   saveToken,
 } from "../utils/authUtils";
 
-// ✅ localStorage에서 안전하게 user 정보 파싱
-let storedUser = null;
-try {
-  const userData = localStorage.getItem("user_info");
-  if (userData && userData !== "undefined") {
-    storedUser = JSON.parse(userData);
-    // console.log("✅ 저장된 사용자 정보:", storedUser);
-  } else {
-    console.warn("⚠️ user_info 값이 비어있거나 'undefined'입니다.");
-  }
-} catch (error) {
-  console.error("❌ user_info 파싱 중 에러 발생:", error);
-}
-
 const storedAccessToken = getToken();
 const storedRefreshToken = getRefreshToken();
 
 const useUserStore = create((set, get) => ({
-  user: storedUser,
+  user: null,
   accessToken: storedAccessToken,
   refreshToken: storedRefreshToken,
-  isAuthenticated: !!storedAccessToken || storedUser !== null,
+  isAuthenticated: !!storedAccessToken,
 
   login: (userData, accessToken, refreshToken) => {
     console.log("로그인 시도: ", userData);
@@ -43,7 +29,6 @@ const useUserStore = create((set, get) => ({
       return;
     }
 
-    localStorage.setItem("user_info", JSON.stringify(userData));
     saveToken(accessToken, refreshToken);
 
     set({
@@ -67,10 +52,6 @@ const useUserStore = create((set, get) => ({
     console.log("🚪 로그아웃 실행");
 
     removeToken();
-    localStorage.removeItem("user_info");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-
     set({
       user: null,
       accessToken: null,
