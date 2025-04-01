@@ -26,14 +26,22 @@ const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
     return <div>loading...</div>;
   }
 
-  // 검색어로 필터링
-  const filteredSchedules = searchQuery
-    ? schedules.filter((a) =>
-        (a.artist?.artist_name || a.artist_group?.artist_group)
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      )
-    : schedules;
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const filteredSchedules = schedules.filter((a) => {
+    const scheduleDate = new Date(a.start_date);
+    const isCurrentMonth = scheduleDate.getMonth() === currentMonth && scheduleDate.getFullYear() === currentYear;
+
+    if (searchQuery) {
+      const name = (a.artist?.artist_name || a.artist_group?.artist_group || "").toLowerCase();
+      return name.includes(searchQuery.toLowerCase()) && isCurrentMonth;
+    }
+
+    return isCurrentMonth;
+  });
+
   return (
     <div
       style={{
@@ -58,23 +66,6 @@ const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
           is_favorited={a.is_favorited}
         />
       ))}
-      {searchQuery === "all" &&
-        schedules.map((a) => (
-          <ScheduleCard
-            key={`all-${a.id}`}
-            name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
-            image={
-              a.image_url ||
-              (a.artist && a.artist.image_url) ||
-              (a.artist_group && a.artist_group.image_url) ||
-              defaultImage
-            }
-            title={a.title}
-            id={a.id}
-            onCardClick={() => onCardClick()}
-            is_favorited={a.is_favorited}
-          />
-        ))}
     </div>
   );
 };

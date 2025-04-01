@@ -26,18 +26,15 @@ const MyArtistFilter = ({ onFilterChange }) => {
     setIsModalOpen(false);
   };
   const handlePrimaryClick = () => {
-    console.log("Primary button clicked");
     handleCloseModal();
   };
 
   const handleSecondaryClick = () => {
-    console.log("Secondary button clicked");
     handleCloseModal();
   };
 
   const handleLoginClick = () => {
     window.location.href = "/login";
-    console.log("로그인 페이지로 이동");
   };
 
   const alertLogin = () => {
@@ -53,7 +50,6 @@ const MyArtistFilter = ({ onFilterChange }) => {
         (like) => like.artist || like.artist_group
       );
       setMyArtists(updatedMyArtists);
-      console.log("myArtists:", updatedMyArtists);
     }
   }, [likes]);
 

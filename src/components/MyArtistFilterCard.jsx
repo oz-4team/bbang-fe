@@ -20,7 +20,6 @@ const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
         (like) => like.artist || like.artist_group
       );
       setMyArtists(updatedMyArtists);
-      console.log("myArtists:", updatedMyArtists);
     }
   }, [likes]);
 
@@ -33,11 +32,14 @@ const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
           </div>
 
           <div className="artist-filter">
+
             <button
+
               style={{
                 display: "flex",
                 flexDirection: "column",
                 gap: "1rem",
+
                 // border: "2px solid #646cffaa",
                 padding: "0.5rem",
                 borderRadius: "8px",
@@ -50,15 +52,19 @@ const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
             >
               <img
                 src={defualtImage}
+
                 style={{
                   width: "4rem",
                   height: "4rem",
                   borderRadius: "50%",
+
                   objectFit: "cover",
                 }}
               />
               <div>전체보기</div>
             </button>
+
+
 
             {likes.map((like, index) => {
               const artistId = like.artist_id;
