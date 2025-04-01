@@ -25,7 +25,7 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
   }, [likes]);
 
   return (
-    <>
+    <div style={{ display: user ? "block" : "none" }}>
       {likes.length > 0 ? (
         <>
           <div className="artist-header">
@@ -77,7 +77,7 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
       ) : (
         <div className="no-likes-message">좋아하는 아티스트가 없습니다.</div>
       )}
-    </>
+    </div>
   );
 };
 
