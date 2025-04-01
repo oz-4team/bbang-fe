@@ -27,7 +27,7 @@ const ScheduleManagementPage = () => {
 
   useEffect(() => {
     readArtistGroups();
-    console.log("👀 아티스트 그룹 조회");
+    
   }, []);
   // const [schedule, setSchedule] = React.useState([]);
   const { artist, group, setArtist, setGroup, refresh, setRefresh } =
@@ -67,14 +67,14 @@ const ScheduleManagementPage = () => {
   useEffect(() => {
     if (artists && artists.length > 0) {
       setArtist(artists[0]);
-      console.log("👀 아티스트:", artists[0]);
+      
     }
   }, [artists]);
 
   useEffect(() => {
     if (groups && groups.length > 0) {
       setGroup(groups[0]);
-      console.log("👀 그룹:", groups[0]);
+      
     }
   }, [groups]);
   const navigate = useNavigate();
@@ -94,11 +94,10 @@ const ScheduleManagementPage = () => {
     if (artistId) {
       fetchArtistSchedules(artistId).then((schedules) => {
         setSchedules(schedules);
-        console.log("👀 아티스트 스케줄:", schedules);
+        
       });
       // 스케줄을 가져오는 API 호출
-      console.log("👀 아티스트 ID:", artistId);
-      console.log("👀 아티스트 스케줄 조회");
+      
     }
   }, [artistId]);
 
@@ -107,13 +106,13 @@ const ScheduleManagementPage = () => {
     if (groupId) {
       fetchArtistSchedules(groupId).then((schedules) => {
         // setSchedule(schedules);
-        console.log("👀 그룹 스케줄:", schedules);
+        
         setSchedules(schedules);
       });
 
       // 스케줄을 가져오는 API 호출
-      console.log("👀 그룹 ID:", groupId);
-      console.log("👀 그룹 스케줄 조회");
+      
+      
     }
   }, [groupId]);
 

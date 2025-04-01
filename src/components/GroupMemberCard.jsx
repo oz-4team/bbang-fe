@@ -3,7 +3,6 @@ import InstagramLogo from "../assets/images/Instagram-logo.svg";
 
 const GroupMemberCard = ({ artistGroups }) => {
   const artist = artistGroups;
-  console.log("GroupMemberCard", artist);
   return (
     <div
       style={{

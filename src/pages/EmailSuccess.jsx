@@ -41,7 +41,6 @@ function EmailSuccess() {
           params: { token },
         });
 
-        console.log("✅ 이메일 인증 성공:", response.data);
         setStatus("success");
         setTimeout(() => {
           window.close();

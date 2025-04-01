@@ -24,14 +24,10 @@ const useFavorites = () => {
 
             const data = response.data;
             setFavorite(data);
-            console.log("add favorite!!!!");
-            console.log("data:", data);
-            console.log("favorite:", favorite);
 
         }
         catch (error) {
             console.error("Error reading schedule:", error);
-            console.log("accessToken:", accessToken);
 
         } finally {
             setLoading(false);
@@ -51,7 +47,6 @@ const useFavorites = () => {
 
             const data = response.data;
             setFavorite(data);
-            console.log("✅ 즐겨찾기 삭제 성공:", data);
         } catch (error) {
             console.error("❌ 즐겨찾기 삭제 실패:", error);
         } finally {

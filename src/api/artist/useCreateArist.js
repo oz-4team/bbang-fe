@@ -29,9 +29,6 @@ export default function useCreateArist() {
 
             const data = response.data;
             setArtist(data);
-            console.log("artistInfo:", data);
-            console.log("artiartistInfost:", artist);
-
         }
         catch (error) {
             console.error("Error reading artistssssss:", error);

@@ -32,9 +32,6 @@ export default function useArtistGroups() {
 
             const data = response.data;
             setArtistGroup(data);
-            console.log("artist Group Info:", data);
-            console.log("artiartistInfost:", artistGroup);
-
         }
         catch (error) {
             console.error("Error reading artistssssss:", error);
@@ -85,7 +82,6 @@ export default function useArtistGroups() {
             );
 
             const data = response.data;
-            console.log("delete artist:", data);
 
         }
         catch (error) {
@@ -109,7 +105,6 @@ export default function useArtistGroups() {
             );
 
             const data = response.data;
-            console.log("delete artist:", data);
 
         }
         catch (error) {

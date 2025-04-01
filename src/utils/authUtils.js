@@ -21,7 +21,7 @@ export const refreshAccessToken = async () => {
             console.error("리프레시 토큰 없음, 자동 로그아웃");
             localStorage.clear();
             useUserStore.getState().logout();
-            return null;
+            throw new Error("Refresh token not found");
         }
 
         const response = await axios.post(
@@ -41,19 +41,19 @@ export const refreshAccessToken = async () => {
             console.error("리프레시 토큰 만료됨, 자동 로그아웃");
             localStorage.clear();
             useUserStore.getState().logout();
-            return null;
+            throw new Error("Refresh token expired");
         }
     } catch (error) {
         console.error("토큰 갱신 실패:", error);
         localStorage.clear();
         useUserStore.getState().logout();
-        return null;
+        throw error;
     }
 };
 
 /** 토큰 삭제 */
 export const removeToken = () => {
-    ["accessToken", "refreshToken", "lastActivity"].forEach((key) =>
+    ["accessToken", "refreshToken", "lastActivity", "user_info"].forEach((key) =>
         localStorage.removeItem(key)
     );
 
@@ -61,7 +61,6 @@ export const removeToken = () => {
         delete axios.defaults.headers.common["Authorization"];
     }
 
-    console.log("모든 토큰 삭제 완료!");
 };
 
 /** 토큰 만료 여부 검사 */

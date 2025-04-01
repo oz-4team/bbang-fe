@@ -14,7 +14,7 @@ const ArtistListPage = () => {
 
 
   const handleSecondaryClick = () => {
-    console.log("Secondary button clicked");
+    
     handleCloseModal();
   };
 
@@ -24,7 +24,7 @@ const ArtistListPage = () => {
 
   const handleLoginClick = () => {
     window.location.href = "/login";
-    console.log("로그인 페이지로 이동");
+
   };
 
   const handleClickUserCheck = () => {

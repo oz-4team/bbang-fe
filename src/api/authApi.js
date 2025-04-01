@@ -14,7 +14,6 @@ export const loginUser = async (email, password) => {
 
       if (response.data.access && response.data.refresh) {
         saveToken(response.data.access, response.data.refresh);
-        console.log("✅ 로그인 성공:", response.data);
         const userInfo = {
           email: response.data.email,
           nickname: response.data.nickname,
@@ -173,7 +172,6 @@ export const updateUserProfile = async (userData) => {
         throw new Error("서버 응답 오류: 프로필 수정 실패");
       }
 
-      console.log("✅ 프로필 업데이트 성공:", response.data);
       return response.data;
     } catch (error) {
       console.error("❌ 프로필 수정 실패:", error.response?.data);

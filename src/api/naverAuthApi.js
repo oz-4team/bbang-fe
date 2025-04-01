@@ -44,8 +44,6 @@ export const exchangeNaverToken = async (authCode, navigate) => {
             is_staff: response.data.is_staff,
         };
         useUserStore.getState().login(userInfo, accessToken, refreshToken);
-        localStorage.setItem("is_staff", response.data.is_staff ? "true" : "false");
-        console.log("🎉 Naver 로그인 성공! 사용자 정보 저장됨:", nickname);
 
         if (navigate) {
             navigate("/");

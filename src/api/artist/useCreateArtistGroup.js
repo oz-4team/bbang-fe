@@ -29,8 +29,6 @@ export default function useCreateArtistGroup() {
 
             const data = response.data;
             setArtistGroup(data);
-            console.log("artist Group Info:", data);
-            console.log("artiartistInfost:", artistGroup);
 
         }
         catch (error) {

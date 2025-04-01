@@ -37,11 +37,16 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
             }
 
             // 토큰 저장 및 사용자 로그인 처리
-            saveToken(accessToken, refreshToken);
-            useUserStore.getState().login({ nickname, is_staff }, accessToken, refreshToken);
-            localStorage.setItem("is_staff", is_staff ? "true" : "false");
-            console.log("🎉 Kakao 로그인 성공! 사용자 정보 저장됨:", nickname);
-
+             // 토큰 저장 및 로그인 처리
+        saveToken(accessToken, refreshToken);
+        const userInfo = {
+            email: response.data.email,
+            nickname: response.data.nickname,
+            image_url: response.data.image_url,
+            id: response.data.id,
+            is_staff: response.data.is_staff,
+        };
+        useUserStore.getState().login(userInfo, accessToken, refreshToken);
             // 로그인 성공 후 페이지 이동
             if (navigate) {
                 navigate("/");

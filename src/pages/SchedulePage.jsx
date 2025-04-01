@@ -35,7 +35,6 @@ const SchedulePage = () => {
   // 로그인 모달 관련
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSecondaryClick = () => {
-    console.log("Secondary button clicked");
     handleCloseModal();
   };
   const handleCloseModal = () => {
@@ -44,7 +43,6 @@ const SchedulePage = () => {
 
   const handleLoginClick = () => {
     window.location.href = "/login";
-    console.log("로그인 페이지로 이동");
   };
   const handleclickUserCheck = (e) => {
     setIsModalOpen(true);

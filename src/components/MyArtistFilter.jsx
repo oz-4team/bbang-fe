@@ -61,7 +61,7 @@ const MyArtistFilter = ({ onFilterChange }) => {
 
   const handleFilter = (artist) => {
     if (artist === "myArtists") {
-      console.log("myArtists:", myArtists);
+      
     } else {
       if (onFilterChange) {
         onFilterChange(artist);

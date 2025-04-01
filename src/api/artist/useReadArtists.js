@@ -5,7 +5,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://3.35.108.208:
 
 const useReadArtists = () => {
     const { accessToken } = useUserStore();
-    console.log("🔑 artists token:", accessToken);
     const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -19,13 +18,8 @@ const useReadArtists = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
-                console.log("response:", response);
-                // console.log("response:", token);
-                console.log("response.data:", response.data);
                 const data = response.data;
                 setArtists(data);
-                console.log("data:", data);
-                console.log("aaaaaartist:", artists);
             }
             catch (error) {
                 console.error("Error reading artist:", error);

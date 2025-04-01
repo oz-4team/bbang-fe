@@ -43,11 +43,9 @@ const ArtistManagementPage = () => {
   };
 
   const saveGroup = () => {
-    console.log("그룹 정보 저장:", groupInfo);
   };
 
   const saveMember = (index) => {
-    console.log(`멤버 ${index + 1} 저장:`, members[index]);
   };
 
   return (

@@ -13,9 +13,6 @@ const ArtistInfo = ({ artist, artistGroups }) => {
   const is_liked = artist?.is_liked || artistGroups?.is_liked;
   const id = artist?.id || artistGroups?.id;
 
-  console.log("artistInfosss:", artist);
-  console.log("artistGroupsInfo:", artistGroups);
-
   const {
     addLikeArtist,
     addLikeArtistGroup,

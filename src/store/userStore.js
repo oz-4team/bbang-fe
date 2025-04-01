@@ -41,9 +41,6 @@ const useUserStore = create((set, get) => ({
     });
 
     localStorage.setItem("user_info", JSON.stringify(userData));
-    localStorage.setItem("is_staff", userData.is_staff ? "true" : "false");
-
-    console.log("✅ 로그인 성공! 사용자 정보 저장됨.");
 
     if (accessToken !== "mock_access_token") {
       get().autoRefreshToken();
@@ -51,7 +48,6 @@ const useUserStore = create((set, get) => ({
   },
 
   logout: () => {
-    console.log("🚪 로그아웃 실행");
 
     removeToken();
     localStorage.removeItem("lastActivity");
@@ -71,20 +67,17 @@ const useUserStore = create((set, get) => ({
   },
 
   autoRefreshToken: () => {
-    console.log("🔄 자동 토큰 갱신 시작");
 
     if (get().refreshInterval) {
       clearInterval(get().refreshInterval);
     }
 
     const refreshInterval = setInterval(async () => {
-      console.log("🔄 액세스 토큰 갱신 시도...");
       const newAccessToken = await refreshAccessToken();
 
       if (newAccessToken) {
         set({ accessToken: newAccessToken, isAuthenticated: true });
         
-        console.log("✅ 액세스 토큰 갱신 완료!");
       } else {
         console.warn("🚨 토큰 갱신 실패, 자동 로그아웃 실행");
         get().logout();

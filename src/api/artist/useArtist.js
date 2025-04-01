@@ -33,7 +33,6 @@ export default function useArtist() {
       );
       const data = response.data;
       setArtist(data);
-      console.log("artistInfo:", data);
     } catch (error) {
       console.error("Error creating solo artist:", error);
     } finally {
@@ -56,7 +55,6 @@ export default function useArtist() {
       );
       const data = response.data;
       setArtist(data);
-      console.log("group artistInfo:", data);
     } catch (error) {
       console.error("Error creating group artist:", error);
     } finally {
@@ -76,7 +74,6 @@ export default function useArtist() {
         }
       );
       const data = response.data;
-      console.log("Deleted artist:", data);
     } catch (error) {
       console.error("Error deleting artist:", error);
     } finally {
@@ -97,7 +94,6 @@ export default function useArtist() {
         }
       );
       const data = response.data;
-      console.log("Updated artist:", data);
       return data;
     } catch (error) {
       console.error("Error updating artist:", error);

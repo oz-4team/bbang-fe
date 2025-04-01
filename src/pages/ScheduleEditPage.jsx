@@ -59,11 +59,11 @@ const ScheduleEditPage = () => {
 
   useEffect(() => {
     readArtistGroups();
-    console.log("👀 아티스트 그룹 조회");
+    
   }, []);
   // const [schedule, setSchedule] = React.useState([]);
   const type = artists ? "solo" : groups ? "group" : null;
-  console.log("👀 아티스트 type 조회", type);
+  
 
   const handleClickEdit = () => {
     const payload = {
@@ -114,7 +114,6 @@ const ScheduleEditPage = () => {
     } else if (type === "group") {
       deleteGroupSchedule(id)
         .then(() => {
-          console.log("✅ Group schedule deleted");
         })
         .catch((error) => {
           console.error("❌ Failed to delete group schedule:", error);

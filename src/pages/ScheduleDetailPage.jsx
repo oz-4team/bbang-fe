@@ -38,7 +38,6 @@ const ScheduleDetailPage = () => {
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init("49b557e28c631109dd3932b6740cc72c"); // 발급받은 JavaScript 키로 초기화
-      console.log("Kakao SDK initialized:", window.Kakao.isInitialized());
     }
   }, []);
 
@@ -83,6 +82,8 @@ const ScheduleDetailPage = () => {
   const { user, logout } = useUserStore();
 
   useEffect(() => {
+    if (user === undefined) return; // 유저 정보가 아직 로드되지 않은 상태면 아무것도 하지 않음
+
     if (!user) {
       navigate("/login");
       return;
@@ -91,7 +92,6 @@ const ScheduleDetailPage = () => {
     const fetchData = async () => {
       try {
         const data = await fetchScheduleDetail(id);
-        console.log("✅ 가져온 상세 데이터:", data);
         setSchedule(data);
       } catch (err) {
         console.error("❌ 상세 정보 조회 실패:", err);

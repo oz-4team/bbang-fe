@@ -58,11 +58,11 @@ function SignUpTestPage() {
         image_url,
       };
 
-      console.log("회원가입 요청 데이터:", userData);
+      
 
       try {
         const response = await signupUser(userData);
-        console.log("회원가입 응답 데이터:", response);
+        
 
         navigate("/signup-completed", {
           state: { nickname, email, image_url },

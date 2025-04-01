@@ -50,7 +50,7 @@ function LoginPage() {
     try {
       const { user, access, refresh } = await loginUser(email, password);
       login(user, access, refresh);
-      console.log("✅ 로그인 성공:", user);
+      
       navigate("/");
     } catch (err) {
       console.error("❌ 로그인 실패 전체 에러 객체:", err);

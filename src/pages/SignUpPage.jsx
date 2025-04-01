@@ -94,7 +94,6 @@ function SignUpPage() {
 
         try {
           const response = await signupUser(userData);
-          console.log("✅ 회원가입 응답:", response);
 
           // Reset
           setEmail("");

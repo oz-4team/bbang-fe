@@ -13,7 +13,7 @@ function ResetPasswordPage() {
     const [error, setError] = useState("");
 
 
-    console.log("🔹 현재 토큰 값:", token);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,12 +29,7 @@ function ResetPasswordPage() {
         }
 
         try {
-            console.log("🚀 비밀번호 재설정 요청 실행"); // 요청 확인용 콘솔 로그
-            console.log("🔹 보낼 데이터:", { token, newPassword }); // 보낼 데이터 확인
-
             await resetPassword(token, newPassword); //  비밀번호 변경 요청
-
-            console.log("✅ 비밀번호 변경 성공!"); // 성공 로그
             setMessage("비밀번호가 성공적으로 변경되었습니다.");
             
             setTimeout(() => {

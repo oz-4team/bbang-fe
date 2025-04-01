@@ -99,7 +99,6 @@ const ArtistInfoGroup = () => {
   const saveMember = () => {
     members.artist_group = createdGroupId;
     createArtistForGroup(createdGroupId, members);
-    console.log("멤버 저장:", members);
   };
 
   return (

@@ -7,7 +7,6 @@ const ArtistAddPage = () => {
   const [artistType, setArtistType] = React.useState(null);
   const handleArtistTypeChange = (type) => {
     setArtistType(type);
-    console.log("아티스트 타입 변경aaaa:", artistType);
   };
 
   return (

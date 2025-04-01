@@ -27,7 +27,6 @@ const useLikes = () => {
         }
         catch (error) {
             console.error("Error reading readLike:", error);
-            // console.log("accessToken:", accessToken);
 
         } finally {
             setLoading(false);
@@ -50,14 +49,9 @@ const useLikes = () => {
 
             const data = response.data;
             setLike(data);
-            console.log("add favorite!!!!");
-            console.log("data:", data);
-            console.log("favorite:", favorite);
-
+         
         }
         catch (error) {
-            console.error("Error reading schedule:", error);
-            console.log("accessToken:", accessToken);
 
         } finally {
             setLoading(false);

@@ -131,7 +131,6 @@ const ProfilePage = () => {
       await updateUserProfile(userData);
       const updatedUser = await fetchUserProfile();
       useUserStore.getState().setUser(updatedUser);
-      console.log("📦 전송한 userData:", userData);
       alert("프로필이 성공적으로 업데이트되었습니다.");
       navigate("/");
     } catch (error) {

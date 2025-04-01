@@ -8,15 +8,11 @@ export const setupAxiosInterceptors = () => {
       const token = getToken();
 
       if (token && isTokenExpired()) {
-        const newAccessToken = await refreshAccessToken();
-        if (newAccessToken) {
-          config.headers.Authorization = `Bearer ${newAccessToken}`;
-        } else {
-          // if refresh fails, clear localStorage and optionally redirect
-          localStorage.clear();
-          window.location.reload();
-        }
+        const newAccessToken = await refreshAccessToken(); // will throw if failed
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${newAccessToken}`;
       } else if (token) {
+        config.headers = config.headers || {};
         config.headers.Authorization = `Bearer ${token}`;
       }
 
@@ -24,8 +20,8 @@ export const setupAxiosInterceptors = () => {
     } catch (err) {
       console.error("❌ 인터셉터 토큰 처리 실패:", err);
       localStorage.clear();
-      window.location.reload();
-      return config; // fallback
+      window.location.href = "/login";
+      return config;
     }
   }, (error) => Promise.reject(error));
 };

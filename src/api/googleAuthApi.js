@@ -36,8 +36,6 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
         // 토큰 저장 및 로그인 처리
         saveToken(accessToken, refreshToken);
         useUserStore.getState().login({ email, is_staff }, accessToken, refreshToken);
-        localStorage.setItem("is_staff", is_staff ? "true" : "false");
-        console.log("🎉 Google 로그인 성공! 사용자 정보 저장됨:", email);
 
         if (navigate) {
             navigate("/");
