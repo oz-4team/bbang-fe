@@ -17,9 +17,8 @@ const StaffScheduleList = ({ schedules }) => {
       }}
     >
       {schedules.map((a) => (
-        <>
+        <React.Fragment key={a.id}>
           <ScheduleListItemStaff
-            key={a.id}
             name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
             image={
               a.image_url
@@ -33,7 +32,7 @@ const StaffScheduleList = ({ schedules }) => {
             id={a.id}
             onCardClick={() => onCardClick()}
           />
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
