@@ -106,12 +106,14 @@ const ScheduleCard = ({
             .replace(/\//g, "-")}
         </div>
       </div>
-      <div
-        onClick={user ? toggleStar : onCardClick}
-        style={{ cursor: "pointer", fontSize: "2rem" }}
-      >
-        {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
-      </div>
+      {user?.is_staff ? null : (
+        <div
+          onClick={user ? toggleStar : onCardClick}
+          style={{ cursor: "pointer", fontSize: "2rem" }}
+        >
+          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
+        </div>
+      )}
     </div>
   );
 };
