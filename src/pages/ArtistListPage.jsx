@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import ArtistCardArea from "../components/ArtistCardArea";
 import BannerAd from "../components/BannerAd";
 import Modal from "../components/Modal";
-import MyArtistFilter from "../components/MyArtistFilter";
-import SearchBar from "../components/SearchBar";
 
 const ArtistListPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,14 +29,15 @@ const ArtistListPage = () => {
     <div className="outlet-container">
       <div className="inner">
         <BannerAd />
-        <div className="filter-container">
+        {/* <div className="filter-container">
           <MyArtistFilter onFilterChange={setSearchQuery} />
-          <SearchBar onSearch={setSearchQuery} />
-        </div>
+          <SearchBar setSearchQuery={setSearchQuery} />
+        </div> */}
 
         <ArtistCardArea
           onCardClick={handleClickUserCheck}
           searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
         />
 
         {isModalOpen && (

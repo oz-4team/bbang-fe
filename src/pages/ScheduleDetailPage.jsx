@@ -16,7 +16,8 @@ const ScheduleDetailPage = () => {
   const { id } = useParams();
   const [schedule, setSchedule] = useState(null);
   const [loading, setLoading] = useState(true);
-  const date = schedule?.start_date?.split("T")[0];
+  const start_date = schedule?.start_date?.split("T")[0];
+  const end_date = schedule?.end_date?.split("T")[0];
   const start_time = schedule?.start_date?.split("T")[1];
   const end_time = schedule?.end_date?.split("T")[1];
   const location = schedule?.location;
@@ -115,6 +116,8 @@ const ScheduleDetailPage = () => {
     lng: schedule.longitude, // 백엔드에서 제공하는 경도 값
   };
 
+  const urlLocation = `https://map.kakao.com/link/map/${schedule.location},${schedule.latitude},${schedule.longitude}`;
+
   const toggleStar = async () => {
     if (!starred) {
       try {
@@ -196,7 +199,12 @@ const ScheduleDetailPage = () => {
           >
             <div style={{ fontSize: "1.5rem" }}>{schedule.title}</div>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-              <LuCalendarDays color="#AFB1B6" /> <div>{date}</div>
+              <LuCalendarDays color="#AFB1B6" />{" "}
+              <div>
+                {start_date === end_date
+                  ? start_date
+                  : `${start_date} ~ ${end_date}`}
+              </div>
             </div>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <MdOutlineWatchLater color="#AFB1B6" />{" "}
@@ -244,6 +252,9 @@ const ScheduleDetailPage = () => {
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <GrLocation color="#AFB1B6" />
             <div>{schedule.location} </div>
+            <div>
+              <a href={urlLocation}>지도보기</a>
+            </div>
           </div>
           <div>
             <KakaoMap location={pinLocation} />
@@ -256,45 +267,66 @@ const ScheduleDetailPage = () => {
             marginBottom: "2rem",
           }}
         ></div>
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <IoShareSocialOutline color="#AFB1B6" />
-          <div>공유하기</div>
-          <button
-            style={{ display: "flex", gap: "1rem", alignItems: "center" }}
-            onClick={shareToKakao}
-          >
-            <div
-              style={{
-                backgroundColor: "#FFEB00",
-                borderRadius: "50%",
-                padding: "0.5rem",
-              }}
-            >
-              <RiKakaoTalkFill />
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+            <IoShareSocialOutline color="#AFB1B6" />
+            <div>공유하기</div>
+          </div>
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <div>
+              <button
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                  padding: 0,
+                }}
+                onClick={shareToKakao}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#FFEB00",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
+                  }}
+                >
+                  <RiKakaoTalkFill />
+                </div>
+                카카오로 공유하기
+              </button>
             </div>
-            카카오로 공유하기
-          </button>
-          <button
-            style={{
-              display: "flex",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-            onClick={copyToClipboard}
-          >
-            <div
-              style={{
-                backgroundColor: "#4285F4",
-                borderRadius: "50%",
-                padding: "0.5rem",
-                color: "white",
-                fontSize: "0.5rem",
-              }}
-            >
-              url
+            <div>
+              <button
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                  padding: 0,
+                }}
+                onClick={copyToClipboard}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#4285F4",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
+                    color: "white",
+                    fontSize: "0.5rem",
+                  }}
+                >
+                  url
+                </div>
+                URL 복사하기
+              </button>
             </div>
-            URL 복사하기
-          </button>
+          </div>
         </div>
         {!user?.is_staff ? null : (
           <>

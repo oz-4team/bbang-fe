@@ -20,8 +20,6 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
-
-
   return (
     <div
       style={{
@@ -37,7 +35,7 @@ const SearchBar = ({ onSearch }) => {
         placeholder="아티스트 검색"
         value={query}
         onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         style={{
           flex: 1,
           padding: "8px 40px 8px 8px",

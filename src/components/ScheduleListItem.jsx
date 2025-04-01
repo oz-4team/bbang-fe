@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useFavorites from "../api/schedule/useFavorites";
 import useUserStore from "../store/userStore";
 
-const ScheduleListItem = ({ schedules }) => {
+const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
 
@@ -21,6 +21,13 @@ const ScheduleListItem = ({ schedules }) => {
   const artist_group = schedules?.artist_group;
 
   const { addFavorite, deleteFavorite } = useFavorites();
+
+  const now = new Date();
+  const startDate = new Date(schedules?.start_date);
+  const endDate = new Date(schedules?.end_date);
+
+  const isExpired = endDate < now;
+  const isOngoing = startDate <= now && endDate >= now;
 
   const toggleStar = async () => {
     if (!starred) {
@@ -43,7 +50,9 @@ const ScheduleListItem = ({ schedules }) => {
     <div
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`/schedule/details/${id}`);
+        {
+          user ? navigate(`/schedule/details/${id}`) : handleclickUserCheck();
+        }
       }}
       style={{
         display: "flex",
@@ -53,8 +62,42 @@ const ScheduleListItem = ({ schedules }) => {
         border: "1px solid #ebebeb",
         borderRadius: "15px",
         cursor: "pointer",
+        opacity: isExpired ? 0.5 : 1,
+        position: "relative",
       }}
     >
+      {isExpired && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "0.5rem",
+            left: "0.9rem",
+            backgroundColor: "#ccc",
+            color: "#fff",
+            padding: "0.2rem 0.5rem",
+            borderRadius: "4px",
+            fontSize: "0.7rem",
+          }}
+        >
+          종료됨
+        </div>
+      )}
+      {isOngoing && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "0.5rem",
+            left: "0.9rem",
+            backgroundColor: "#4caf50",
+            color: "#fff",
+            padding: "0.2rem 0.5rem",
+            borderRadius: "4px",
+            fontSize: "0.7rem",
+          }}
+        >
+          진행중
+        </div>
+      )}
       <div
         style={{
           flexGrow: "1",
@@ -82,7 +125,9 @@ const ScheduleListItem = ({ schedules }) => {
         <div
           onClick={(e) => {
             e.stopPropagation();
-            toggleStar();
+            {
+              user ? toggleStar() : handleclickUserCheck();
+            }
           }}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >

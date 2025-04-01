@@ -16,37 +16,30 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
     }
 
     try {
-        console.log("✅ Google 로그인 코드 확인:", authCode);
-        console.log(`🔗 POST 요청 전송: ${API_BASE_URL}/auth/google/callback/`);
-        console.log("📨 전송 데이터:", { code: authCode });
-
+  
         // 백엔드에 인가 코드 전달 (POST 요청)
         const response = await axios.post(`${API_BASE_URL}/auth/google/callback/`, {
             code: authCode,
         });
 
-        console.log("📩 백엔드 응답:", response.data);
 
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
-        const { access_token: accessToken, refresh_token: refreshToken, email:email } = response.data;
+        const { access_token: accessToken, refresh_token: refreshToken, email, is_staff } = response.data;
 
-        if (!email) {
-            console.error("🚨 백엔드에서 사용자 정보가 전달되지 않았습니다.");
-            throw new Error("사용자 정보가 없습니다.");
-        }
-        if (!accessToken || !refreshToken) {
-            console.error("🚨 백엔드에서 토큰이 반환되지 않음!");
-            throw new Error("토큰이 정상적으로 발급되지 않았습니다.");
+        if (!email || !accessToken || !refreshToken) {
+            console.error("🚨 Google 로그인 응답 누락: email/token 정보 없음");
+            localStorage.clear();
+            window.location.reload();
+            throw new Error("Google 로그인 실패: 정보 누락");
         }
 
         // 토큰 저장 및 로그인 처리
         saveToken(accessToken, refreshToken);
-        useUserStore.getState().login(email, accessToken, refreshToken);
+        useUserStore.getState().login({ email, is_staff }, accessToken, refreshToken);
+        localStorage.setItem("is_staff", is_staff ? "true" : "false");
         console.log("🎉 Google 로그인 성공! 사용자 정보 저장됨:", email);
-        console.log("🔑 저장된 액세스 토큰:", getToken());
 
         if (navigate) {
-            console.log("🔄 메인 페이지로 이동!");
             navigate("/");
         } else {
             console.warn("⚠️ navigate 함수가 제공되지 않음. 페이지 이동 실패");
@@ -56,5 +49,7 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
     } catch (error) {
         const errorMessage = error.response?.data?.message || "🚨 Google 소셜 로그인 중 오류 발생";
         console.error("🚨 Google 소셜 로그인 실패:", errorMessage);
+        localStorage.clear();
+        window.location.reload();
     }
 };

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FaMusic } from "react-icons/fa";
 import {
   fetchAllSchedules,
   fetchFavoriteSchedules,
 } from "../api/schedule/scheduleApi";
+import Modal from "../components/Modal";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
 import "../styles/SchedulePage.css";
@@ -18,6 +19,11 @@ const SchedulePage = () => {
   const [allSchedules, setAllSchedules] = useState([]);
   const [favoriteSchedules, setFavoriteSchedules] = useState([]);
   const [filterType, setFilterType] = useState("전체일정");
+  const [selectedArtistInfo, setSelectedArtistInfo] = useState(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
+
+  const filterRef = useRef();
 
   const fetchSchedules = async () => {
     try {
@@ -30,15 +36,55 @@ const SchedulePage = () => {
     }
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSecondaryClick = () => setIsModalOpen(false);
+  const handleLoginClick = () => (window.location.href = "/login");
+  const handleclickUserCheck = () => setIsModalOpen(true);
+
   window.refetchSchedules = fetchSchedules;
 
   useEffect(() => {
     fetchSchedules();
   }, [filterType, selectedDate]);
 
+  const scrollFilter = (direction) => {
+    const container = filterRef.current;
+    if (!container) return;
+
+    const scrollAmount = 200;
+    const newScrollLeft =
+      direction === "left"
+        ? container.scrollLeft - scrollAmount
+        : container.scrollLeft + scrollAmount;
+
+    container.scrollTo({ left: newScrollLeft, behavior: "smooth" });
+  };
+
+  const updateArrowVisibility = () => {
+    const container = filterRef.current;
+    if (!container) return;
+    setShowLeftArrow(container.scrollLeft > 0);
+    setShowRightArrow(
+      container.scrollWidth > container.clientWidth + container.scrollLeft
+    );
+  };
+
+  useEffect(() => {
+    const container = filterRef.current;
+    if (!container) return;
+
+    updateArrowVisibility();
+    container.addEventListener("scroll", updateArrowVisibility);
+    window.addEventListener("resize", updateArrowVisibility);
+
+    return () => {
+      container.removeEventListener("scroll", updateArrowVisibility);
+      window.removeEventListener("resize", updateArrowVisibility);
+    };
+  }, []);
+
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
   const startDay = firstDayOfMonth.getDay();
@@ -84,7 +130,6 @@ const SchedulePage = () => {
       today.getDate() === day &&
       today.getMonth() === month &&
       today.getFullYear() === year;
-
     const isSelected = selectedDay === day;
     const scheduleCount = scheduleData[day]?.total || 0;
     const favoriteCount = scheduleData[day]?.favorite || 0;
@@ -94,10 +139,10 @@ const SchedulePage = () => {
     if (isSelected) className += " selected";
 
     const cellStyle = {};
-    if (isToday) cellStyle.border = "2px solid #FF8C00"; // 강조된 오늘 테두리
+    if (isToday) cellStyle.border = "2px solid #FF8C00";
     if (isSelected) {
-      cellStyle.backgroundColor = "#a174ff"; // 선택 배경 강조
-      cellStyle.color = "white"; // 글자색도 반전
+      cellStyle.backgroundColor = "#a174ff";
+      cellStyle.color = "white";
     }
 
     calendarCells.push(
@@ -120,46 +165,13 @@ const SchedulePage = () => {
       >
         <div className="date-number">{day}</div>
         {isToday && (
-          <div
-            className="today-indicator"
-            style={{
-              position: "absolute",
-              top: "5px",
-              left: "5px",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              backgroundColor: "#FF8C00",
-              boxShadow: "0 0 5px rgba(255, 140, 0, 0.5)",
-              color: "#FF8C00",
-            }}
-          ></div>
-        )}
-        {isToday && (
-          <span
-            style={{
-              position: "absolute",
-              top: "20px",
-              left: "5px",
-              fontSize: "0.7rem",
-              color: "#FF8C00",
-            }}
-          >
-            today
-          </span>
+          <>
+            <div className="today-indicator"></div>
+            <span className="today-label">today</span>
+          </>
         )}
         {(scheduleCount > 0 || favoriteCount > 0) && (
-          <div
-            className="content"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "4px",
-              flexWrap: "nowrap",
-              fontSize: "0.8rem",
-            }}
-          >
+          <div className="content">
             {scheduleCount === favoriteCount ? (
               <>
                 <FaMusic style={{ color: "#ff6b81" }} />
@@ -167,17 +179,9 @@ const SchedulePage = () => {
               </>
             ) : (
               <>
-                {scheduleCount > 0 && (
-                  <>
-                    <FaMusic style={{ color: "#a174ff" }} />
-                    <span>{scheduleCount}</span>
-                  </>
-                )}
+                {scheduleCount > 0 && <FaMusic style={{ color: "#a174ff" }} />}
                 {favoriteCount > 0 && scheduleCount !== favoriteCount && (
-                  <>
-                    <FaMusic style={{ color: "#ff6b81" }} />
-                    <span>{favoriteCount}</span>
-                  </>
+                  <FaMusic style={{ color: "#ff6b81" }} />
                 )}
               </>
             )}
@@ -190,27 +194,48 @@ const SchedulePage = () => {
   return (
     <div className="schedule-page">
       <div className="schedule-container">
-        <MyArtistFilterCard />
-        {/* </div> */}
+        <div className="artist-filter-wrapper">
+          {showLeftArrow && (
+            <button className="scroll-btn left" onClick={() => scrollFilter("left")}>
+              ◀
+            </button>
+          )}
+          <div className="artist-filter" ref={filterRef}>
+            <MyArtistFilterCard
+              onArtistClick={(info) => {
+                if (
+                  selectedArtistInfo &&
+                  selectedArtistInfo.artistId === info?.artistId &&
+                  selectedArtistInfo.artistGroupId === info?.artistGroupId
+                ) {
+                  setSelectedArtistInfo(null);
+                  setFilterType("전체일정");
+                } else {
+                  setSelectedArtistInfo(info);
+                  setFilterType(info ? "아티스트" : "전체일정");
+                }
+              }}
+              setFilterType={setFilterType}
+            />
+          </div>
+          {showRightArrow && (
+            <button className="scroll-btn right" onClick={() => scrollFilter("right")}>
+              ▶
+            </button>
+          )}
+        </div>
 
         <div className="calendar-section">
           <div className="calendar-wrapper">
             <div className="calendar-header">
-              <button
-                onClick={() => setCurrentDate(new Date(year, month - 1, 1))}
-              >
+              <button onClick={() => setCurrentDate(new Date(year, month - 1, 1))}>
                 ◀
               </button>
-              <h2>
-                {year}년 {month + 1}월
-              </h2>
-              <button
-                onClick={() => setCurrentDate(new Date(year, month + 1, 1))}
-              >
+              <h2>{year}년 {month + 1}월</h2>
+              <button onClick={() => setCurrentDate(new Date(year, month + 1, 1))}>
                 ▶
               </button>
             </div>
-
             <div className="calendar-grid">
               {weekdayHeaders}
               {calendarCells}
@@ -220,14 +245,7 @@ const SchedulePage = () => {
           <div className="schedule-view">
             <div>
               <div className="schedule-view-selectbtn">
-                <label
-                  style={{
-                    fontSize: "1.2rem",
-                    display: "flex",
-                    gap: "5px",
-                    alignItems: "center",
-                  }}
-                >
+                <label className="view-select-label">
                   <input
                     type="radio"
                     name="filter"
@@ -237,14 +255,7 @@ const SchedulePage = () => {
                   />
                   전체일정보기
                 </label>
-                <label
-                  style={{
-                    fontSize: "1.2rem",
-                    display: "flex",
-                    gap: "5px",
-                    alignItems: "center",
-                  }}
-                >
+                <label className="view-select-label">
                   <input
                     type="radio"
                     name="filter"
@@ -256,9 +267,22 @@ const SchedulePage = () => {
                 </label>
               </div>
 
-              <div>
-                <ScheduleList view={filterType} selectedDay={selectedDate} />
-              </div>
+              <ScheduleList
+                view={filterType}
+                selectedDay={selectedDate}
+                artistInfo={selectedArtistInfo}
+                handleclickUserCheck={handleclickUserCheck}
+              />
+              {isModalOpen && (
+                <Modal
+                  title="로그인이 필요해요 ☺️"
+                  description="로그인하시고 최애 정보를 확인해보세요!"
+                  primaryButtonText="로그인하러 가기"
+                  secondaryButtonText="닫기"
+                  onPrimaryClick={handleLoginClick}
+                  onSecondaryClick={handleSecondaryClick}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -268,3 +292,4 @@ const SchedulePage = () => {
 };
 
 export default SchedulePage;
+

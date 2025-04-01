@@ -7,32 +7,18 @@ import {
   saveToken,
 } from "../utils/authUtils";
 
-// ✅ localStorage에서 안전하게 user 정보 파싱
-let storedUser = null;
-try {
-  const userData = localStorage.getItem("user_info");
-  if (userData && userData !== "undefined") {
-    storedUser = JSON.parse(userData);
-    // console.log("✅ 저장된 사용자 정보:", storedUser);
-  } else {
-    console.warn("⚠️ user_info 값이 비어있거나 'undefined'입니다.");
-  }
-} catch (error) {
-  console.error("❌ user_info 파싱 중 에러 발생:", error);
-}
-
+// ✅ 저장된 토큰 및 유저 정보 불러오기
 const storedAccessToken = getToken();
 const storedRefreshToken = getRefreshToken();
+const storedUserInfo = JSON.parse(localStorage.getItem("user_info") || "null");
 
 const useUserStore = create((set, get) => ({
-  user: storedUser,
+  user: storedUserInfo, // ✅ 초기 유저 정보 복원
   accessToken: storedAccessToken,
   refreshToken: storedRefreshToken,
-  isAuthenticated: !!storedAccessToken || storedUser !== null,
+  isAuthenticated: !!storedAccessToken,
 
   login: (userData, accessToken, refreshToken) => {
-    console.log("로그인 시도: ", userData);
-
     if (!accessToken || !refreshToken) {
       console.error("🚨 액세스 토큰 또는 리프레시 토큰이 없습니다. 로그인 실패!");
       return;
@@ -43,18 +29,22 @@ const useUserStore = create((set, get) => ({
       return;
     }
 
-    localStorage.setItem("user_info", JSON.stringify(userData));
     saveToken(accessToken, refreshToken);
 
+    const userWithImage = {
+      ...userData,
+      image_url: userData.image_url || userData.image || "",
+    };
+
     set({
-      user: {
-        ...userData,
-        image_url: userData.image_url || userData.image || "", 
-      },
+      user: userWithImage,
       accessToken,
       refreshToken,
       isAuthenticated: true,
     });
+
+    localStorage.setItem("user_info", JSON.stringify(userWithImage));
+    localStorage.setItem("is_staff", userWithImage.is_staff ? "true" : "false");
 
     console.log("✅ 로그인 성공! 사용자 정보 저장됨.");
 
@@ -67,9 +57,9 @@ const useUserStore = create((set, get) => ({
     console.log("🚪 로그아웃 실행");
 
     removeToken();
+    localStorage.removeItem("lastActivity");
+    localStorage.removeItem("is_staff");
     localStorage.removeItem("user_info");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
 
     set({
       user: null,
@@ -97,7 +87,6 @@ const useUserStore = create((set, get) => ({
 
       if (newAccessToken) {
         set({ accessToken: newAccessToken, isAuthenticated: true });
-        
         console.log("✅ 액세스 토큰 갱신 완료!");
       } else {
         console.warn("🚨 토큰 갱신 실패, 자동 로그아웃 실행");

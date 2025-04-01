@@ -1,4 +1,3 @@
-// loginKakao.js
 import axios from "axios";
 import { saveToken, getToken } from "../utils/authUtils";
 import useUserStore from "../store/userStore";
@@ -19,41 +18,32 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
 
     if (USE_BACKEND) {
         try {
-            console.log("✅ Kakao 로그인 코드 확인:", authCode);
-            console.log(`🔗 POST 요청 전송: ${API_BASE_URL}/auth/kakao/callback/`);
-            console.log("📨 전송 데이터:", { code: authCode });
-
+          
             // 백엔드에 인가 코드 전달 (POST 요청)
             const response = await axios.post(`${API_BASE_URL}/auth/kakao/callback/`, {
                 code: authCode,
             });
 
-            console.log("📩 백엔드 응답:", response.data);
 
             // 응답 데이터에서 토큰 및 사용자 정보를 추출
-            const { access_token: accessToken, refresh_token: refreshToken, nickname } = response.data;
+            const { access_token: accessToken, refresh_token: refreshToken, nickname, is_staff } = response.data;
 
-            // 사용자 정보가 없으면 에러 발생
-            if (!nickname) {
-                console.error("🚨 백엔드에서 사용자 정보가 전달되지 않았습니다.");
-                throw new Error("사용자 정보가 없습니다.");
-            }
-
-            // 토큰이 없으면 에러 처리
-            if (!accessToken || !refreshToken) {
-                console.error("🚨 백엔드에서 토큰이 반환되지 않음!");
-                throw new Error("토큰이 정상적으로 발급되지 않았습니다.");
+            // 사용자 정보 또는 토큰이 없으면 에러 발생
+            if (!nickname || !accessToken || !refreshToken) {
+                console.error("🚨 Kakao 로그인 응답 누락: 사용자 정보 또는 토큰 없음");
+                localStorage.clear();
+                window.location.reload();
+                throw new Error("Kakao 로그인 실패: 필수 정보 누락");
             }
 
             // 토큰 저장 및 사용자 로그인 처리
             saveToken(accessToken, refreshToken);
-            useUserStore.getState().login(nickname, accessToken, refreshToken);
+            useUserStore.getState().login({ nickname, is_staff }, accessToken, refreshToken);
+            localStorage.setItem("is_staff", is_staff ? "true" : "false");
             console.log("🎉 Kakao 로그인 성공! 사용자 정보 저장됨:", nickname);
-            console.log("🔑 저장된 액세스 토큰:", getToken());
 
             // 로그인 성공 후 페이지 이동
             if (navigate) {
-                console.log("🔄 메인 페이지로 이동!");
                 navigate("/");
             } else {
                 console.warn("⚠️ navigate 함수가 제공되지 않음. 페이지 이동 실패");
@@ -62,6 +52,8 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
             return response.data;
         } catch (error) {
             console.error("🚨 Kakao 로그인 처리 중 오류 발생:", error);
+            localStorage.clear();
+            window.location.reload();
         }
     }
 };

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import useFavorites from "../api/schedule/useFavorites";
 import BannerAd from "../components/BannerAd";
 import Modal from "../components/Modal";
-import MyArtistFilter from "../components/MyArtistFilter";
 import ScheduleCardArea from "../components/ScheduleCardArea";
 import SearchBar from "../components/SearchBar";
 import useUserStore from "../store/userStore";
@@ -11,7 +10,8 @@ const HomePage = () => {
   const { readFavorite } = useFavorites();
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useUserStore();
-
+  const [showLikedOnly, setShowLikedOnly] = useState(false);
+  const [artists, setArtists] = useState([]);
   useEffect(() => {
     if (user) {
       readFavorite();
@@ -35,6 +35,23 @@ const HomePage = () => {
     setIsModalOpen(true);
   };
 
+  // 그룹에 속해있는 아티스트는 제외
+  let filteredArtists = artists.filter(
+    (a) => !(a.artist_name && a.artist_group)
+  );
+
+  // 검색어로 필터링
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filteredArtists = filteredArtists.filter((a) =>
+      (a.artist_name || a.artist_group).toLowerCase().includes(q)
+    );
+  }
+  // 좋아요만 보기
+  if (showLikedOnly) {
+    filteredArtists = filteredArtists.filter((a) => a.is_liked);
+  }
+
   return (
     <div
       style={{
@@ -52,21 +69,26 @@ const HomePage = () => {
         }}
       >
         <BannerAd></BannerAd>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            alignContent: "center",
-            paddingTop: "1rem",
-            paddingBottom: "1rem",
-            flexWrap: "wrap",
-            width: "100%",
-            gap: "1rem",
-          }}
-        >
-          <MyArtistFilter onFilterChange={setSearchQuery}></MyArtistFilter>
-          <SearchBar></SearchBar>
+        <div className="toggle-buttons">
+          {/* <button
+            className={!showLikedOnly ? "active" : ""}
+            onClick={() => {
+              setShowLikedOnly(false);
+              setSearchQuery(""); // Reset search query
+            }}
+          >
+            전체 가수 보기
+          </button>
+          <button
+            className={showLikedOnly ? "active" : ""}
+            onClick={() => {
+              setShowLikedOnly(true);
+              setSearchQuery(""); // Reset search query
+            }}
+          >
+            좋아요한 가수들
+          </button> */}
+          <SearchBar onSearch={setSearchQuery} />
         </div>
         <div>
           <h1
@@ -78,7 +100,7 @@ const HomePage = () => {
               fontWeight: "bold",
             }}
           >
-            오늘의 스케줄
+            이번달 스케줄
           </h1>
 
           <ScheduleCardArea

@@ -14,7 +14,7 @@ export const loginUser = async (email, password) => {
 
       if (response.data.access && response.data.refresh) {
         saveToken(response.data.access, response.data.refresh);
-
+        console.log("✅ 로그인 성공:", response.data);
         const userInfo = {
           email: response.data.email,
           nickname: response.data.nickname,
@@ -22,7 +22,6 @@ export const loginUser = async (email, password) => {
           image_url: response.data.image_url,
           id: response.data.id,
         };
-        localStorage.setItem("user_info", JSON.stringify(userInfo));
         useUserStore.getState().login(userInfo, response.data.access, response.data.refresh);
 
         return {
@@ -52,11 +51,8 @@ export const logoutUser = async () => {
   }
 
   useUserStore.getState().logout();
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-  localStorage.removeItem("user_info");
+  removeToken();
   localStorage.removeItem("signupFormData");
-  localStorage.removeItem("lastActivity");
 };
 
 /** 회원가입 */
@@ -128,9 +124,18 @@ export const fetchUserProfile = async () => {
   if (USE_BACKEND) {
     try {
       const response = await axios.get(`${API_BASE_URL}/profile/`);
+      if (!response.data || !response.data.email) {
+        throw new Error("❌ 응답에 유저 정보가 없습니다.");
+      }
+      const { accessToken, refreshToken } = useUserStore.getState();
+      if (accessToken && refreshToken) {
+        useUserStore.getState().login(response.data, accessToken, refreshToken);
+      }
       return response.data;
     } catch (error) {
       console.error("❌ 프로필 가져오기 실패:", error);
+      localStorage.clear();
+      window.location.reload();
       throw new Error(error.response?.data?.message || "프로필 정보 가져오기 실패");
     }
   }

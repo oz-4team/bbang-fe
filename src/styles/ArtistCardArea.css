@@ -14,3 +14,24 @@
     padding: 20px;
   }
   
+  .toggle-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .toggle-buttons button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .toggle-buttons button.active {
+    background-color: #6c63ff;
+    color: white;
+    border-color: #6c63ff;
+  }
+  

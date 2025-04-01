@@ -1,13 +1,12 @@
-import { default as React, useState } from "react";
+import { default as React } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import useLikes from "../api/artist/useLikes";
 import useUserStore from "../store/userStore";
 
-const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
+const ArtistCard = ({ name, image, type, id, onCardClick, is_liked, onLikeToggle }) => {
   const { user } = useUserStore();
   const navigate = useNavigate();
-  const [favoriteArtist, setFavoriteArtist] = useState(is_liked);
   const {
     addLikeArtist,
     addLikeArtistGroup,
@@ -15,33 +14,32 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
     deleteLikeArtist,
   } = useLikes();
 
-  // useEffect(() => {
-  //   readLike();
-  // }, []);
-
   const handleClickArtistDetail = (e) => {
     e.stopPropagation();
     navigate(`/artist/${type}/${id}`);
   };
 
-  const toggleLike = (e) => {
+  const toggleLike = async (e) => {
     e.stopPropagation();
-    setFavoriteArtist(!favoriteArtist);
+    onLikeToggle(); // 로컬 상태 먼저 업데이트
 
-    if (favoriteArtist === false) {
-      if (type === "solo") {
-        addLikeArtist(id);
-      } else if (type === "group") {
-        addLikeArtistGroup(id);
+    try {
+      if (is_liked === false) {
+        if (type === "solo") {
+          await addLikeArtist(id);
+        } else {
+          await addLikeArtistGroup(id);
+        }
+      } else {
+        if (type === "solo") {
+          await deleteLikeArtist(id);
+        } else {
+          await deleteLikeArtistGroup(id);
+        }
       }
-    }
-
-    if (favoriteArtist === true) {
-      if (type === "solo") {
-        deleteLikeArtist(id);
-      } else if (type === "group") {
-        deleteLikeArtistGroup(id);
-      }
+    } catch (error) {
+      console.error("좋아요 토글 중 오류 발생:", error);
+      // TODO: 실패 시 롤백 처리 필요하면 여기 추가
     }
   };
 
@@ -52,7 +50,6 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
         display: "flex",
         flexDirection: "column",
         maxWidth: "500px",
-        // padding: "1rem",
         cursor: "pointer",
         transition: "transform 0.3s",
       }}
@@ -94,14 +91,13 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
             textAlign: "left",
           }}
         >
-          {/* {id}:{name} {type === "group" ? "(그룹)" : "(솔로)"} */}
           {name}
         </div>
         <div
           onClick={user ? toggleLike : onCardClick}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
-          {favoriteArtist ? <GoHeartFill color="#fe0000" /> : <GoHeart />}
+          {is_liked ? <GoHeartFill color="#fe0000" /> : <GoHeart />}
         </div>
       </div>
     </div>
@@ -109,3 +105,4 @@ const ArtistCard = ({ name, image, type, id, onCardClick, is_liked }) => {
 };
 
 export default ArtistCard;
+

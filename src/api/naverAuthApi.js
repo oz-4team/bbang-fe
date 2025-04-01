@@ -17,38 +17,37 @@ export const exchangeNaverToken = async (authCode, navigate) => {
     }
 
     try {
-        console.log("✅ Naver 로그인 코드 확인:", authCode);
-        console.log(`🔗 POST 요청 전송: ${API_BASE_URL}/auth/naver/callback/`);
-        console.log("📨 전송 데이터:", { code: authCode });
-
+        
         // 백엔드에 인가 코드 전달 (POST 요청)
         const response = await axios.post(`${API_BASE_URL}/auth/naver/callback/`, {
             code: authCode,
             state: "null",
         });
 
-        console.log("📩 백엔드 응답:", response);
-
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
         const { access_token: accessToken, refresh_token: refreshToken, nickname } = response.data;
 
-        if (!nickname) {
-            console.error("🚨 백엔드에서 사용자 정보가 전달되지 않았습니다.");
-            throw new Error("사용자 정보가 없습니다.");
-        }
-        if (!accessToken || !refreshToken) {
-            console.error("🚨 백엔드에서 토큰이 반환되지 않음!");
-            throw new Error("토큰이 정상적으로 발급되지 않았습니다.");
+        if (!nickname || !accessToken || !refreshToken) {
+            console.error("🚨 Naver 로그인 응답 누락: 사용자 정보 또는 토큰 없음");
+            localStorage.clear();
+            window.location.reload();
+            throw new Error("Naver 로그인 실패: 필수 정보 누락");
         }
 
         // 토큰 저장 및 로그인 처리
         saveToken(accessToken, refreshToken);
-        useUserStore.getState().login(nickname, accessToken, refreshToken);
+        const userInfo = {
+            email: response.data.email,
+            nickname: response.data.nickname,
+            image_url: response.data.image_url,
+            id: response.data.id,
+            is_staff: response.data.is_staff,
+        };
+        useUserStore.getState().login(userInfo, accessToken, refreshToken);
+        localStorage.setItem("is_staff", response.data.is_staff ? "true" : "false");
         console.log("🎉 Naver 로그인 성공! 사용자 정보 저장됨:", nickname);
-        console.log("🔑 저장된 액세스 토큰:", getToken());
 
         if (navigate) {
-            console.log("🔄 메인 페이지로 이동!");
             navigate("/");
         } else {
             console.warn("⚠️ navigate 함수가 제공되지 않음. 페이지 이동 실패");
@@ -58,5 +57,7 @@ export const exchangeNaverToken = async (authCode, navigate) => {
     } catch (error) {
         const errorMessage = error.response?.data?.message || "🚨 Naver 소셜 로그인 중 오류 발생";
         console.error("🚨 Naver 소셜 로그인 실패:", errorMessage);
+        localStorage.clear();
+        window.location.reload();
     }
 };

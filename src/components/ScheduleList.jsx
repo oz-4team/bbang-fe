@@ -1,25 +1,37 @@
 import React, { useEffect, useState } from "react";
 import {
   fetchAllSchedules,
+  fetchArtistSchedules,
   fetchFavoriteSchedules,
+  fetchGroupSchedules,
 } from "../api/schedule/scheduleApi";
 import useUserStore from "../store/userStore";
 import ScheduleListItem from "./ScheduleListItem";
 
-const ScheduleList = ({ view, selectedDay }) => {
+const ScheduleList = ({
+  view,
+  selectedDay,
+  artistInfo,
+  handleclickUserCheck,
+}) => {
   const { user } = useUserStore();
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
-    console.log("📅 ScheduleList useEffect - selectedDay:", selectedDay);
     const loadSchedules = async () => {
       try {
         let data = [];
 
         if (view === "전체일정") {
           data = await fetchAllSchedules();
-        } else {
+        } else if (view === "즐겨찾기") {
           data = await fetchFavoriteSchedules();
+        } else if (view === "아티스트" && artistInfo) {
+          if (artistInfo.artistId) {
+            data = await fetchArtistSchedules(artistInfo.artistId);
+          } else if (artistInfo.artistGroupId) {
+            data = await fetchGroupSchedules(artistInfo.artistGroupId);
+          }
         }
 
         // 필터: selectedDay가 있을 경우 해당 날짜만 필터링
@@ -42,7 +54,7 @@ const ScheduleList = ({ view, selectedDay }) => {
       }
     };
     loadSchedules();
-  }, [view, selectedDay]);
+  }, [view, selectedDay, artistInfo]);
 
   if (schedules.length === 0)
     return (
@@ -51,6 +63,8 @@ const ScheduleList = ({ view, selectedDay }) => {
         확인해보세요!
       </div>
     );
+
+  const now = new Date();
 
   return (
     <div
@@ -63,23 +77,30 @@ const ScheduleList = ({ view, selectedDay }) => {
         overflow: "scroll",
       }}
     >
-      {schedules.map((a) => (
-        <ScheduleListItem
-          key={a.id}
-          name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
-          image={
-            a.image_url
-              ? a.image_url
-              : a.artist
-              ? a.artist.image_url
-              : a.artist_group.image_url
-          }
-          schedules={a}
-          title={a.title}
-          id={a.id}
-          onCardClick={() => (window.location.href = `/schedule/${a.id}`)}
-        />
-      ))}
+      {schedules.map((a) => {
+        const endDate = new Date(a.end_date);
+        const today = new Date();
+        const isExpired = endDate.toDateString() < today.toDateString();
+
+        return (
+          <ScheduleListItem
+            handleclickUserCheck={() => handleclickUserCheck()}
+            key={a.id}
+            name={a.artist ? a.artist.artist_name : a.artist_group.artist_group}
+            image={
+              a.image_url
+                ? a.image_url
+                : a.artist
+                ? a.artist.image_url
+                : a.artist_group.image_url
+            }
+            schedules={a}
+            title={a.title}
+            id={a.id}
+            isExpired={isExpired}
+          />
+        );
+      })}
     </div>
   );
 };

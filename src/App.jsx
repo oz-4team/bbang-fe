@@ -37,6 +37,7 @@ import {
   removeToken,
   shouldAutoLogout,
 } from "./utils/authUtils";
+import { fetchUserProfile } from "./api/authApi";
 
 function App() {
   //로그인 확인용
@@ -48,29 +49,55 @@ function App() {
 
     const access = localStorage.getItem("accessToken");
     const refresh = localStorage.getItem("refreshToken");
-    const userInfo = localStorage.getItem("user_info");
 
-    if (access && refresh && userInfo) {
+    if (access && refresh) {
+      console.log("🔑 access token found:", access);
+      console.log("🔐 refresh token found:", refresh);
+      const storedUser = localStorage.getItem("user_info");
+      console.log("📦 raw stored user_info:", storedUser);
+      let parsedUser = null;
+
       try {
-        const parsedUser = JSON.parse(userInfo);
-        useUserStore.getState().login(parsedUser, access, refresh);
-        localStorage.setItem("lastActivity", new Date().getTime().toString());
+        parsedUser = storedUser ? JSON.parse(storedUser) : null;
       } catch (e) {
-        console.warn("🧹 유저 정보 파싱 실패. 로컬스토리지 초기화");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("user_info");
+        console.warn("🚨 user_info 파싱 실패:", e);
+        localStorage.clear();
+        window.location.href = "/login";
+        return;
       }
+
+      console.log("✅ parsed user_info:", parsedUser);
+
+      if (!parsedUser || !parsedUser.email) {
+        console.warn("🚨 user_info 유효하지 않음");
+        localStorage.clear();
+        window.location.href = "/login";
+        return;
+      }
+
+      fetchUserProfile(access)
+        .then((userData) => {
+          console.log("🎯 fetched userData from API:", userData);
+          useUserStore.getState().login({ ...userData, ...parsedUser }, access, refresh);
+          console.log("✅ Zustand login executed with:", { ...userData, ...parsedUser });
+
+          const cleared = !localStorage.getItem("accessToken");
+          if (!cleared) {
+            localStorage.setItem("lastActivity", new Date().getTime().toString());
+          }
+        })
+        .catch((err) => {
+          console.warn("❌ 유저 정보 불러오기 실패:", err);
+          localStorage.clear();
+          window.location.href = "/login";
+        });
     } else {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("user_info");
+      localStorage.clear();
     }
   }, []);
 
   useEffect(() => {
     if (user) {
-      console.log(`현재 로그인한 닉네임: ${user.nickname}`); //  로그인 상태 유지 중 닉네임 출력
     }
   }, [user]);
 

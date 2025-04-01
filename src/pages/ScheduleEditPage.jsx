@@ -275,6 +275,20 @@ const ScheduleEditPage = () => {
                 }}
                 type="date"
               />
+              <label>스케줄 종료일</label>
+              <input
+                value={end_date}
+                onChange={(e) => setEnd_date(e.target.value)}
+                style={{
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  marginTop: "8px",
+                  width: "100%",
+                  display: "block",
+                }}
+                type="date"
+              />
             </div>
             <div>
               <label>시작 시간</label>
