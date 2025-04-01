@@ -1,0 +1,27 @@
+.schedule-scroll-container {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 700px;
+    overflow-y: scroll;
+  
+    /* 스크롤바 숨기기 */
+    scrollbar-width: none;         /* Firefox */
+    -ms-overflow-style: none;      /* IE and Edge */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .schedule-scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+  
+  .schedule-empty {
+    margin-top: 1rem;
+    color: #afb1b6;
+    text-align: center;
+    white-space: pre-line;
+  }
+  
