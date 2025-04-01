@@ -51,10 +51,8 @@ export const logoutUser = async () => {
   }
 
   useUserStore.getState().logout();
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
+  removeToken();
   localStorage.removeItem("signupFormData");
-  localStorage.removeItem("lastActivity");
 };
 
 /** 회원가입 */
@@ -126,9 +124,14 @@ export const fetchUserProfile = async () => {
   if (USE_BACKEND) {
     try {
       const response = await axios.get(`${API_BASE_URL}/profile/`);
+      if (!response.data || !response.data.email) {
+        throw new Error("❌ 응답에 유저 정보가 없습니다.");
+      }
       return response.data;
     } catch (error) {
       console.error("❌ 프로필 가져오기 실패:", error);
+      localStorage.clear();
+      window.location.reload();
       throw new Error(error.response?.data?.message || "프로필 정보 가져오기 실패");
     }
   }
