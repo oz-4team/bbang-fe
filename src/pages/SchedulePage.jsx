@@ -4,6 +4,7 @@ import {
   fetchAllSchedules,
   fetchFavoriteSchedules,
 } from "../api/schedule/scheduleApi";
+import Modal from "../components/Modal";
 import MyArtistFilterCard from "../components/MyArtistFilterCard";
 import ScheduleList from "../components/ScheduleList";
 import "../styles/SchedulePage.css";
@@ -29,6 +30,24 @@ const SchedulePage = () => {
     } catch (err) {
       console.error("❌ 일정 가져오기 실패:", err);
     }
+  };
+
+  // 로그인 모달 관련
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSecondaryClick = () => {
+    console.log("Secondary button clicked");
+    handleCloseModal();
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLoginClick = () => {
+    window.location.href = "/login";
+    console.log("로그인 페이지로 이동");
+  };
+  const handleclickUserCheck = (e) => {
+    setIsModalOpen(true);
   };
 
   window.refetchSchedules = fetchSchedules;
@@ -208,8 +227,8 @@ const SchedulePage = () => {
               setFilterType("아티스트");
             }
           }}
+          setFilterType={setFilterType}
         />
-        {/* </div> */}
 
         <div className="calendar-section">
           <div className="calendar-wrapper">
@@ -275,7 +294,22 @@ const SchedulePage = () => {
               </div>
 
               <div>
-                <ScheduleList view={filterType} selectedDay={selectedDate} artistInfo={selectedArtistInfo} />
+                <ScheduleList
+                  view={filterType}
+                  selectedDay={selectedDate}
+                  artistInfo={selectedArtistInfo}
+                  handleclickUserCheck={handleclickUserCheck}
+                />
+                {isModalOpen && (
+                  <Modal
+                    title="로그인이 필요해요 ☺️"
+                    description="로그인하시고 최애 정보를 확인해보세요!"
+                    primaryButtonText="로그인하러 가기"
+                    secondaryButtonText="닫기"
+                    onPrimaryClick={handleLoginClick}
+                    onSecondaryClick={handleSecondaryClick}
+                  />
+                )}
               </div>
             </div>
           </div>

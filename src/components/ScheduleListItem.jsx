@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useFavorites from "../api/schedule/useFavorites";
 import useUserStore from "../store/userStore";
 
-const ScheduleListItem = ({ schedules }) => {
+const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
   const { user, logout } = useUserStore();
   const navigate = useNavigate();
 
@@ -43,7 +43,9 @@ const ScheduleListItem = ({ schedules }) => {
     <div
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`/schedule/details/${id}`);
+        {
+          user ? navigate(`/schedule/details/${id}`) : handleclickUserCheck();
+        }
       }}
       style={{
         display: "flex",
@@ -82,7 +84,9 @@ const ScheduleListItem = ({ schedules }) => {
         <div
           onClick={(e) => {
             e.stopPropagation();
-            toggleStar();
+            {
+              user ? toggleStar() : handleclickUserCheck();
+            }
           }}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >

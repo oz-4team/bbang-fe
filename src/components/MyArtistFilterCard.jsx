@@ -3,7 +3,7 @@ import useLikes from "../api/artist/useLikes";
 import defualtImage from "../assets/images/img-defualt.png"; // 기본 이미지 경로
 import useUserStore from "../store/userStore";
 
-const MyArtistFilterCard = ({ onArtistClick }) => {
+const MyArtistFilterCard = ({ onArtistClick, setFilterType }) => {
   const { readAllLikes, likes } = useLikes();
   const { user } = useUserStore();
 
@@ -24,63 +24,67 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
   }, [likes]);
 
   return (
-    <>
+    <div style={{ display: user ? "block" : "none" }}>
       {likes.length > 0 ? (
         <>
           <div className="artist-header">
             <div className="title">마이아티스트</div>
           </div>
+
           <div className="artist-filter">
-            <div
+
+            <button
+
               style={{
                 display: "flex",
                 flexDirection: "column",
                 gap: "1rem",
-                alignItems: "center",
-                cursor: "pointer",
+
+                // border: "2px solid #646cffaa",
+                padding: "0.5rem",
+                borderRadius: "8px",
               }}
-              onClick={() => onArtistClick(null)}
+              onClick={() => {
+                // onArtistClick(null);
+                likes.forEach((item) => (item.isSelected = false)); // Deselect all
+                setFilterType("전체일정"); // Set filter type to "전체일정"
+              }}
             >
-              <div
+              <img
+                src={defualtImage}
+
                 style={{
                   width: "4rem",
                   height: "4rem",
                   borderRadius: "50%",
-                  backgroundColor: "#e0e0e0",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: "0.8rem",
-                  fontWeight: "bold",
+
+                  objectFit: "cover",
                 }}
-              >
-                전체
-              </div>
-              <div>전체일정</div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-              onClick={() => onArtistClick(null)}
-            >
-            </div>
+              />
+              <div>전체보기</div>
+            </button>
+
+
+
             {likes.map((like, index) => {
               const artistId = like.artist_id;
               const artistGroupId = like.artist_group_id;
               return (
-                <div
+                <button
                   key={index}
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     gap: "1rem",
+                    border: like.isSelected ? "2px solid #646cffaa" : "none",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
                   }}
-                  onClick={() => onArtistClick({ artistId, artistGroupId })}
+                  onClick={() => {
+                    onArtistClick({ artistId, artistGroupId });
+                    likes.forEach((item) => (item.isSelected = false)); // Deselect all
+                    like.isSelected = true; // Select the clicked one
+                  }}
                 >
                   <div
                     style={{
@@ -106,7 +110,7 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
                     />
                     <div>{like.artist || like.artist_group}</div>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -114,7 +118,7 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
       ) : (
         <div className="no-likes-message">좋아하는 아티스트가 없습니다.</div>
       )}
-    </>
+    </div>
   );
 };
 
