@@ -22,7 +22,6 @@ export default function useCreateArtistGroup() {
                 { ...groupInfo, created_by },
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                 }

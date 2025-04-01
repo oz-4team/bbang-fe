@@ -40,6 +40,9 @@ const useUserStore = create((set, get) => ({
       isAuthenticated: true,
     });
 
+    localStorage.setItem("user_info", JSON.stringify(userData));
+    localStorage.setItem("is_staff", userData.is_staff ? "true" : "false");
+
     console.log("✅ 로그인 성공! 사용자 정보 저장됨.");
 
     if (accessToken !== "mock_access_token") {
@@ -52,6 +55,8 @@ const useUserStore = create((set, get) => ({
 
     removeToken();
     localStorage.removeItem("lastActivity");
+    localStorage.removeItem("is_staff");
+    localStorage.removeItem("user_info");
     set({
       user: null,
       accessToken: null,
