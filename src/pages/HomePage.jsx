@@ -78,7 +78,7 @@ const HomePage = () => {
               fontWeight: "bold",
             }}
           >
-            오늘의 스케줄
+            이번달 스케줄
           </h1>
 
           <ScheduleCardArea
