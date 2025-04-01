@@ -43,7 +43,11 @@ const ScheduleListItem = ({ schedules }) => {
     <div
       onClick={(e) => {
         e.stopPropagation();
-        navigate(`/schedule/details/${id}`);
+        {
+          user
+            ? navigate(`/schedule/details/${id}`)
+            : alert("로그인 후 이용 가능합니다.");
+        }
       }}
       style={{
         display: "flex",
@@ -82,7 +86,9 @@ const ScheduleListItem = ({ schedules }) => {
         <div
           onClick={(e) => {
             e.stopPropagation();
-            toggleStar();
+            {
+              user ? toggleStar() : alert("로그인 후 이용 가능합니다.");
+            }
           }}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >

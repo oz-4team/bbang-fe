@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   fetchAllSchedules,
-  fetchFavoriteSchedules,
   fetchArtistSchedules,
+  fetchFavoriteSchedules,
   fetchGroupSchedules,
 } from "../api/schedule/scheduleApi";
 import useUserStore from "../store/userStore";
@@ -84,7 +84,6 @@ const ScheduleList = ({ view, selectedDay, artistInfo }) => {
           schedules={a}
           title={a.title}
           id={a.id}
-          onCardClick={() => (window.location.href = `/schedule/${a.id}`)}
         />
       ))}
     </div>
