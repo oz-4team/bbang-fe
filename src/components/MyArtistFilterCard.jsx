@@ -31,45 +31,76 @@ const MyArtistFilterCard = ({ onArtistClick }) => {
           <div className="artist-header">
             <div className="title">마이아티스트</div>
           </div>
+
           <div className="artist-filter">
+            {/* <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              <img
+                src={defualtImage}
+                style={{
+                  width: "4rem",
+                  height: "4rem",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              <div>전체보기</div>
+              <button onClick={() => onArtistClick(null)}>전체보기</button>
+            </div> */}
+
             {likes.map((like, index) => {
               const artistId = like.artist_id;
               const artistGroupId = like.artist_group_id;
               return (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                  }}
-                  onClick={() => onArtistClick({ artistId, artistGroupId })}
-                >
+                <>
                   <div
+                    key={index}
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      alignItems: "center",
                       gap: "1rem",
+                      border: like.isSelected ? "2px solid #646cffaa" : "none",
+                      padding: "0.5rem",
+                      borderRadius: "8px",
+                    }}
+                    onClick={() => {
+                      onArtistClick({ artistId, artistGroupId });
+                      likes.forEach((item) => (item.isSelected = false)); // Deselect all
+                      like.isSelected = true; // Select the clicked one
                     }}
                   >
-                    <img
-                      src={
-                        like.artist_image ||
-                        like.artist_group_image ||
-                        defualtImage
-                      }
-                      alt={like.name}
+                    <div
                       style={{
-                        width: "4rem",
-                        height: "4rem",
-                        borderRadius: "50%",
-                        objectFit: "cover",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "1rem",
                       }}
-                    />
-                    <div>{like.artist || like.artist_group}</div>
+                    >
+                      <img
+                        src={
+                          like.artist_image ||
+                          like.artist_group_image ||
+                          defualtImage
+                        }
+                        alt={like.name}
+                        style={{
+                          width: "4rem",
+                          height: "4rem",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <div>{like.artist || like.artist_group}</div>
+                    </div>
                   </div>
-                </div>
+                </>
               );
             })}
           </div>

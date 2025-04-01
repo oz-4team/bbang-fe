@@ -225,7 +225,6 @@ const SchedulePage = () => {
             }
           }}
         />
-        {/* </div> */}
 
         <div className="calendar-section">
           <div className="calendar-wrapper">
