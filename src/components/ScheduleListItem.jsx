@@ -70,8 +70,8 @@ const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
         <div
           style={{
             position: "absolute",
-            top: "0.5rem",
-            right: "0.8rem",
+            bottom: "0.5rem",
+            left: "0.9rem",
             backgroundColor: "#ccc",
             color: "#fff",
             padding: "0.2rem 0.5rem",
@@ -86,8 +86,8 @@ const ScheduleListItem = ({ schedules, handleclickUserCheck }) => {
         <div
           style={{
             position: "absolute",
-            top: "0.5rem",
-            right: "0.8rem",
+            bottom: "0.5rem",
+            left: "0.9rem",
             backgroundColor: "#4caf50",
             color: "#fff",
             padding: "0.2rem 0.5rem",
