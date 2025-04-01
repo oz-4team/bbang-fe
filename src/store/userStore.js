@@ -34,11 +34,14 @@ const useUserStore = create((set, get) => ({
       user: {
         ...userData,
         image_url: userData.image_url || userData.image || "", 
+        is_staff: userData.hasOwnProperty("is_staff") ? userData.is_staff : false,
       },
       accessToken,
       refreshToken,
       isAuthenticated: true,
     });
+
+    localStorage.setItem("is_staff", userData.is_staff ? "true" : "false");
 
     console.log("✅ 로그인 성공! 사용자 정보 저장됨.");
 

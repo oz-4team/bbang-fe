@@ -25,7 +25,6 @@ export default function useArtistGroups() {
                 { ...groupInfo, created_by },
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                 }
@@ -58,7 +57,6 @@ export default function useArtistGroups() {
                 { members: artistInfo },
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                 }
@@ -81,7 +79,6 @@ export default function useArtistGroups() {
             const response = await axios.delete(`${API_BASE_URL}/artist-groups/${id}/`,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                 }
@@ -106,7 +103,6 @@ export default function useArtistGroups() {
             const response = await axios.delete(`${API_BASE_URL}/artist-groups/${groupid}/members/${artistid}/delete/`,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                 }
@@ -127,7 +123,6 @@ export default function useArtistGroups() {
             setLoading(true);
             const response = await axios.get(`${API_BASE_URL}/artist-groups/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
                 },
             });
 

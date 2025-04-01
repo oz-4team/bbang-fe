@@ -54,7 +54,8 @@ function App() {
       fetchUserProfile(access)
         .then((userData) => {
           if (!userData || !userData.email) throw new Error("Invalid user data");
-          useUserStore.getState().login(userData, access, refresh);
+          const storedIsStaff = localStorage.getItem("is_staff") === "true";
+          useUserStore.getState().login({ ...userData, is_staff: storedIsStaff }, access, refresh);
           
           const cleared = !localStorage.getItem("accessToken");
           if (!cleared) {

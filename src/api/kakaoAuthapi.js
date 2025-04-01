@@ -1,4 +1,3 @@
-// loginKakao.js
 import axios from "axios";
 import { saveToken, getToken } from "../utils/authUtils";
 import useUserStore from "../store/userStore";
@@ -27,7 +26,7 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
 
 
             // 응답 데이터에서 토큰 및 사용자 정보를 추출
-            const { access_token: accessToken, refresh_token: refreshToken, nickname } = response.data;
+            const { access_token: accessToken, refresh_token: refreshToken, nickname, is_staff } = response.data;
 
             // 사용자 정보 또는 토큰이 없으면 에러 발생
             if (!nickname || !accessToken || !refreshToken) {
@@ -39,7 +38,8 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
 
             // 토큰 저장 및 사용자 로그인 처리
             saveToken(accessToken, refreshToken);
-            useUserStore.getState().login(nickname, accessToken, refreshToken);
+            useUserStore.getState().login({ nickname, is_staff }, accessToken, refreshToken);
+            localStorage.setItem("is_staff", is_staff ? "true" : "false");
             console.log("🎉 Kakao 로그인 성공! 사용자 정보 저장됨:", nickname);
 
             // 로그인 성공 후 페이지 이동
