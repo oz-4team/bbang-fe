@@ -1,21 +1,56 @@
 import React, { useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
+import useLikes from "../api/artist/useLikes";
 
-const ArtistInfo = ({ artist }) => {
-  const [favoriteArtist, setFavoriteArtist] = useState(false);
+const ArtistInfo = ({ artist, artistGroups }) => {
+  const artist_agency = artist?.artist_agency || artistGroups?.artist_agency;
+  const debut_date = artist?.debut_date || artistGroups?.debut_date;
+  const group_fandom = artist?.group_fandom || artistGroups?.group_fandom;
+  const group_insta = artist?.group_insta || artistGroups?.group_insta;
+  const artist_group = artist?.artist_group || artistGroups?.artist_group;
+  const artist_name = artist?.artist_name || artistGroups?.artist_name;
+  const image_url = artist?.image_url || artistGroups?.image_url;
+  const is_liked = artist?.is_liked || artistGroups?.is_liked;
+  const id = artist?.id || artistGroups?.id;
+
+  console.log("artistInfosss:", artist);
+  console.log("artistGroupsInfo:", artistGroups);
+
   const {
-    artist_agency,
-    debut_date,
-    group_fandom,
-    group_insta,
-    artist_group,
-    artist_name,
-    image_url,
-  } = artist;
+    addLikeArtist,
+    addLikeArtistGroup,
+    deleteLikeArtistGroup,
+    deleteLikeArtist,
+  } = useLikes();
 
-  const toggleStar = () => {
+  const type = artist_name ? "solo" : "group";
+
+  const [favoriteArtist, setFavoriteArtist] = useState(is_liked);
+
+  const toggleLike = (e) => {
+    e.stopPropagation();
     setFavoriteArtist(!favoriteArtist);
+
+    if (favoriteArtist === false) {
+      if (type === "solo") {
+        addLikeArtist(id);
+      } else if (type === "group") {
+        addLikeArtistGroup(id);
+      }
+    }
+
+    if (favoriteArtist === true) {
+      if (type === "solo") {
+        deleteLikeArtist(id);
+      } else if (type === "group") {
+        deleteLikeArtistGroup(id);
+      }
+    }
   };
+
+  // const toggleStar = () => {
+  //   setFavoriteArtist(!favoriteArtist);
+  // };
   return (
     <div
       style={{
@@ -76,7 +111,7 @@ const ArtistInfo = ({ artist }) => {
           <a href={group_insta}>{group_insta}</a>
         </div>
       </div>
-      <div onClick={toggleStar} style={{ cursor: "pointer", fontSize: "2rem" }}>
+      <div onClick={toggleLike} style={{ cursor: "pointer", fontSize: "2rem" }}>
         {favoriteArtist ? <GoHeartFill color="#fe0000" /> : <GoHeart />}
       </div>
     </div>
