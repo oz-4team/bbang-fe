@@ -157,9 +157,9 @@ const ScheduleManagementPage = () => {
           </>
         )}
         {scheduleData[day]?.total > 0 && (
-          <div className="content">
-            <FaMusic style={{ color: "#a174ff" }} />
-            <span>{scheduleData[day]?.total}</span>
+          <div className="schedule-count">
+            <FaMusic className="music-icon" />
+            <span className="count-text">{scheduleData[day]?.total}건</span>
           </div>
         )}
       </div>

@@ -1,20 +1,27 @@
 import React from "react";
 import ScheduleListItemStaff from "./ScheduleListItemStaff";
 
+const scrollContainerStyle = {
+  width: "95%",
+  margin: "0 auto",
+  paddingTop: "1rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  maxHeight: "700px",
+  overflowY: "scroll",
+  scrollbarWidth: "none", // Firefox
+  msOverflowStyle: "none", // IE 10+
+};
+
+// Chrome, Safari, Edge 지원을 위한 스타일은 아래와 같이 class로 보완
 const StaffScheduleList = ({ schedules }) => {
   if (schedules.length === 0) return <div>등록된 일정이 없습니다.</div>;
 
   return (
     <div
-      style={{
-        width: "100%",
-        paddingTop: "1rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        // maxHeight: "700px",
-        overflow: "scroll",
-      }}
+      style={scrollContainerStyle}
+      className="hide-scrollbar"
     >
       {schedules.map((a) => (
         <React.Fragment key={a.id}>
@@ -39,3 +46,4 @@ const StaffScheduleList = ({ schedules }) => {
 };
 
 export default StaffScheduleList;
+
