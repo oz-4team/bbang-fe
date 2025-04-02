@@ -56,6 +56,9 @@
   flex-grow: 1;
   min-width: 300px;
   max-width: 600px;
+  height: 600px; /* 💡 달력 높이 고정 */
+  display: flex;
+  flex-direction: column;
 }
 
 .calendar-header {
@@ -78,56 +81,75 @@
   color: #444;
 }
 
-.calendar-grid {
+/* ✅ 요일 행: 7열 정렬 */
+.weekday-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
+  width: 100%;
   margin-top: 1rem;
 }
 
+/* ✅ 요일 셀: 긴 사각형 + 중앙 정렬 */
 .day-header {
-  text-align: center;
-  font-weight: bold;
-  padding: 0.5rem 0;
+  height: 36px;
   background-color: #f9f9f9;
   border-radius: 12px;
   color: #4a4a4a;
   font-size: 0.95rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ 날짜 셀 */
+.calendar-grid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .day-cell {
-  border: none;
-  min-height: 80px;
-  padding: 0.7rem;
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px; /* ✅ 둥근 사각형 */
+  aspect-ratio: 1 / 1; /* ✅ 정사각형 유지 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .day-cell:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(174, 0, 255, 0.12);
 }
 
 .day-cell.today {
   background: linear-gradient(135deg, #e4e9ff, #f7e8ff);
-  border: 2px solid #ff8c00; /* ✨ 주황 테두리 강조 */
+  border: 2px solid #ff8c00;
   box-shadow: 0 0 10px rgba(161, 116, 255, 0.2);
 }
 
 .day-cell.selected {
   background: linear-gradient(135deg, #f3e8ff, #e0f0ff);
-  box-shadow: 0 0 12px rgba(161, 116, 255, 0.4);
   border: 2px solid #a174ff;
+  box-shadow: 0 0 12px rgba(161, 116, 255, 0.4);
 }
 
 .date-number {
   position: absolute;
   top: 10px;
-  right: 12px;
+  right: 10px;
   font-size: 14px;
   font-weight: 600;
   color: #555;
@@ -138,7 +160,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  flex-wrap: nowrap;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.music-icon,
+.favorite-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+}
+
+.music-icon {
+  color: #a174ff;
+}
+
+.favorite-icon {
+  color: #ff6b81;
 }
 
 .today-indicator {
@@ -157,17 +196,6 @@
   font-size: 10px;
   color: #FF8C00;
   pointer-events: none;
-}
-
-/* 아이콘 */
-.music-icon {
-  color: #a174ff;
-  font-size: 16px;
-}
-
-.favorite-icon {
-  color: #ff6b81;
-  font-size: 16px;
 }
 
 .schedule-count {
@@ -204,7 +232,6 @@
   font-weight: 500;
 }
 
-/* 좌우 화살표 버튼 */
 .scroll-btn {
   position: absolute;
   top: 50%;
@@ -270,6 +297,7 @@
 }
 
 .custom-radio:hover input[type="radio"]:checked + .radio-circle {
-  box-shadow:0 0 6px rgba(161, 116, 255, 0.6);
+  box-shadow: 0 0 6px rgba(161, 116, 255, 0.6);
   transform: scale(1.1);
 }
+
