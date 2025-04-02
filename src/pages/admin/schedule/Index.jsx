@@ -3,7 +3,10 @@ import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useReadArtistGroups from "../../../api/artist/useReadArtistGroups";
-import { fetchArtistSchedules } from "../../../api/schedule/scheduleApi";
+import {
+  fetchArtistSchedules,
+  fetchGroupSchedules,
+} from "../../../api/schedule/scheduleApi";
 import useArtistManagementStore from "../useArtistManagementStore";
 import StaffScheduleList from "./StaffScheduleList";
 
@@ -67,14 +70,12 @@ const ScheduleManagementPage = () => {
   useEffect(() => {
     if (artists && artists.length > 0) {
       setArtist(artists[0]);
-      console.log("👀 아티스트:", artists[0]);
     }
   }, [artists]);
 
   useEffect(() => {
     if (groups && groups.length > 0) {
       setGroup(groups[0]);
-      console.log("👀 그룹:", groups[0]);
     }
   }, [groups]);
   const navigate = useNavigate();
@@ -94,26 +95,16 @@ const ScheduleManagementPage = () => {
     if (artistId) {
       fetchArtistSchedules(artistId).then((schedules) => {
         setSchedules(schedules);
-        console.log("👀 아티스트 스케줄:", schedules);
       });
-      // 스케줄을 가져오는 API 호출
-      console.log("👀 아티스트 ID:", artistId);
-      console.log("👀 아티스트 스케줄 조회");
     }
   }, [artistId]);
 
   // 그룹 ID가 변경될 때마다 스케줄을 가져옴
   useEffect(() => {
     if (groupId) {
-      fetchArtistSchedules(groupId).then((schedules) => {
-        // setSchedule(schedules);
-        console.log("👀 그룹 스케줄:", schedules);
+      fetchGroupSchedules(groupId).then((schedules) => {
         setSchedules(schedules);
       });
-
-      // 스케줄을 가져오는 API 호출
-      console.log("👀 그룹 ID:", groupId);
-      console.log("👀 그룹 스케줄 조회");
     }
   }, [groupId]);
 
