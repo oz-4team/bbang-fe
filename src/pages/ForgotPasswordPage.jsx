@@ -105,8 +105,10 @@ function ForgotPasswordPage() {
 
       if (!navigator.onLine) {
         setError("인터넷 연결을 확인해주세요.");
-      } else if (err.message.includes("가입한 사용자가 존재하지 않습니다")) {
+      } else if (err.message === "EMAIL_NOT_REGISTERED") {
         setError("등록되지 않은 이메일입니다.");
+      } else if (err.message === "SOCIAL_LOGIN_ACCOUNT") {
+        setError("소셜 로그인으로 가입된 계정입니다. \n이메일로 비밀번호 재설정이 불가능합니다.");
       } else {
         setError("요청 처리 중 문제가 발생했습니다. 다시 시도해주세요.");
       }
@@ -140,7 +142,16 @@ function ForgotPasswordPage() {
           </button>
         </form>
         {message && <p className="success-message">{message}</p>}
-        {error && <p className="error-message">{error}</p>}
+        {error && (
+          <div className="error-message">
+            {error.split('\n').map((line, idx) => (
+              <span key={idx}>
+                {line}
+                <br />
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -85,16 +85,22 @@ export const sendPasswordResetEmail = async (email) => {
       const response = await axios.post(`${API_BASE_URL}/password-reset/request/`, { email });
       return response.data;
     } catch (error) {
+      const data = error.response?.data;
+
+      if (data?.error === "해당 이메일을 가진 사용자가 존재하지 않습니다.") {
+        throw new Error("EMAIL_NOT_REGISTERED");
+      } else if (data?.message === "소셜 회원은 비밀번호 재설정이 불가능합니다.") {
+        throw new Error("SOCIAL_LOGIN_ACCOUNT");
+      }
+
       const msg =
-        error.response?.data?.error ||
-        error.response?.data?.message ||
-        error.message ||
-        "비밀번호 재설정 요청 실패";
+        data?.error || data?.message || error.message || "비밀번호 재설정 요청 실패";
       console.error("❌ 비밀번호 재설정 요청 실패:", msg);
-      throw new Error(msg);
+      throw new Error("UNKNOWN_ERROR");
     }
   }
 };
+
 
 /** 비밀번호 재설정 */
 export const resetPassword = async (token, newPassword) => {
