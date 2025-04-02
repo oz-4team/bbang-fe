@@ -60,7 +60,9 @@ const ScheduleCard = ({
           flexGrow: "1",
         }}
       >
-        <div style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}>
+        <div
+          style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
+        >
           {title}
         </div>
         <div style={{ textAlign: "left" }}>{name}</div>
@@ -78,7 +80,11 @@ const ScheduleCard = ({
           onClick={user ? onToggleFavorite : onCardClick}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
-          {is_favorited ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
+          {is_favorited ? (
+            <FaStar color="#FEE500" />
+          ) : (
+            <FaRegStar color="#ebebeb" />
+          )}
         </div>
       )}
     </div>

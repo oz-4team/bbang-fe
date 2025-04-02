@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllSchedules } from "../api/schedule/scheduleApi";
+import useFavorites from "../api/schedule/useFavorites";
 import defaultImage from "../assets/images/img-defualt.png";
 import ScheduleCard from "./ScheduleCard";
-import useFavorites from "../api/schedule/useFavorites";
 
 const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
   const [schedules, setSchedules] = useState([]);
@@ -58,8 +58,11 @@ const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
       scheduleDate.getFullYear() === currentYear;
 
     if (searchQuery) {
-      const name =
-        (a.artist?.artist_name || a.artist_group?.artist_group || "").toLowerCase();
+      const name = (
+        a.artist?.artist_name ||
+        a.artist_group?.artist_group ||
+        ""
+      ).toLowerCase();
       return name.includes(searchQuery.toLowerCase()) && isCurrentMonth;
     }
 
@@ -77,9 +80,20 @@ const ScheduleCardArea = ({ onCardClick, searchQuery }) => {
           display: "flex",
           gap: "16px",
           marginBottom: "16px",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
         }}
       >
+        <h1
+          style={{
+            textAlign: "left",
+            marginTop: "1rem",
+            marginBottom: "1rem",
+            fontSize: "2rem",
+            fontWeight: "bold",
+          }}
+        >
+          이번달 스케줄
+        </h1>
         <button onClick={() => setShowOnlyFavorited((prev) => !prev)}>
           {showOnlyFavorited ? "전체보기" : "⭐️ 즐겨찾기만 보기"}
         </button>
