@@ -9,7 +9,6 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
 import useFavorites from "../api/schedule/useFavorites";
-import KakaoMap from "../api/useKakaoMap";
 import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
@@ -256,9 +255,7 @@ const ScheduleDetailPage = () => {
               <a href={urlLocation}>지도보기</a>
             </div>
           </div>
-          <div>
-            <KakaoMap location={pinLocation} />
-          </div>
+          <div>{/* <KakaoMap location={pinLocation} /> */}</div>
         </div>
         <div
           style={{

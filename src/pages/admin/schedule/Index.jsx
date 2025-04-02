@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaMusic } from "react-icons/fa";
 import useReadArtistGroups from "../../../api/artist/useReadArtistGroups";
-import { fetchArtistSchedules } from "../../../api/schedule/scheduleApi";
+import {
+  fetchArtistSchedules,
+  fetchGroupSchedules,
+} from "../../../api/schedule/scheduleApi";
 import useArtistManagementStore from "../useArtistManagementStore";
 import StaffScheduleList from "./StaffScheduleList";
 import "../../../styles/SchedulePage.css";
@@ -62,13 +65,23 @@ const ScheduleManagementPage = () => {
 
   useEffect(() => {
     if (artistId) {
-      fetchArtistSchedules(artistId).then(setSchedules);
+
+      fetchArtistSchedules(artistId).then((schedules) => {
+        setSchedules(schedules);
+      });
+
+
+
     }
   }, [artistId]);
 
   useEffect(() => {
     if (groupId) {
-      fetchArtistSchedules(groupId).then(setSchedules);
+
+      fetchGroupSchedules(groupId).then((schedules) => {
+        setSchedules(schedules);
+      });
+
     }
   }, [groupId]);
 
