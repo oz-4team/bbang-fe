@@ -25,7 +25,7 @@ export const exchangeNaverToken = async (authCode, navigate) => {
         });
 
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
-        const { access_token: accessToken, refresh_token: refreshToken, nickname } = response.data;
+        const { accessToken: accessToken, refresh_token: refreshToken, nickname } = response.data;
 
         if (!nickname || !accessToken || !refreshToken) {
             console.error("🚨 Naver 로그인 응답 누락: 사용자 정보 또는 토큰 없음");
