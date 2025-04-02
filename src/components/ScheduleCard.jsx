@@ -1,11 +1,9 @@
-import { default as React, useEffect, useState } from "react";
+import React from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import useFavorites from "../api/schedule/useFavorites";
 import useUserStore from "../store/userStore";
 
 const ScheduleCard = ({
-  artistname,
   name,
   image,
   title,
@@ -13,50 +11,21 @@ const ScheduleCard = ({
   onCardClick,
   is_favorited,
   start_date,
+  onToggleFavorite,
 }) => {
-  const { user, logout } = useUserStore();
+  const { user } = useUserStore();
   const navigate = useNavigate();
-  const [starred, setStarred] = useState(is_favorited);
-  const { favorite, loading, addFavorite, readFavorite, deleteFavorite } =
-    useFavorites();
 
-  const toggleStar = async (e) => {
-    e.stopPropagation();
-
-    if (!starred) {
-      try {
-        await addFavorite(id);
-        setStarred(true);
-      } catch (err) {
-        console.error("즐겨찾기 추가 실패:", err);
-      }
-    } else {
-      try {
-        await deleteFavorite(id);
-        setStarred(false);
-      } catch (err) {
-        console.error("즐겨찾기 삭제 실패:", err);
-      }
-    }
-  };
   const handleClickScheduleDetail = (e) => {
     e.stopPropagation();
     navigate(`/schedule/details/${id}`);
   };
-
-  useEffect(() => {
-    if (user) {
-      readFavorite();
-    }
-  }, [user]);
 
   return (
     <div
       onClick={user ? handleClickScheduleDetail : onCardClick}
       style={{
         display: "flex",
-        // maxWidth: "500px",
-        // padding: "1rem 0",
         transition: "transform 0.3s",
       }}
       onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.01)")}
@@ -91,9 +60,7 @@ const ScheduleCard = ({
           flexGrow: "1",
         }}
       >
-        <div
-          style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}
-        >
+        <div style={{ fontSize: "1.5rem", fontWeight: "bold", textAlign: "left" }}>
           {title}
         </div>
         <div style={{ textAlign: "left" }}>{name}</div>
@@ -108,10 +75,10 @@ const ScheduleCard = ({
       </div>
       {user?.is_staff ? null : (
         <div
-          onClick={user ? toggleStar : onCardClick}
+          onClick={user ? onToggleFavorite : onCardClick}
           style={{ cursor: "pointer", fontSize: "2rem" }}
         >
-          {starred ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
+          {is_favorited ? <FaStar color="#FEE500" /> : <FaRegStar color="#AFB1B6" />}
         </div>
       )}
     </div>
