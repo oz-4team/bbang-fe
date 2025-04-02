@@ -7,7 +7,9 @@ const Modal = ({ message, onClose }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <p>{message}</p>
-        <button onClick={onClose} className="btn-primary">확인</button>
+        <button onClick={onClose} className="btn-primary">
+          확인
+        </button>
       </div>
     </div>
   );
@@ -22,7 +24,7 @@ const ToAddMemeberCard = () => {
     group_insta: group.group_insta,
     artist_group_fandom: group.group_fandom,
     debut_date: group.debut_date,
-    solomembers: "",
+    solomembers: false,
     image_url: null,
     artist_insta: "",
   };
