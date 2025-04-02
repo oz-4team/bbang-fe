@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { FaMusic } from "react-icons/fa";
+import { FaMusic, FaStar } from "react-icons/fa";
 import {
   fetchAllSchedules,
   fetchFavoriteSchedules,
@@ -167,21 +167,27 @@ const SchedulePage = () => {
         {isToday && (
           <>
             <div className="today-indicator"></div>
-            <span className="today-label">today</span>
+            <span className="today-label"
+            style={{ 
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "10px",
+              color: "#FF8C00" }}>today</span>
           </>
         )}
         {(scheduleCount > 0 || favoriteCount > 0) && (
           <div className="content">
             {scheduleCount === favoriteCount ? (
               <>
-                <FaMusic style={{ color: "#ff6b81" }} />
-                <span>{favoriteCount}</span>
+                <FaStar style={{ color: "#ff6b81" }} />
               </>
             ) : (
               <>
                 {scheduleCount > 0 && <FaMusic style={{ color: "#a174ff" }} />}
                 {favoriteCount > 0 && scheduleCount !== favoriteCount && (
-                  <FaMusic style={{ color: "#ff6b81" }} />
+                  <FaStar style={{ color: "#ff6b81" }} />
                 )}
               </>
             )}
