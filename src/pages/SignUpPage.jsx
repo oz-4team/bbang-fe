@@ -49,7 +49,15 @@ function SignUpPage() {
       previewImageUrl,
     };
     localStorage.setItem("signupFormData", JSON.stringify(formData));
-  }, [email, password, confirmPassword, nickname, gender, age, previewImageUrl]);
+  }, [
+    email,
+    password,
+    confirmPassword,
+    nickname,
+    gender,
+    age,
+    previewImageUrl,
+  ]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -182,139 +190,142 @@ function SignUpPage() {
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
-      <h1>회원가입</h1>
-
-      <div className="form-group">
-        <label>프로필 업로드 (선택)</label>
-        <div className="profile-upload">
-          {previewImageUrl ? (
-            <img
-              src={previewImageUrl}
-              alt="프로필 미리보기"
-              className="profile-preview"
-            />
-          ) : (
-            <div className="default-profile-icon">📷</div>
-          )}
+    <>
+      <div className="outlet-container">
+        <div className="inner">
+          <form className="signup-form" onSubmit={handleSubmit}>
+            <h1>회원가입</h1>
+            <div className="form-group">
+              <label>프로필 업로드 (선택)</label>
+              <div className="profile-upload">
+                {previewImageUrl ? (
+                  <img
+                    src={previewImageUrl}
+                    alt="프로필 미리보기"
+                    className="profile-preview"
+                  />
+                ) : (
+                  <div className="default-profile-icon">📷</div>
+                )}
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                className="profile-upload-input"
+                onChange={handleProfileImageChange}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="이메일을 입력해주세요"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && <p className="error">{errors.email}</p>}
+            </div>
+            <div className="form-group password-group">
+              <input
+                type={passwordVisible ? "text" : "password"}
+                placeholder="비밀번호를 입력해주세요"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              {errors.password && <p className="error">{errors.password}</p>}
+              {errors.passwordLang && (
+                <p className="error">{errors.passwordLang}</p>
+              )}
+              <span
+                className="password-toggle"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? <FiEyeOff /> : <FiEye />}
+              </span>
+            </div>
+            <div className="form-group password-group">
+              <input
+                type={confirmPasswordVisible ? "text" : "password"}
+                placeholder="비밀번호를 재입력해주세요"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+              {errors.confirmPassword && (
+                <p className="error">{errors.confirmPassword}</p>
+              )}
+              {errors.passwordLang && (
+                <p className="error">{errors.passwordLang}</p>
+              )}
+              <span
+                className="password-toggle"
+                onClick={() =>
+                  setConfirmPasswordVisible(!confirmPasswordVisible)
+                }
+              >
+                {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
+              </span>
+            </div>
+            <div className="form-group nickname-group">
+              <input
+                type="text"
+                placeholder="닉네임을 입력해주세요"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                className="nickname-input"
+              />
+              {errors.nickname && <p className="error">{errors.nickname}</p>}
+            </div>
+            <div className="form-group birth-info">
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="birth-select"
+              >
+                <option value="">성별 (선택)</option>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
+              </select>
+              <select
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                className="birth-select"
+              >
+                <option value="">출생년도 (선택)</option>
+                {[...Array(100)].map((_, i) => (
+                  <option key={i} value={1925 + i}>
+                    {1925 + i}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group terms-container">
+              <label className="terms-label">
+                <input type="checkbox" required />
+                <span>
+                  <Link to="/privacy" className="terms-link" target="_blank">
+                    이용약관, 개인정보처리방침
+                  </Link>
+                  에 동의
+                </span>
+              </label>
+            </div>
+            <button type="submit" className="submit-button">
+              회원가입
+            </button>{" "}
+            <div className="p-24"></div>
+            <SocialLogin />
+            <div className="p-24"></div>
+            {isModalOpen && (
+              <div className="modal-overlay">
+                <div className="modal-content">
+                  <p>{modalMessage}</p>
+                  <button onClick={() => setIsModalOpen(false)}>확인</button>
+                </div>
+              </div>
+            )}
+          </form>
         </div>
-        <input
-          type="file"
-          accept="image/*"
-          className="profile-upload-input"
-          onChange={handleProfileImageChange}
-        />
       </div>
-
-      <div className="form-group">
-        <input
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {errors.email && <p className="error">{errors.email}</p>}
-      </div>
-
-      <div className="form-group password-group">
-        <input
-          type={passwordVisible ? "text" : "password"}
-          placeholder="비밀번호를 입력해주세요"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {errors.password && <p className="error">{errors.password}</p>}
-        {errors.passwordLang && <p className="error">{errors.passwordLang}</p>}
-        <span
-          className="password-toggle"
-          onClick={() => setPasswordVisible(!passwordVisible)}
-        >
-          {passwordVisible ? <FiEyeOff /> : <FiEye />}
-        </span>
-      </div>
-
-      <div className="form-group password-group">
-        <input
-          type={confirmPasswordVisible ? "text" : "password"}
-          placeholder="비밀번호를 재입력해주세요"
-          value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
-        />
-        {errors.confirmPassword && (
-          <p className="error">{errors.confirmPassword}</p>
-        )}
-        {errors.passwordLang && <p className="error">{errors.passwordLang}</p>}
-        <span
-          className="password-toggle"
-          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-        >
-          {confirmPasswordVisible ? <FiEyeOff /> : <FiEye />}
-        </span>
-      </div>
-
-      <div className="form-group nickname-group">
-        <input
-          type="text"
-          placeholder="닉네임을 입력해주세요"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          className="nickname-input"
-        />
-        {errors.nickname && <p className="error">{errors.nickname}</p>}
-      </div>
-
-      <div className="form-group birth-info">
-        <select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          className="birth-select"
-        >
-          <option value="">성별 (선택)</option>
-          <option value="male">남성</option>
-          <option value="female">여성</option>
-        </select>
-        <select
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-          className="birth-select"
-        >
-          <option value="">출생년도 (선택)</option>
-          {[...Array(100)].map((_, i) => (
-            <option key={i} value={1925 + i}>
-              {1925 + i}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="form-group terms-container">
-        <label className="terms-label">
-          <input type="checkbox" required />
-          <span>
-            <Link to="/privacy" className="terms-link" target="_blank">
-              이용약관, 개인정보처리방침
-            </Link>
-            에 동의
-          </span>
-        </label>
-      </div>
-
-
-      <button type="submit" className="submit-button">
-        회원가입
-      </button>
-
-      <SocialLogin />
-
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <p>{modalMessage}</p>
-            <button onClick={() => setIsModalOpen(false)}>확인</button>
-          </div>
-        </div>
-      )}
-    </form>
+    </>
   );
 }
 
