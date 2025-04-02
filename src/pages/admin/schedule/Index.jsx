@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaMusic } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import useReadArtistGroups from "../../../api/artist/useReadArtistGroups";
-import {
-  fetchArtistSchedules,
-  fetchGroupSchedules,
-} from "../../../api/schedule/scheduleApi";
+import { fetchArtistSchedules } from "../../../api/schedule/scheduleApi";
+import "../../../styles/SchedulePage.css";
 import useArtistManagementStore from "../useArtistManagementStore";
 import StaffScheduleList from "./StaffScheduleList";
-import "../../../styles/SchedulePage.css";
 
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -16,14 +13,8 @@ const ScheduleManagementPage = () => {
   const { artists, groups, readArtistGroups } = useReadArtistGroups();
   const navigate = useNavigate();
 
-  const {
-    artist,
-    group,
-    setArtist,
-    setGroup,
-    refresh,
-    setRefresh,
-  } = useArtistManagementStore();
+  const { artist, group, setArtist, setGroup, refresh, setRefresh } =
+    useArtistManagementStore();
 
   const [artistName, setArtistName] = useState(null);
   const [artistPhoto, setArtistPhoto] = useState(null);
@@ -86,7 +77,11 @@ const ScheduleManagementPage = () => {
   }, [groupId]);
 
   useEffect(() => {
-    const name = artist ? artist.artist_name : group ? group.artist_group : null;
+    const name = artist
+      ? artist.artist_name
+      : group
+      ? group.artist_group
+      : null;
     const photo = artist ? artist.image_url : group ? group.image_url : null;
     setArtistName(name);
     setArtistPhoto(photo);
@@ -132,7 +127,9 @@ const ScheduleManagementPage = () => {
       today.getFullYear() === year;
 
     const isSelected = selectedDay === day;
-    const className = `day-cell${isToday ? " today" : ""}${isSelected ? " selected" : ""}`;
+    const className = `day-cell${isToday ? " today" : ""}${
+      isSelected ? " selected" : ""
+    }`;
     const cellStyle = {};
     if (isToday) cellStyle.border = "2px solid #FF8C00";
     if (isSelected) {
@@ -159,14 +156,19 @@ const ScheduleManagementPage = () => {
         {isToday && (
           <>
             <div className="today-indicator"></div>
-            <span className="today-label" 
-            style={{ 
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              fontSize: "10px",
-              color: "#FF8C00" }}>today</span>
+            <span
+              className="today-label"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                fontSize: "10px",
+                color: "#FF8C00",
+              }}
+            >
+              today
+            </span>
           </>
         )}
         {scheduleData[day]?.total > 0 && (
@@ -182,21 +184,40 @@ const ScheduleManagementPage = () => {
   return (
     <div className="schedule-page">
       <div className="schedule-container">
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center", paddingBottom: "2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "2rem",
+            alignItems: "center",
+            paddingBottom: "2rem",
+          }}
+        >
           <img
             src={artistPhoto}
             alt=""
             style={{ width: "4rem", height: "4rem", borderRadius: "50%" }}
           />
-          <div style={{ fontSize: "24px", fontWeight: "bold" }}>{artistName} 스케줄</div>
+          <div style={{ fontSize: "24px", fontWeight: "bold" }}>
+            {artistName} 스케줄
+          </div>
         </div>
 
         <div className="calendar-section">
           <div className="calendar-wrapper">
             <div className="calendar-header">
-              <button onClick={() => setCurrentDate(new Date(year, month - 1, 1))}>◀</button>
-              <h2>{year}년 {month + 1}월</h2>
-              <button onClick={() => setCurrentDate(new Date(year, month + 1, 1))}>▶</button>
+              <button
+                onClick={() => setCurrentDate(new Date(year, month - 1, 1))}
+              >
+                ◀
+              </button>
+              <h2>
+                {year}년 {month + 1}월
+              </h2>
+              <button
+                onClick={() => setCurrentDate(new Date(year, month + 1, 1))}
+              >
+                ▶
+              </button>
             </div>
             <div className="calendar-grid">
               {weekdayHeaders}
@@ -205,10 +226,18 @@ const ScheduleManagementPage = () => {
           </div>
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>
-            <div style={{ display: "flex", justifyContent: "flex-end", padding: "1rem" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "1rem",
+              }}
+            >
               <button
                 onClick={() =>
-                  navigate(`/schedule-management/${artistId || groupId}/${type}/add`)
+                  navigate(
+                    `/schedule-management/${artistId || groupId}/${type}/add`
+                  )
                 }
               >
                 +일정등록
@@ -220,7 +249,9 @@ const ScheduleManagementPage = () => {
               <option value="월간">월간</option>
             </select>
             <div>
-              <StaffScheduleList schedules={selectedDay ? filteredSchedules : schedules} />
+              <StaffScheduleList
+                schedules={selectedDay ? filteredSchedules : schedules}
+              />
             </div>
           </div>
         </div>

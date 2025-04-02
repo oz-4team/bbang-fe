@@ -1,11 +1,12 @@
-import React, { useState } from "react";
 import axios from "axios";
-import "../styles/AdminRequest.css";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isValidPhone } from "../utils/validation";
 import { setupAxiosInterceptors } from "../api/axiosInterceptors";
+import "../styles/AdminRequest.css";
+import { isValidPhone } from "../utils/validation";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://3.35.108.208:8000";
 
 const AdminRequestPage = () => {
   const [artistName, setArtistName] = useState("");
@@ -66,54 +67,72 @@ const AdminRequestPage = () => {
   };
 
   return (
-    <div className="page-wrapper">
-      <div className="admin-request-page">
-        <h1 className="title">관리자 권한 신청</h1>
-        <form className="form" onSubmit={handleSubmit}>
-          <label className="spaced-label">
-            아티스트명
-            <input
-              type="text"
-              placeholder="아티스트명"
-              value={artistName}
-              onChange={(e) => setArtistName(e.target.value)}
-            />
-          </label>
-          <label>
-            회사명
-            <input
-              type="text"
-              placeholder="회사명을 입력해주세요"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-            />
-          </label>
-          <label>
-            대표 전화
-            <input
-              type="tel"
-              placeholder="전화번호를 입력해주세요"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            {errors.phone && <p className="error-message">{errors.phone}</p>}
-          </label>
-          <label className="file-upload">
-            증빙서류 (사업자등록증)
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </label>
-          {preview && (
-            <div className="file-preview">
-              <img src={preview} alt="첨부파일 미리보기" />
+    <>
+      <div className="outlet-container">
+        <div className="inner">
+          <div className="page-wrapper">
+            <div className="admin-request-page">
+              <h1 className="title">관리자 권한 신청</h1>
+              <form className="form" onSubmit={handleSubmit}>
+                <label className="spaced-label">
+                  아티스트명
+                  <input
+                    type="text"
+                    placeholder="아티스트명"
+                    value={artistName}
+                    onChange={(e) => setArtistName(e.target.value)}
+                  />
+                </label>
+                <label>
+                  회사명
+                  <input
+                    type="text"
+                    placeholder="회사명을 입력해주세요"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                  />
+                </label>
+                <label>
+                  대표 전화
+                  <input
+                    type="tel"
+                    placeholder="전화번호를 입력해주세요"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                  {errors.phone && (
+                    <p className="error-message">{errors.phone}</p>
+                  )}
+                </label>
+                <label className="file-upload">
+                  증빙서류 (사업자등록증)
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                </label>
+                {preview && (
+                  <div className="file-preview">
+                    <img src={preview} alt="첨부파일 미리보기" />
+                  </div>
+                )}
+                <p className="notice">
+                  * 소요시간은 1 ~ 2일 소요될 수 있습니다
+                </p>
+                <button
+                  type="submit"
+                  className="submit-button"
+                  disabled={!file}
+                >
+                  신청하기
+                </button>
+              </form>
             </div>
-          )}
-          <p className="notice">* 소요시간은 1 ~ 2일 소요될 수 있습니다</p>
-          <button type="submit" className="submit-button" disabled={!file}>
-            신청하기
-          </button>
-        </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -70,38 +70,10 @@ const HomePage = () => {
       >
         <BannerAd></BannerAd>
         <div className="toggle-buttons">
-          {/* <button
-            className={!showLikedOnly ? "active" : ""}
-            onClick={() => {
-              setShowLikedOnly(false);
-              setSearchQuery(""); // Reset search query
-            }}
-          >
-            전체 가수 보기
-          </button>
-          <button
-            className={showLikedOnly ? "active" : ""}
-            onClick={() => {
-              setShowLikedOnly(true);
-              setSearchQuery(""); // Reset search query
-            }}
-          >
-            좋아요한 가수들
-          </button> */}
           <SearchBar onSearch={setSearchQuery} />
         </div>
         <div>
-          <h1
-            style={{
-              textAlign: "left",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              fontSize: "2rem",
-              fontWeight: "bold",
-            }}
-          >
-            이번달 스케줄
-          </h1>
+
 
           <ScheduleCardArea
             onCardClick={handleclickUserCheck}

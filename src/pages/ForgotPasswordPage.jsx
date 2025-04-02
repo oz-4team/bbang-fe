@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { sendPasswordResetEmail } from "../api/authApi";
 import "../styles/ForgotPassword.css";
 
@@ -15,7 +15,8 @@ function ForgotPasswordPage() {
 
   // 📦 이메일별 쿨타임 가져오기
   const getCooldownEndForEmail = (email) => {
-    const allCooldowns = JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
+    const allCooldowns =
+      JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
     return allCooldowns[email] || null;
   };
 
@@ -28,9 +29,11 @@ function ForgotPasswordPage() {
     } else {
       setCooldownEnd(null);
     }
+    setError("");
+    setMessage("");
   }, [email]);
 
-  // ⏱️ 타이머 효과
+  // ⏱️ 타이머 효과 및 쿨타임 만료 시 localStorage 정리
   useEffect(() => {
     const interval = setInterval(() => {
       if (cooldownEnd) {
@@ -39,13 +42,18 @@ function ForgotPasswordPage() {
         if (diff <= 0) {
           setCooldownEnd(null);
           setRemainingTime(0);
+
+          // ⛏️ localStorage에서 해당 이메일의 쿨타임 삭제
+          const allCooldowns = JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
+          delete allCooldowns[email];
+          localStorage.setItem("passwordResetCooldowns", JSON.stringify(allCooldowns));
         } else {
           setRemainingTime(diff);
         }
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [cooldownEnd]);
+  }, [cooldownEnd, email]);
 
   // 이메일 유효성 검사
   const validateEmail = (email) => {
@@ -55,10 +63,14 @@ function ForgotPasswordPage() {
 
   // 쿨타임 저장
   const saveCooldownForEmail = (email) => {
-    const allCooldowns = JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
+    const allCooldowns =
+      JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
     const end = Date.now() + COOLDOWN_DURATION;
     allCooldowns[email] = end;
-    localStorage.setItem("passwordResetCooldowns", JSON.stringify(allCooldowns));
+    localStorage.setItem(
+      "passwordResetCooldowns",
+      JSON.stringify(allCooldowns)
+    );
     setCooldownEnd(end);
   };
 
@@ -111,31 +123,37 @@ function ForgotPasswordPage() {
   const isCooldown = cooldownEnd && Date.now() < cooldownEnd;
 
   return (
-    <div className="page-wrapper">
-      <div className="forgot-password-container">
-        <h1>비밀번호 찾기</h1>
-        <form onSubmit={handleResetRequest}>
-          <label htmlFor="email">이메일 주소</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="이메일을 입력해주세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <button type="submit" disabled={isSubmitting || isCooldown}>
-            {isCooldown
-              ? `다시 보내기 (${formatTime(remainingTime)})`
-              : isSubmitting
-              ? "전송 중..."
-              : "인증 링크 보내기"}
-          </button>
-        </form>
-        {message && <p className="success-message">{message}</p>}
-        {error && <p className="error-message">{error}</p>}
+    <>
+      <div className="outlet-container">
+        <div className="inner">
+          <div className="page-wrapper">
+            <div className="forgot-password-container">
+              <h1>비밀번호 찾기</h1>
+              <form onSubmit={handleResetRequest}>
+                <label htmlFor="email">이메일 주소</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="이메일을 입력해주세요"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <button type="submit" disabled={isSubmitting || isCooldown}>
+                  {isCooldown
+                    ? `다시 보내기 (${formatTime(remainingTime)})`
+                    : isSubmitting
+                    ? "전송 중..."
+                    : "인증 링크 보내기"}
+                </button>
+              </form>
+              {message && <p className="success-message">{message}</p>}
+              {error && <p className="error-message">{error}</p>}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
