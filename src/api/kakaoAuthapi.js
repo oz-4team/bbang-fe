@@ -32,7 +32,6 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
             if (!nickname || !accessToken || !refreshToken) {
                 console.error("🚨 Kakao 로그인 응답 누락: 사용자 정보 또는 토큰 없음");
                 localStorage.clear();
-                window.location.reload();
                 throw new Error("Kakao 로그인 실패: 필수 정보 누락");
             }
 
@@ -53,7 +52,6 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
         } catch (error) {
             console.error("🚨 Kakao 로그인 처리 중 오류 발생:", error);
             localStorage.clear();
-            window.location.reload();
         }
     }
 };

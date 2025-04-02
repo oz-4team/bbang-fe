@@ -56,13 +56,23 @@ const ScheduleManagementPage = () => {
 
   useEffect(() => {
     if (artistId) {
-      fetchArtistSchedules(artistId).then(setSchedules);
+
+      fetchArtistSchedules(artistId).then((schedules) => {
+        setSchedules(schedules);
+      });
+
+
+
     }
   }, [artistId]);
 
   useEffect(() => {
     if (groupId) {
-      fetchArtistSchedules(groupId).then(setSchedules);
+
+      fetchGroupSchedules(groupId).then((schedules) => {
+        setSchedules(schedules);
+      });
+
     }
   }, [groupId]);
 

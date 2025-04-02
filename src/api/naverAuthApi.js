@@ -30,7 +30,6 @@ export const exchangeNaverToken = async (authCode, navigate) => {
         if (!nickname || !accessToken || !refreshToken) {
             console.error("🚨 Naver 로그인 응답 누락: 사용자 정보 또는 토큰 없음");
             localStorage.clear();
-            window.location.reload();
             throw new Error("Naver 로그인 실패: 필수 정보 누락");
         }
 
@@ -58,6 +57,5 @@ export const exchangeNaverToken = async (authCode, navigate) => {
         const errorMessage = error.response?.data?.message || "🚨 Naver 소셜 로그인 중 오류 발생";
         console.error("🚨 Naver 소셜 로그인 실패:", errorMessage);
         localStorage.clear();
-        window.location.reload();
     }
 };

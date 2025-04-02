@@ -148,7 +148,7 @@ const ProfilePage = () => {
     ) {
       try {
         // 로컬 스토리지에서 토큰 가져오기
-        const token = localStorage.getItem("access_token");
+        const token = localStorage.getItem("accessToken");
 
         // 토큰이 없으면 로그인되지 않은 상태일 수 있음
         if (!token) {

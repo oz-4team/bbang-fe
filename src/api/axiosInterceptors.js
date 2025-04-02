@@ -14,7 +14,6 @@ export const setupAxiosInterceptors = () => {
         } else {
           // if refresh fails, clear localStorage and optionally redirect
           localStorage.clear();
-          window.location.reload();
         }
       } else if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +23,6 @@ export const setupAxiosInterceptors = () => {
     } catch (err) {
       console.error("❌ 인터셉터 토큰 처리 실패:", err);
       localStorage.clear();
-      window.location.reload();
       return config; // fallback
     }
   }, (error) => Promise.reject(error));

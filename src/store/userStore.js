@@ -48,7 +48,7 @@ const useUserStore = create((set, get) => ({
 
     console.log("✅ 로그인 성공! 사용자 정보 저장됨.");
 
-    if (accessToken !== "mock_access_token") {
+    if (accessToken !== "mock_accessToken") {
       get().autoRefreshToken();
     }
   },

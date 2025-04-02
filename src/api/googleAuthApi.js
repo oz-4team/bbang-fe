@@ -29,7 +29,6 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
         if (!email || !accessToken || !refreshToken) {
             console.error("🚨 Google 로그인 응답 누락: email/token 정보 없음");
             localStorage.clear();
-            window.location.reload();
             throw new Error("Google 로그인 실패: 정보 누락");
         }
 
@@ -50,6 +49,5 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
         const errorMessage = error.response?.data?.message || "🚨 Google 소셜 로그인 중 오류 발생";
         console.error("🚨 Google 소셜 로그인 실패:", errorMessage);
         localStorage.clear();
-        window.location.reload();
     }
 };
