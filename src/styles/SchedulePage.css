@@ -239,3 +239,37 @@
   right: 0;
   transform: translate(50%, -50%);
 }
+
+.custom-radio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-radio input[type="radio"] {
+  display: none;
+}
+
+.radio-circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #aaa;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: transparent;
+  transition: all 0.25s ease-in-out;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-circle {
+  border-color: transparent;
+  background-color: #a174ff;
+}
+
+.custom-radio:hover input[type="radio"]:checked + .radio-circle {
+  box-shadow:0 0 6px rgba(161, 116, 255, 0.6);
+  transform: scale(1.1);
+}

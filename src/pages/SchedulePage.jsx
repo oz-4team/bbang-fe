@@ -236,28 +236,30 @@ const SchedulePage = () => {
 
           <div className="schedule-view">
             <div>
-              <div className="schedule-view-selectbtn">
-                <label className="view-select-label">
-                  <input
-                    type="radio"
-                    name="filter"
-                    value="전체일정"
-                    checked={filterType === "전체일정"}
-                    onChange={handleFilterChange}
-                  />
-                  전체일정보기
-                </label>
-                <label className="view-select-label">
-                  <input
-                    type="radio"
-                    name="filter"
-                    value="즐겨찾기"
-                    checked={filterType === "즐겨찾기"}
-                    onChange={handleFilterChange}
-                  />
-                  ⭐️ 즐겨찾기 한 일정보기
-                </label>
-              </div>
+            <div className="schedule-view-selectbtn">
+  <label className="custom-radio">
+    <input
+      type="radio"
+      name="filter"
+      value="전체일정"
+      checked={filterType === "전체일정"}
+      onChange={handleFilterChange}
+    />
+    <span className="radio-circle" /> 전체일정보기
+  </label>
+  
+  <label className="custom-radio">
+    <input
+      type="radio"
+      name="filter"
+      value="즐겨찾기"
+      checked={filterType === "즐겨찾기"}
+      onChange={handleFilterChange}
+    />
+    <span className="radio-circle" /> ⭐ 즐겨찾기 보기
+  </label>
+</div>
+
 
               <ScheduleList
                 view={filterType}
