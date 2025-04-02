@@ -24,7 +24,7 @@ export const exchangeGoogleToken = async (authCode, navigate) => {
 
 
         // 응답 데이터에서 토큰 및 사용자 정보를 추출
-        const { accessToken: accessToken, refresh_token: refreshToken, email, is_staff } = response.data;
+        const { accessToken: accessToken, refreshToken: refreshToken, email, is_staff } = response.data;
 
         if (!email || !accessToken || !refreshToken) {
             console.error("🚨 Google 로그인 응답 누락: email/token 정보 없음");
