@@ -169,96 +169,106 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="profile-page">
-        <div className="profile-picture">
-          <label
-            htmlFor="profile-image-upload"
-            className="profile-image-wrapper"
-          >
-            <div className="image-preview">
-              <img
-                src={
-                  image || user.image_url || "/icons/profile-placeholder.png"
-                }
-                alt="프로필 사진"
-                className="profile-image-edit"
-              />
-              <div className="overlay">
-                <span className="change-image-text">사진 변경</span>
+    <>
+      <div className="outlet-container">
+        <div className="inner">
+          <div className="page-container">
+            <div className="profile-page">
+              <div className="profile-picture">
+                <label
+                  htmlFor="profile-image-upload"
+                  className="profile-image-wrapper"
+                >
+                  <div className="image-preview">
+                    <img
+                      src={
+                        image ||
+                        user.image_url ||
+                        "/icons/profile-placeholder.png"
+                      }
+                      alt="프로필 사진"
+                      className="profile-image-edit"
+                    />
+                    <div className="overlay">
+                      <span className="change-image-text">사진 변경</span>
+                    </div>
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  id="profile-image-upload"
+                  accept="image/*"
+                  onChange={handleProfileImageChange}
+                  style={{ display: "none" }}
+                />
               </div>
+
+              <form className="profile-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">이메일</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={userEmail}
+                    readOnly
+                    className="disabled-input"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="nickname">닉네임</label>
+                  <input
+                    type="text"
+                    id="nickname"
+                    value={userNickname}
+                    onChange={(e) => setUserNickname(e.target.value)}
+                    placeholder="닉네임"
+                  />
+                  {errors.nickname && (
+                    <p className="error-text">{errors.nickname}</p>
+                  )}
+                </div>
+
+                <PasswordInput
+                  label="현재 비밀번호"
+                  id="current-password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  error={errors.currentPassword}
+                />
+                <PasswordInput
+                  label="새로운 비밀번호"
+                  id="new-password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  error={errors.newPassword}
+                />
+                <PasswordInput
+                  label="비밀번호 재확인"
+                  id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  error={errors.confirmPassword}
+                />
+
+                <button type="submit" className="update-btn">
+                  수정
+                </button>
+              </form>
+
+              <button
+                type="button"
+                className="delete-account-btn"
+                onClick={handleDeleteAccount}
+              >
+                회원탈퇴
+              </button>
             </div>
-          </label>
-          <input
-            type="file"
-            id="profile-image-upload"
-            accept="image/*"
-            onChange={handleProfileImageChange}
-            style={{ display: "none" }}
-          />
+            <Footer />
+          </div>
         </div>
-
-        <form className="profile-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">이메일</label>
-            <input
-              type="email"
-              id="email"
-              value={userEmail}
-              readOnly
-              className="disabled-input"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="nickname">닉네임</label>
-            <input
-              type="text"
-              id="nickname"
-              value={userNickname}
-              onChange={(e) => setUserNickname(e.target.value)}
-              placeholder="닉네임"
-            />
-            {errors.nickname && <p className="error-text">{errors.nickname}</p>}
-          </div>
-
-          <PasswordInput
-            label="현재 비밀번호"
-            id="current-password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            error={errors.currentPassword}
-          />
-          <PasswordInput
-            label="새로운 비밀번호"
-            id="new-password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            error={errors.newPassword}
-          />
-          <PasswordInput
-            label="비밀번호 재확인"
-            id="confirm-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            error={errors.confirmPassword}
-          />
-
-          <button type="submit" className="update-btn">
-            수정
-          </button>
-        </form>
-
-        <button
-          type="button"
-          className="delete-account-btn"
-          onClick={handleDeleteAccount}
-        >
-          회원탈퇴
-        </button>
       </div>
-      <Footer />
-    </div>
+    </>
   );
 };
 
