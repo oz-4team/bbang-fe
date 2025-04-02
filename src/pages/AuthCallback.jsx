@@ -56,7 +56,7 @@ const AuthCallback = () => {
           id: response.id,
         };
 
-        login(userInfo, response.access_token, response.refresh_token);
+        login(userInfo, response.accessToken, response.refresh_token);
         navigate("/");
       } catch (error) {
         console.warn("⚠️ 로그인 처리 중 오류 발생:", error);

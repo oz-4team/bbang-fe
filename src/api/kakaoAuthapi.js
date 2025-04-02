@@ -26,7 +26,7 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
 
 
             // 응답 데이터에서 토큰 및 사용자 정보를 추출
-            const { access_token: accessToken, refresh_token: refreshToken, nickname, is_staff } = response.data;
+            const { accessToken: accessToken, refresh_token: refreshToken, nickname, is_staff } = response.data;
 
             // 사용자 정보 또는 토큰이 없으면 에러 발생
             if (!nickname || !accessToken || !refreshToken) {
