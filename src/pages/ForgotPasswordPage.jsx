@@ -28,9 +28,11 @@ function ForgotPasswordPage() {
     } else {
       setCooldownEnd(null);
     }
+    setError("");
+    setMessage("");
   }, [email]);
 
-  // ⏱️ 타이머 효과
+  // ⏱️ 타이머 효과 및 쿨타임 만료 시 localStorage 정리
   useEffect(() => {
     const interval = setInterval(() => {
       if (cooldownEnd) {
@@ -39,13 +41,18 @@ function ForgotPasswordPage() {
         if (diff <= 0) {
           setCooldownEnd(null);
           setRemainingTime(0);
+
+          // ⛏️ localStorage에서 해당 이메일의 쿨타임 삭제
+          const allCooldowns = JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
+          delete allCooldowns[email];
+          localStorage.setItem("passwordResetCooldowns", JSON.stringify(allCooldowns));
         } else {
           setRemainingTime(diff);
         }
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [cooldownEnd]);
+  }, [cooldownEnd, email]);
 
   // 이메일 유효성 검사
   const validateEmail = (email) => {
