@@ -1,14 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import DatePicker from "react-multi-date-picker";
+import "react-multi-date-picker/styles/layouts/mobile.css";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
   createArtistSchedule,
   createGroupSchedule,
 } from "../../../api/StaffSchedule/staffScheduleApi";
-import DatePicker from "react-multi-date-picker";
-import "react-multi-date-picker/styles/layouts/mobile.css";
 
 const Foo1Layout = styled.div`
   display: flex;
@@ -88,13 +88,13 @@ const ScheduleAddPage = () => {
         const dateStr = dateObj.toString(); // format: YYYY-MM-DD
 
         const scheduleData = {
-          artist_id: id,
           title,
           location,
           start_date: `${dateStr}T${start_time}`,
           end_date: `${dateStr}T${end_time || start_time}`,
           description,
           image_url: preview || image_url,
+          ...(type === "solo" ? { artist_id: id } : { artist_group_id: id }),
         };
 
         if (type === "solo") {
@@ -133,7 +133,15 @@ const ScheduleAddPage = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100vw", padding: "2rem 1rem" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100vw",
+        padding: "2rem 1rem",
+      }}
+    >
       <div style={{ width: "100%", maxWidth: "800px" }}>
         <Foo1Layout>
           {/* 이미지 업로드 */}
@@ -153,7 +161,17 @@ const ScheduleAddPage = () => {
               overflow: "hidden",
             }}
           >
-            <label htmlFor="imgUpload" style={{ cursor: "pointer", width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <label
+              htmlFor="imgUpload"
+              style={{
+                cursor: "pointer",
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               {!preview && <span style={{ color: "#999" }}>이미지 업로드</span>}
               {preview && (
                 <img
@@ -200,30 +218,44 @@ const ScheduleAddPage = () => {
           </div>
 
           {/* 입력 폼 */}
-          <div style={{ display: "flex", flexDirection: "column", textAlign: "left", flexGrow: 1, gap: "1rem" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "left",
+              flexGrow: 1,
+              gap: "1rem",
+            }}
+          >
             <div>
               <label>스케줄명</label>
-              <input onChange={(e) => setTitle(e.target.value)} value={title} style={{ width: "100%" }} type="text" />
+              <input
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+                style={{ width: "100%" }}
+                type="text"
+              />
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-  <label style={{ whiteSpace: "nowrap" }}>스케줄 날짜 (중복가능)</label>
-  <DatePicker
-    multiple
-    value={dates}
-    onChange={setDates}
-    format="YYYY-MM-DD"
-    sort
-    style={{
-      padding: "1rem",
-      border: "1px solid #ccc",
-      borderRadius: "5px",
-      width: "100%",
-    }}
-    placeholder="날짜를 선택하세요"
-  />
-</div>
-
+              <label style={{ whiteSpace: "nowrap" }}>
+                스케줄 날짜 (중복가능)
+              </label>
+              <DatePicker
+                multiple
+                value={dates}
+                onChange={setDates}
+                format="YYYY-MM-DD"
+                sort
+                style={{
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  width: "100%",
+                }}
+                placeholder="날짜를 선택하세요"
+              />
+            </div>
 
             <div style={{ display: "flex", width: "100%", gap: "1rem" }}>
               <div style={{ width: "50%" }}>
@@ -231,16 +263,33 @@ const ScheduleAddPage = () => {
                 <input
                   value={start_time}
                   onChange={(e) => setStart_time(e.target.value)}
-                  style={{ padding: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginTop: "8px", width: "100%" }}
+                  style={{
+                    padding: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "8px",
+                    width: "100%",
+                  }}
                   type="time"
                 />
               </div>
               <div style={{ width: "50%" }}>
-                <label>종료 시간 <span style={{ color: "#888", fontSize: "0.8rem" }}>(선택)</span></label>
+                <label>
+                  종료 시간{" "}
+                  <span style={{ color: "#888", fontSize: "0.8rem" }}>
+                    (선택)
+                  </span>
+                </label>
                 <input
                   value={end_time}
                   onChange={(e) => setEnd_time(e.target.value)}
-                  style={{ padding: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginTop: "8px", width: "100%" }}
+                  style={{
+                    padding: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "8px",
+                    width: "100%",
+                  }}
                   type="time"
                 />
               </div>
@@ -252,7 +301,14 @@ const ScheduleAddPage = () => {
 
         {/* 설명 및 주소 */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "flex-start",
+            }}
+          >
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <IoDocumentTextOutline color="#AFB1B6" />
               <div>설명</div>
@@ -260,12 +316,25 @@ const ScheduleAddPage = () => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              style={{ padding: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginTop: "8px", width: "100%" }}
+              style={{
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                marginTop: "8px",
+                width: "100%",
+              }}
               rows="5"
             />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "flex-start",
+            }}
+          >
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <GrLocation color="#AFB1B6" />
               <div>주소</div>
@@ -273,7 +342,13 @@ const ScheduleAddPage = () => {
             <input
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              style={{ padding: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginTop: "8px", width: "100%" }}
+              style={{
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                marginTop: "8px",
+                width: "100%",
+              }}
               type="text"
             />
           </div>
@@ -289,4 +364,3 @@ const ScheduleAddPage = () => {
 };
 
 export default ScheduleAddPage;
-

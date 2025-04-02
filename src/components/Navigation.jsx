@@ -126,7 +126,10 @@ const Navigation = () => {
                   <li className="nav-item">
                     <button
                       className="icon-button"
-                      onClick={handleProfileClick}
+                      onClick={() => {
+                        handleProfileClick();
+                        setMenuOpen(false);
+                      }}
                     >
                       <IoPersonOutline />
                     </button>
