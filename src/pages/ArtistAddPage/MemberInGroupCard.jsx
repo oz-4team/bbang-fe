@@ -3,12 +3,12 @@ import React, { useState } from "react";
 const MemberInGroupCard = () => {
   const [members, setMembers] = useState([
     {
-      artist_name: "aa",
+      artist_name: "",
       artist_agency: "",
       group_insta: "",
       artist_group_fandom: "",
       debut_date: "2025-11-11",
-      solomembers: "",
+      solomembers: false,
       image_url: null,
     },
   ]);
