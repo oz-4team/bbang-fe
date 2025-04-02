@@ -62,8 +62,12 @@ const ScheduleEditPage = () => {
     console.log("👀 아티스트 그룹 조회");
   }, []);
   // const [schedule, setSchedule] = React.useState([]);
-  const type = artists ? "solo" : groups ? "group" : null;
-  console.log("👀 아티스트 type 조회", type);
+  const type =
+    artists && artists.length > 0
+      ? "solo"
+      : groups && groups.length > 0
+      ? "group"
+      : null;
 
   const handleClickEdit = () => {
     const payload = {
