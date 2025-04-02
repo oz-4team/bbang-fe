@@ -52,7 +52,6 @@ export const exchangeKakaoToken = async (authCode, navigate) => {
         } catch (error) {
             console.error("🚨 Kakao 로그인 처리 중 오류 발생:", error);
             localStorage.clear();
-            window.location.reload();
         }
     }
 };

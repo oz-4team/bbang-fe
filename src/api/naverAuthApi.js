@@ -57,6 +57,5 @@ export const exchangeNaverToken = async (authCode, navigate) => {
         const errorMessage = error.response?.data?.message || "🚨 Naver 소셜 로그인 중 오류 발생";
         console.error("🚨 Naver 소셜 로그인 실패:", errorMessage);
         localStorage.clear();
-        window.location.reload();
     }
 };
