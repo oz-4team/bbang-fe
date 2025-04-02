@@ -135,7 +135,6 @@ export const fetchUserProfile = async () => {
     } catch (error) {
       console.error("❌ 프로필 가져오기 실패:", error);
       localStorage.clear();
-      window.location.reload();
       throw new Error(error.response?.data?.message || "프로필 정보 가져오기 실패");
     }
   }
