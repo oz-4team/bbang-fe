@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { FaMusic } from "react-icons/fa";
+import { FaMusic, FaStar, FaHeart } from "react-icons/fa";
 import {
   fetchAllSchedules,
   fetchFavoriteSchedules,
@@ -12,7 +12,6 @@ import "../styles/SchedulePage.css";
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
 const SchedulePage = () => {
-  const [view, setView] = useState("전체일정");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -22,6 +21,7 @@ const SchedulePage = () => {
   const [selectedArtistInfo, setSelectedArtistInfo] = useState(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filterRef = useRef();
 
@@ -36,7 +36,6 @@ const SchedulePage = () => {
     }
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSecondaryClick = () => setIsModalOpen(false);
   const handleLoginClick = () => (window.location.href = "/login");
   const handleclickUserCheck = () => setIsModalOpen(true);
@@ -138,18 +137,10 @@ const SchedulePage = () => {
     if (isToday) className += " today";
     if (isSelected) className += " selected";
 
-    const cellStyle = {};
-    if (isToday) cellStyle.border = "2px solid #FF8C00";
-    if (isSelected) {
-      cellStyle.backgroundColor = "#a174ff";
-      cellStyle.color = "white";
-    }
-
     calendarCells.push(
       <div
         key={day}
         className={className}
-        style={cellStyle}
         onClick={() => {
           if (selectedDay === day) {
             setSelectedDay(null);
@@ -166,22 +157,21 @@ const SchedulePage = () => {
         <div className="date-number">{day}</div>
         {isToday && (
           <>
-            <div className="today-indicator"></div>
+            <div className="today-indicator">
+              <FaHeart />
+            </div>
             <span className="today-label">today</span>
           </>
         )}
         {(scheduleCount > 0 || favoriteCount > 0) && (
           <div className="content">
             {scheduleCount === favoriteCount ? (
-              <>
-                <FaMusic style={{ color: "#ff6b81" }} />
-                <span>{favoriteCount}</span>
-              </>
+              <FaStar className="favorite-icon" />
             ) : (
               <>
-                {scheduleCount > 0 && <FaMusic style={{ color: "#a174ff" }} />}
+                {scheduleCount > 0 && <FaMusic className="music-icon" />}
                 {favoriteCount > 0 && scheduleCount !== favoriteCount && (
-                  <FaMusic style={{ color: "#ff6b81" }} />
+                  <FaStar className="favorite-icon" />
                 )}
               </>
             )}
@@ -200,6 +190,7 @@ const SchedulePage = () => {
               ◀
             </button>
           )}
+
           <div className="artist-filter" ref={filterRef}>
             <MyArtistFilterCard
               onArtistClick={(info) => {
@@ -218,6 +209,7 @@ const SchedulePage = () => {
               setFilterType={setFilterType}
             />
           </div>
+
           {showRightArrow && (
             <button className="scroll-btn right" onClick={() => scrollFilter("right")}>
               ▶
@@ -244,28 +236,30 @@ const SchedulePage = () => {
 
           <div className="schedule-view">
             <div>
-              <div className="schedule-view-selectbtn">
-                <label className="view-select-label">
-                  <input
-                    type="radio"
-                    name="filter"
-                    value="전체일정"
-                    checked={filterType === "전체일정"}
-                    onChange={handleFilterChange}
-                  />
-                  전체일정보기
-                </label>
-                <label className="view-select-label">
-                  <input
-                    type="radio"
-                    name="filter"
-                    value="즐겨찾기"
-                    checked={filterType === "즐겨찾기"}
-                    onChange={handleFilterChange}
-                  />
-                  ⭐️ 즐겨찾기 한 일정보기
-                </label>
-              </div>
+            <div className="schedule-view-selectbtn">
+  <label className="custom-radio">
+    <input
+      type="radio"
+      name="filter"
+      value="전체일정"
+      checked={filterType === "전체일정"}
+      onChange={handleFilterChange}
+    />
+    <span className="radio-circle" /> 전체일정보기
+  </label>
+  
+  <label className="custom-radio">
+    <input
+      type="radio"
+      name="filter"
+      value="즐겨찾기"
+      checked={filterType === "즐겨찾기"}
+      onChange={handleFilterChange}
+    />
+    <span className="radio-circle" /> ⭐ 즐겨찾기 보기
+  </label>
+</div>
+
 
               <ScheduleList
                 view={filterType}
@@ -292,4 +286,3 @@ const SchedulePage = () => {
 };
 
 export default SchedulePage;
-
