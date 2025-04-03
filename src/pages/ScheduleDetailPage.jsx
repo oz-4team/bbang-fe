@@ -70,6 +70,10 @@ const ScheduleDetailPage = () => {
     });
   };
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     setStarred(is_favorited);
   }, [is_favorited]);
