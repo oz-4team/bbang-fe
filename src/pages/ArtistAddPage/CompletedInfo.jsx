@@ -27,7 +27,7 @@ const CompletedInfo = ({ isAdded }) => {
   if (loading) {
     return (
       <div className="artist-management-page">
-        <h2>Loading...</h2>
+        <h2>아티스트 정보를 불러오고 있어요 ⭐️</h2>
       </div>
     );
   }
