@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FaMusic } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useReadArtistGroups from "../../../api/artist/useReadArtistGroups";
-import {
-  fetchArtistSchedules,
-  fetchGroupSchedules,
-} from "../../../api/schedule/scheduleApi";
+
+import { fetchArtistSchedules, fetchGroupSchedules } from "../../../api/schedule/scheduleApi";
+
 import "../../../styles/SchedulePage.css";
 import useArtistManagementStore from "../useArtistManagementStore";
 import StaffScheduleList from "./StaffScheduleList";
@@ -216,10 +215,12 @@ const ScheduleManagementPage = () => {
                 ▶
               </button>
             </div>
-            <div className="calendar-grid">
+            <div className="weekday-row">
               {weekdayHeaders}
-              {calendarCells}
             </div>
+            <div className="calendar-grid">
+              {calendarCells}
+</div>
           </div>
 
           <div style={{ minWidth: "300px", flexGrow: 1 }}>

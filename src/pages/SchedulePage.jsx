@@ -228,10 +228,13 @@ const SchedulePage = () => {
                 ▶
               </button>
             </div>
-            <div className="calendar-grid">
+            <div className="weekday-row">
               {weekdayHeaders}
-              {calendarCells}
             </div>
+            <div className="calendar-grid">
+              {calendarCells}
+</div>
+
           </div>
 
           <div className="schedule-view">
