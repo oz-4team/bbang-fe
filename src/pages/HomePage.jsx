@@ -18,6 +18,10 @@ const HomePage = () => {
     }
   }, []);
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSecondaryClick = () => {
     console.log("Secondary button clicked");
@@ -73,8 +77,6 @@ const HomePage = () => {
           <SearchBar onSearch={setSearchQuery} />
         </div>
         <div>
-
-
           <ScheduleCardArea
             onCardClick={handleclickUserCheck}
             searchQuery={searchQuery}
