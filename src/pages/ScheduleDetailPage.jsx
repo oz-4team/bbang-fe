@@ -9,6 +9,7 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchScheduleDetail } from "../api/schedule/scheduleApi";
 import useFavorites from "../api/schedule/useFavorites";
+import KakaoMap from "../api/useKakaoMap";
 import useUserStore from "../store/userStore";
 
 const ScheduleDetailPage = () => {
@@ -36,7 +37,7 @@ const ScheduleDetailPage = () => {
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init("49b557e28c631109dd3932b6740cc72c"); // 발급받은 JavaScript 키로 초기화
+      window.Kakao.init("29f91528883aa88d28ba67287501516a"); // 발급받은 JavaScript 키로 초기화
       console.log("Kakao SDK initialized:", window.Kakao.isInitialized());
     }
   }, []);
@@ -259,7 +260,9 @@ const ScheduleDetailPage = () => {
               <a href={urlLocation}>지도보기</a>
             </div>
           </div>
-          <div>{/* <KakaoMap location={pinLocation} /> */}</div>
+          <div>
+            <KakaoMap location={pinLocation} />
+          </div>
         </div>
         <div
           style={{
