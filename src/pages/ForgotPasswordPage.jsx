@@ -29,9 +29,11 @@ function ForgotPasswordPage() {
     } else {
       setCooldownEnd(null);
     }
+    setError("");
+    setMessage("");
   }, [email]);
 
-  // ⏱️ 타이머 효과
+  // ⏱️ 타이머 효과 및 쿨타임 만료 시 localStorage 정리
   useEffect(() => {
     const interval = setInterval(() => {
       if (cooldownEnd) {
@@ -40,13 +42,18 @@ function ForgotPasswordPage() {
         if (diff <= 0) {
           setCooldownEnd(null);
           setRemainingTime(0);
+
+          // ⛏️ localStorage에서 해당 이메일의 쿨타임 삭제
+          const allCooldowns = JSON.parse(localStorage.getItem("passwordResetCooldowns")) || {};
+          delete allCooldowns[email];
+          localStorage.setItem("passwordResetCooldowns", JSON.stringify(allCooldowns));
         } else {
           setRemainingTime(diff);
         }
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [cooldownEnd]);
+  }, [cooldownEnd, email]);
 
   // 이메일 유효성 검사
   const validateEmail = (email) => {
@@ -103,8 +110,10 @@ function ForgotPasswordPage() {
 
       if (!navigator.onLine) {
         setError("인터넷 연결을 확인해주세요.");
-      } else if (err.message.includes("가입한 사용자가 존재하지 않습니다")) {
+      } else if (err.message === "EMAIL_NOT_REGISTERED") {
         setError("등록되지 않은 이메일입니다.");
+      } else if (err.message === "SOCIAL_LOGIN_ACCOUNT") {
+        setError("소셜 로그인으로 가입된 계정입니다. \n이메일로 비밀번호 재설정이 불가능합니다.");
       } else {
         setError("요청 처리 중 문제가 발생했습니다. 다시 시도해주세요.");
       }
@@ -116,6 +125,7 @@ function ForgotPasswordPage() {
   const isCooldown = cooldownEnd && Date.now() < cooldownEnd;
 
   return (
+
     <>
       <div className="outlet-container">
         <div className="inner">
@@ -141,10 +151,20 @@ function ForgotPasswordPage() {
                 </button>
               </form>
               {message && <p className="success-message">{message}</p>}
-              {error && <p className="error-message">{error}</p>}
+              {error && (
+          <div className="error-message">
+            {error.split('\n').map((line, idx) => (
+              <span key={idx}>
+                {line}
+                <br />
+              </span>
+            ))}
+          </div>
+        )}
             </div>
           </div>
         </div>
+
       </div>
     </>
   );
